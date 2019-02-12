@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on My New Hugo Site</title>
-    <link>http://nkbai.github.io/post/</link>
+    <link>https://nkbai.github.io/post/</link>
     <description>Recent content in Posts on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 12 Feb 2019 16:48:59 +0800</lastBuildDate>
     
-	<atom:link href="http://nkbai.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nkbai.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>First</title>
-      <link>http://nkbai.github.io/post/first/</link>
+      <link>https://nkbai.github.io/post/first/</link>
       <pubDate>Tue, 12 Feb 2019 16:48:59 +0800</pubDate>
       
-      <guid>http://nkbai.github.io/post/first/</guid>
+      <guid>https://nkbai.github.io/post/first/</guid>
       <description>myfirst blog 交易可延展性 虽然交易签名后，签名当前不会覆盖经过哈希处理以创建事务哈希的事务中的所有数据。因此，虽然不常见，但网络上的节点可能会以散列无效的方式更改您发送的事务。请注意，这只会更改哈希值; 交易的输出保持不变，比特币将转到他们的预期收件人。然而，这确实意味着，例如，在任何情况下接受一系列确认块数不够的交易是不安全的，因为后来的交易将取决于先前交易的哈希值，并且这些哈希值可以被更改，直到它们在链上被确认为止。</description>
     </item>
     
