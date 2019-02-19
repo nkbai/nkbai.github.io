@@ -211,8 +211,7 @@ code.language-yaml {
     </head>
     <body for="html-export">
       <div class="mume markdown-preview   ">
-      <h1 class="mume-header" id="%E6%8E%A5%E5%8F%A3%E7%BB%93%E6%9E%9C%E7%94%B1%E8%BD%AE%E8%AF%A2%E6%94%B9%E4%B8%BA%E5%90%8C%E6%AD%A5">&#x63A5;&#x53E3;&#x7ED3;&#x679C;&#x7531;&#x8F6E;&#x8BE2;&#x6539;&#x4E3A;&#x540C;&#x6B65;</h1>
-
+      <p>[# &#x63A5;&#x53E3;&#x7ED3;&#x679C;&#x7531;&#x8F6E;&#x8BE2;&#x6539;&#x4E3A;&#x540C;&#x6B65;</p>
 <div class="code-chunk" data-id="code-chunk-id-0" data-cmd="toc"><div class="input-div"><div class="btn-group"><div class="run-btn btn"><span>&#x25B6;&#xFE0E;</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><ul>
 <li><a href="#%E6%8E%A5%E5%8F%A3%E7%BB%93%E6%9E%9C%E7%94%B1%E8%BD%AE%E8%AF%A2%E6%94%B9%E4%B8%BA%E5%90%8C%E6%AD%A5">&#x63A5;&#x53E3;&#x7ED3;&#x679C;&#x7531;&#x8F6E;&#x8BE2;&#x6539;&#x4E3A;&#x540C;&#x6B65;</a>
 <ul>
@@ -886,7 +885,683 @@ txStatusStr &#x53D6;&#x503C;&#x4E0D;&#x4E3A;&#x7A7A;,&#x53D6;&#x503C;&#x89C1;<a 
 <span class="token punctuation">}</span>
 </pre><h3>GetReceivedTransfers</h3>
 <pre data-role="codeBlock" data-info="go" class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>a <span class="token operator">*</span>API<span class="token punctuation">)</span> <span class="token function">GetReceivedTransfers</span><span class="token punctuation">(</span>tokenAddressStr <span class="token builtin">string</span><span class="token punctuation">,</span> from<span class="token punctuation">,</span> to <span class="token builtin">int64</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>result <span class="token builtin">string</span><span class="token punctuation">)</span>
-</pre><p>&#x65B0;&#x589E;TokenAddress&#x8FC7;&#x6EE4;&#x652F;&#x6301;</p>
+</pre><p>&#x65B0;&#x589E;TokenAddress&#x8FC7;&#x6EE4;&#x652F;&#x6301;](# &#x63A5;&#x53E3;&#x7ED3;&#x679C;&#x7531;&#x8F6E;&#x8BE2;&#x6539;&#x4E3A;&#x540C;&#x6B65;</p>
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+<!-- code_chunk_output -->
+<ul>
+<li><a href="#%E6%8E%A5%E5%8F%A3%E7%BB%93%E6%9E%9C%E7%94%B1%E8%BD%AE%E8%AF%A2%E6%94%B9%E4%B8%BA%E5%90%8C%E6%AD%A5">&#x63A5;&#x53E3;&#x7ED3;&#x679C;&#x7531;&#x8F6E;&#x8BE2;&#x6539;&#x4E3A;&#x540C;&#x6B65;</a>
+<ul>
+<li><a href="#1-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86">1. &#x9519;&#x8BEF;&#x5904;&#x7406;</a>
+<ul>
+<li><a href="#%E9%94%99%E8%AF%AF%E7%BC%96%E7%A0%81">&#x9519;&#x8BEF;&#x7F16;&#x7801;</a></li>
+</ul>
+</li>
+<li><a href="#2-%E9%80%9A%E9%81%93%E8%AF%B4%E6%98%8E">2. &#x901A;&#x9053;&#x8BF4;&#x660E;</a>
+<ul>
+<li><a href="#%E9%80%9A%E9%81%93%E7%BB%93%E6%9E%84%E4%BD%93">&#x901A;&#x9053;&#x7ED3;&#x6784;&#x4F53;</a></li>
+<li><a href="#%E9%80%9A%E9%81%93%E7%8A%B6%E6%80%81%E8%AF%B4%E6%98%8E">&#x901A;&#x9053;&#x72B6;&#x6001;&#x8BF4;&#x660E;</a></li>
+<li><a href="#%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96%E6%8E%A8%E9%80%81">&#x72B6;&#x6001;&#x53D8;&#x5316;&#x63A8;&#x9001;</a></li>
+</ul>
+</li>
+<li><a href="#3-%E4%B8%BB%E5%8A%A8%E6%8E%A8%E9%80%81">3. &#x4E3B;&#x52A8;&#x63A8;&#x9001;</a>
+<ul>
+<li><a href="#infostruct%E8%A7%A3%E9%87%8A">InfoStruct&#x89E3;&#x91CA;</a></li>
+<li><a href="#%E9%80%9A%E9%81%93%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96%E6%8E%A8%E9%80%81">&#x901A;&#x9053;&#x72B6;&#x6001;&#x53D8;&#x5316;&#x63A8;&#x9001;</a></li>
+</ul>
+</li>
+<li><a href="#4-%E9%80%9A%E9%81%93%E6%93%8D%E4%BD%9C%E5%BC%95%E8%B5%B7%E7%9A%84%E9%80%9A%E9%81%93%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96">4. &#x901A;&#x9053;&#x64CD;&#x4F5C;&#x5F15;&#x8D77;&#x7684;&#x901A;&#x9053;&#x72B6;&#x6001;&#x53D8;&#x5316;</a>
+<ul>
+<li><a href="#%E9%80%9A%E9%81%93%E6%93%8D%E4%BD%9C%E7%94%B1%E5%BC%82%E6%AD%A5%E5%8F%98%E4%B8%BA%E5%90%8C%E6%AD%A5">&#x901A;&#x9053;&#x64CD;&#x4F5C;&#x7531;&#x5F02;&#x6B65;&#x53D8;&#x4E3A;&#x540C;&#x6B65;</a></li>
+<li><a href="#%E5%90%88%E4%BD%9C%E5%85%B3%E9%97%AD%E9%80%9A%E9%81%93">&#x5408;&#x4F5C;&#x5173;&#x95ED;&#x901A;&#x9053;</a></li>
+<li><a href="#%E5%90%88%E4%BD%9C%E5%8F%96%E7%8E%B0">&#x5408;&#x4F5C;&#x53D6;&#x73B0;</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- /code_chunk_output -->
+<h2>1. &#x9519;&#x8BEF;&#x5904;&#x7406;</h2>
+<p>&#x76EE;&#x524D;photon&#x4E3A;&#x624B;&#x673A;&#x5BFC;&#x51FA;&#x63A5;&#x53E3;&#x9664;&#x4E86;StartUp&#x548C;Subsribe&#x4E24;&#x4E2A;&#x63A5;&#x53E3;&#x4EE5;&#x5916;,&#x6240;&#x6709;&#x7684;&#x63A5;&#x53E3;&#x8FD4;&#x56DE;&#x7C7B;&#x578B;&#x90FD;&#x662F;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;,&#x8BE5;&#x5B57;&#x7B26;&#x4E32;&#x662F;&#x4E0B;&#x9762;&#x7ED3;&#x6784;&#x4F53;&#x7684;json</p>
+<pre data-role="codeBlock" data-info="go" class="language-go"><span class="token comment">// &#x63A5;&#x53E3;&#x7EDF;&#x4E00;&#x8FD4;&#x56DE;&#x683C;&#x5F0F;</span>
+<span class="token keyword">type</span> APIResponse <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+	ErrorCode <span class="token builtin">int</span>    <span class="token string">`json:&quot;error_code&quot;`</span>
+	ErrorMsg  <span class="token builtin">string</span> <span class="token string">`json:&quot;error_message&quot;`</span>
+	Data json<span class="token punctuation">.</span>RawMessage <span class="token string">`json:&quot;data,omitempty&quot;`</span>
+<span class="token punctuation">}</span>
+</pre><p>ErrCode&#x4E3A;0&#x8868;&#x793A;&#x6210;&#x529F;,&#x5176;&#x4ED6;&#x90FD;&#x8868;&#x793A;&#x6709;&#x9519;&#x8BEF;,&#x53EA;&#x6709;&#x5728;ErrCode&#x4E3A;0&#x7684;&#x65F6;&#x5019;&#x8BD5;&#x56FE;&#x53BB;&#x89E3;&#x6790;Data&#x5B57;&#x6BB5;&#x624D;&#x6709;&#x610F;&#x4E49;. Data&#x5B57;&#x6BB5;&#x662F;&#x53E6;&#x4E00;&#x4E2A;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x5E8F;&#x5217;&#x5316;.<br>
+<strong>&#x9519;&#x8BEF;&#x5904;&#x7406;&#x6211;&#x505A;&#x4E86;&#x521D;&#x6B65;&#x7684;&#x91CD;&#x65B0;&#x8BBE;&#x8BA1;&#xFF0C;&#x5E94;&#x8BE5;&#x4F1A;&#x6709;&#x5F88;&#x591A;&#x9519;&#x8BEF;&#x8FD8;&#x6CA1;&#x6709;&#x7F16;&#x7801;&#xFF0C;&#x6CA1;&#x6709;&#x7F16;&#x7801;&#x7684;&#x9519;&#x8BEF;&#x90FD;&#x662F;-1&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x8BE6;&#x7EC6;&#x7F16;&#x7801;,&#x8BF7;&#x544A;&#x8BC9;&#x6211;</strong></p>
+<h3>&#x9519;&#x8BEF;&#x7F16;&#x7801;</h3>
+<pre data-role="codeBlock" data-info="go" class="language-go">	<span class="token comment">//ErrSuccess &#x6210;&#x529F;</span>
+	ErrSuccess <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;success&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrUnrecognized &#x672A;&#x77E5;&#x9519;&#x8BEF;,</span>
+	ErrUnrecognized <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;unknown error&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrArgumentError &#x53C2;&#x6570;&#x9519;&#x8BEF;</span>
+	ErrArgumentError <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ArgumentError&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrPhotonAlreadyRunning &#x542F;&#x52A8;&#x4E86;&#x591A;&#x4E2A;photon&#x5B9E;&#x4F8B;</span>
+	ErrPhotonAlreadyRunning <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;PhotonAlreadyRunning&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrHashLengthNot32  &#x53C2;&#x6570;&#x9519;&#x8BEF;</span>
+	ErrHashLengthNot32 <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1000</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;HashLengthNot32&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrNotFound Raised when something not found
+	 */</span>
+	ErrNotFound <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1001</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;Not found&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrInsufficientBalance Raised when the netting channel doesn&apos;t enough available capacity to
+		pay for the transfer.
+
+		Used for the validation of an *incoming* messages.
+	*/</span>
+	ErrInsufficientBalance <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1002</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;InsufficientBalance&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrInvalidAmount Raised when the user provided value is not a integer and cannot be used
+		to defined a transfer value
+	*/</span>
+	ErrInvalidAmount <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1003</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;InvalidAmount&quot;</span><span class="token punctuation">}</span>
+
+	<span class="token comment">/*ErrNoPathError Raised when there is no path to the requested target address in the
+		payment network.
+
+		This exception is raised if there is not a single path in the network to
+		reach the target, it&apos;s not used if there is a path but the transfre failed
+		because of the lack of capacity or network problems.
+	*/</span>
+	ErrNoPathError <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1005</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;NoPathError&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrSamePeerAddress Raised when a user tries to create a channel where the address of both
+		peers is the same.
+	*/</span>
+	ErrSamePeerAddress <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1006</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;SamePeerAddress&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrInvalidState Raised when the user requested action cannot be done due to the current
+		state of the channel.
+	*/</span>
+	ErrInvalidState <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1007</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;InvalidState&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrTransferWhenClosed Raised when a user tries to request a transfer is a closed channel.</span>
+	ErrTransferWhenClosed <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1008</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;TransferWhenClosed&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrUnknownAddress Raised when the user provided address is valid but is not from a known
+		node.
+	*/</span>
+	ErrUnknownAddress <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1009</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;UnknownAddress&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrInvalidLocksRoot Raised when the received message has an invalid locksroot.
+
+		Used to reject a message when a pending lock is missing from the locksroot,
+		otherwise if the message is accepted there is a pontential loss of token.
+	*/</span>
+	ErrInvalidLocksRoot <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1010</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;Locksroot mismatch&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrInvalidNonce Raised when the received messages has an invalid value for the nonce.
+
+		The nonce field must change incrementally
+	*/</span>
+	ErrInvalidNonce <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1011</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;InvalidNonce&quot;</span><span class="token punctuation">}</span>
+
+	<span class="token comment">/*ErrTransferUnwanted Raised when the node is not receiving new transfers.
+	 */</span>
+	ErrTransferUnwanted <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1012</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;TransferUnwanted&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">// ErrStopCreateNewTransfer reject new transactions</span>
+	ErrStopCreateNewTransfer <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1013</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;new transactions are not allowed&quot;</span><span class="token punctuation">}</span>
+
+	<span class="token comment">//ErrNotAllowMediatedTransfer not allow mediated transfer when mesh</span>
+	ErrNotAllowMediatedTransfer <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1014</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;no mediated transfer on mesh only network&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrDuplicateTransfer token&#x548C;secret&#x76F8;&#x540C;&#x7684;&#x4EA4;&#x6613;</span>
+	ErrDuplicateTransfer <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1015</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;secret and token cannot duplicate&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrNodeNotOnline &#x53D1;&#x9001;&#x6D88;&#x606F;&#x65F6;,&#x5BF9;&#x65B9;&#x4E0D;&#x5728;&#x7EBF;</span>
+	ErrNodeNotOnline <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1016</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;NodeOffline&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrTransferCannotCancel &#x8BD5;&#x56FE;&#x53D6;&#x6D88;&#x5DF2;&#x7ECF;&#x6CC4;&#x9732;&#x79D8;&#x5BC6;&#x7684;&#x4EA4;&#x6613;</span>
+	ErrTransferCannotCancel <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1017</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;TranasferCannotCancel&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*
+		DB error
+	*/</span>
+
+	<span class="token comment">//ErrGeneralDBError &#x672A;&#x5F52;&#x7C7B;&#x6570;&#x636E;&#x5E93;&#x9519;&#x8BEF;,&#x9700;&#x8981;&#x8FDB;&#x4E00;&#x6B65;&#x7EC6;&#x5316;</span>
+	ErrGeneralDBError <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1018</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;DBError&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrDBDuplicateKey &#x91CD;&#x590D;&#x7684;key</span>
+	ErrDBDuplicateKey <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1019</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;duplicate key&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrTransferTimeout &#x4EA4;&#x6613;&#x8D85;&#x65F6;,&#x4E0D;&#x4EE3;&#x8868;&#x4EA4;&#x6613;&#x80AF;&#x5B9A;&#x4F1A;&#x6210;&#x529F;&#x6216;&#x8005;&#x5931;&#x8D25;,&#x53EA;&#x662F;&#x5728;&#x7ED9;&#x5B9A;&#x65F6;&#x95F4;&#x5185;&#x4EA4;&#x6613;&#x6CA1;&#x6709;&#x6210;&#x529F;&#x800C;&#x5DF2;</span>
+	ErrTransferTimeout <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">1020</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrTransferTimeout&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*
+		&#x4EE5;&#x592A;&#x574A;&#x62A5;&#x516C;&#x94FE;&#x8282;&#x70B9;&#x62A5;&#x7684;&#x9519;&#x8BEF;
+
+
+	*/</span>
+
+	<span class="token comment">//ErrInsufficientBalanceForGas gas problem</span>
+	ErrInsufficientBalanceForGas <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2000</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;insufficient balance to pay for gas&quot;</span><span class="token punctuation">}</span>
+
+	<span class="token comment">/*
+		Tx &#x76F8;&#x5173;
+		&#x94FE;&#x4E0A;&#x64CD;&#x4F5C;&#x76F8;&#x5173;
+	*/</span>
+
+	<span class="token comment">//ErrCloseChannel &#x94FE;&#x4E0A;&#x6267;&#x884C;&#x5173;&#x95ED;&#x901A;&#x9053;&#x65F6;&#x53D1;&#x751F;&#x4E86;&#x9519;&#x8BEF;</span>
+	ErrCloseChannel <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2001</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;closeChannel&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrRegisterSecret &#x94FE;&#x4E0A;&#x6CE8;&#x518C;&#x5BC6;&#x7801;&#x7684;&#x65F6;&#x5019;&#x53D1;&#x751F;&#x4E86;&#x9519;&#x8BEF;</span>
+	ErrRegisterSecret <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2002</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;RegisterSecret&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrUnlock &#x94FE;&#x4E0A;unlock&#x7684;&#x65F6;&#x5019;&#x53D1;&#x751F;&#x4E86;&#x9519;&#x8BEF;</span>
+	ErrUnlock <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2003</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;Unlock&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrUpdateBalanceProof &#x94FE;&#x4E0A;&#x63D0;&#x4EA4;balance proof&#x53D1;&#x751F;&#x9519;&#x8BEF;</span>
+	ErrUpdateBalanceProof <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2004</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;UpdateBalanceProof&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrPunish &#x94FE;&#x4E0A;&#x6267;&#x884C;punish&#x7684;&#x65F6;&#x5019;&#x53D1;&#x751F;&#x9519;&#x8BEF;</span>
+	ErrPunish <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2005</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;punish&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrSettle &#x94FE;&#x4E0A;&#x6267;&#x884C;settle&#x64CD;&#x4F5C;&#x7684;&#x65F6;&#x5019;&#x53D1;&#x751F;&#x9519;&#x8BEF;</span>
+	ErrSettle <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2006</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;settle&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrDeposit &#x94FE;&#x4E0A;&#x6267;&#x884C;deposit&#x53D1;&#x751F;&#x9519;&#x8BEF;</span>
+	ErrDeposit <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2007</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;deposit&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrSpectrumNotConnected &#x6CA1;&#x6709;&#x8FDE;&#x63A5;&#x5230;&#x516C;&#x94FE;.</span>
+	ErrSpectrumNotConnected <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2008</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrSpectrumNotConnected&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrTxWaitMined waitMined return error</span>
+	ErrTxWaitMined <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2008</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrTxWaitMined&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrTxReceiptStatus tx &#x88AB;&#x6253;&#x5305;&#x4E86;,&#x4F46;&#x662F;&#x7ED3;&#x679C;&#x5931;&#x8D25;</span>
+	ErrTxReceiptStatus <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2009</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrTxReceiptStatus&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrSecretAlreadyRegistered &#x5C1D;&#x8BD5;&#x8FDE;&#x4E0A;&#x6CE8;&#x518C;&#x5BC6;&#x7801;,&#x4F46;&#x662F;&#x5BC6;&#x7801;&#x5DF2;&#x7ECF;&#x6CE8;&#x518C;&#x4E86;</span>
+	ErrSecretAlreadyRegistered <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2010</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrSecretAlreadyRegistered&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrSpectrumSyncError &#x8FDE;&#x63A5;&#x5230;&#x7684;&#x516C;&#x94FE;&#x957F;&#x65F6;&#x95F4;&#x4E0D;&#x51FA;&#x5757;&#x6216;&#x8005;&#x6B63;&#x5728;&#x540C;&#x6B65;</span>
+	ErrSpectrumSyncError <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2011</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrSpectrumSyncError&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrSpectrumBlockError &#x672C;&#x5730;&#x5DF2;&#x5904;&#x7406;&#x7684;&#x5757;&#x6570;&#x548C;&#x516C;&#x94FE;&#x6C47;&#x62A5;&#x5757;&#x6570;&#x4E0D;&#x4E00;&#x81F4;,&#x6BD4;&#x5982;&#x6211;&#x672C;&#x5730;&#x5DF2;&#x7ECF;&#x5904;&#x7406;&#x5230;&#x4E86;50000&#x5757;,&#x4F46;&#x662F;&#x516C;&#x94FE;&#x8282;&#x70B9;&#x62A5;&#x544A;&#x73B0;&#x5728;&#x53EA;&#x6709;3000&#x5757;</span>
+	ErrSpectrumBlockError <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2012</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrSpectrumBlockError&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrUnkownSpectrumRPCError &#x5176;&#x4ED6;&#x4EE5;&#x592A;&#x574A;rpc&#x9519;&#x8BEF;</span>
+	ErrUnkownSpectrumRPCError <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">2999</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;unkown spectrum rpc error&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrTokenNotFound Raised when token not found
+	 */</span>
+	ErrTokenNotFound <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">3001</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;TokenNotFound&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrChannelNotFound Raised when token not found
+	 */</span>
+	ErrChannelNotFound <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">3002</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ChannelNotFound&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrNoAvailabeRoute no availabe route</span>
+	ErrNoAvailabeRoute <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">3003</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;NoAvailabeRoute&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrTransferNotFound not found transfer</span>
+	ErrTransferNotFound <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">3004</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;TransferNotFound&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelAlreadExist &#x901A;&#x9053;&#x5DF2;&#x5B58;&#x5728;</span>
+	ErrChannelAlreadExist <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">3005</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ChannelAlreadExist&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrPFS PFS Error
+	&#x5411;PFS&#x53D1;&#x8D77;&#x8BF7;&#x6C42;&#x9519;&#x8BEF;
+	*/</span>
+	ErrPFS <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">4000</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrorPFS&quot;</span><span class="token punctuation">}</span>
+
+	<span class="token comment">/*
+		Channel Error
+	*/</span>
+
+	<span class="token comment">//ErrChannelNotAllowWithdraw &#x901A;&#x9053;&#x73B0;&#x5728;&#x4E0D;&#x80FD;&#x5408;&#x4F5C;&#x53D6;&#x73B0;,&#x6BD4;&#x5982;&#x6709;&#x4EA4;&#x6613;&#x5728;&#x8FDB;&#x884C;</span>
+	ErrChannelNotAllowWithdraw <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5000</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;CannotWithdarw&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelState &#x5728;&#x4E0D;&#x80FD;&#x6267;&#x884C;&#x76F8;&#x5E94;&#x64CD;&#x4F5C;&#x7684;&#x901A;&#x9053;&#x72B6;&#x6001;,&#x8BD5;&#x56FE;&#x6267;&#x884C;&#x67D0;&#x4E9B;&#x4EA4;&#x6613;,&#x6BD4;&#x5982;&#x5728;&#x5173;&#x95ED;&#x7684;&#x901A;&#x9053;&#x4E0A;&#x53D1;&#x8D77;&#x4EA4;&#x6613;</span>
+	ErrChannelState <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5001</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelState&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelSettleTimeout &#x6CA1;&#x5230;settle&#x65F6;&#x95F4;&#x5C1D;&#x8BD5;&#x53BB;settle</span>
+	ErrChannelSettleTimeout <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5002</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;Channel only can settle after timeout&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelNotParticipant &#x7ED9;&#x5B9A;&#x5730;&#x5740;&#x4E0D;&#x662F;&#x901A;&#x9053;&#x7684;&#x4EFB;&#x4F55;&#x53C2;&#x4E0E;&#x4E00;&#x65B9;</span>
+	ErrChannelNotParticipant <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5003</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;NotParticipant&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelLockSecretHashNotFound &#x901A;&#x9053;&#x4E2D;&#x6CA1;&#x6709;&#x76F8;&#x5E94;&#x7684;&#x9501;</span>
+	ErrChannelLockSecretHashNotFound <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5004</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ChannelNoSuchLock&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelEndStateNoSuchLock &#x901A;&#x9053;&#x5F53;&#x524D;&#x53C2;&#x4E0E;&#x65B9;&#x4E2D;&#x627E;&#x4E0D;&#x5230;&#x76F8;&#x5E94;&#x7684;&#x9501;</span>
+	ErrChannelEndStateNoSuchLock <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5005</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelEndStateNoSuchLock&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelLockAlreadyExpired &#x901A;&#x9053;&#x4E2D;&#x9501;&#x5DF2;&#x8FC7;&#x671F;</span>
+	ErrChannelLockAlreadyExpired <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5006</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelLockAlreadyExpired&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelBalanceDecrease &#x53D1;&#x751F;&#x4E86;&#x964D;&#x4F4E;&#x901A;&#x9053;balance(&#x6307;&#x7684;&#x662F;&#x5408;&#x7EA6;&#x4E2D;&#x7684;balance)&#x7684;&#x884C;&#x4E3A;</span>
+	ErrChannelBalanceDecrease <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5007</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelBalanceDecrease&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelTransferAmountMismatch &#x6536;&#x5230;&#x7684;&#x4EA4;&#x6613;&#x4E2D;transferamount&#x4E0D;&#x5339;&#x914D;</span>
+	ErrChannelTransferAmountMismatch <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5008</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelTransferAmountMismatch&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelBalanceProofAlreadyRegisteredOnChain  &#x5DF2;&#x7ECF;&#x63D0;&#x4EA4;&#x8FC7;balanceproof&#x4EE5;&#x540E;&#x8BD5;&#x56FE;&#x4FEE;&#x6539;&#x672C;&#x5730;balance proof</span>
+	ErrChannelBalanceProofAlreadyRegisteredOnChain <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5009</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelBalanceProofAlreadyRegisteredOnChain&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelDuplicateLock &#x901A;&#x9053;&#x4E2D;&#x5DF2;&#x5B58;&#x5728;&#x8BE5;&#x5BC6;&#x7801;&#x7684;&#x9501;</span>
+	ErrChannelDuplicateLock <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5010</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelDuplicateLock&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelTransferAmountDecrease &#x6536;&#x5230;&#x4EA4;&#x6613;,TransferAmount&#x53D8;&#x5C0F;&#x4E86;</span>
+	ErrChannelTransferAmountDecrease <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5011</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelTransferAmountDecrease&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrRemoveNotExpiredLock &#x8BD5;&#x56FE;&#x79FB;&#x9664;&#x6CA1;&#x6709;&#x8FC7;&#x671F;&#x7684;&#x9501;</span>
+	ErrRemoveNotExpiredLock <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5012</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrRemoveNotExpiredLock&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrUpdateBalanceProofAfterClosed &#x8BD5;&#x56FE;&#x5728;&#x901A;&#x9053;&#x5173;&#x95ED;&#x4EE5;&#x540E;&#x8FD8;&#x66F4;&#x65B0;&#x5BF9;&#x65B9;&#x6216;&#x8005;&#x6211;&#x7684;balance proof,&#x57FA;&#x672C;&#x610F;&#x601D;&#x548C;ErrChannelBalanceProofAlreadyRegisteredOnChain&#x4E00;&#x6837;</span>
+	ErrUpdateBalanceProofAfterClosed <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5013</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrUpdateBalanceProofAfterClosed&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelIdentifierMismatch &#x901A;&#x9053;id&#x4E0D;&#x5339;&#x914D;</span>
+	ErrChannelIdentifierMismatch <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5014</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelIdentifierMismatch&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelInvalidSender &#x6536;&#x5230;&#x6765;&#x81EA;&#x672A;&#x77E5;&#x53C2;&#x4E0E;&#x65B9;&#x7684;&#x4EA4;&#x6613;</span>
+	ErrChannelInvalidSender <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5015</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelInvalidSender&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelBalanceNotMatch  &#x5408;&#x4F5C;&#x5173;&#x95ED;&#x901A;&#x9053;,&#x53D6;&#x73B0;&#x65F6;&#x91D1;&#x989D;&#x68C0;&#x67E5;&#x4E0D;&#x5339;&#x914D;,</span>
+	ErrChannelBalanceNotMatch <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5016</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelBalanceNotMatch&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelLockMisMatch &#x6536;&#x5230;&#x4EA4;&#x6613;&#x4E2D;&#x6307;&#x5B9A;&#x7684;&#x9501;&#x548C;&#x672C;&#x5730;&#x4E0D;&#x5339;&#x914D;</span>
+	ErrChannelLockMisMatch <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5017</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelLockMisMatch&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelWithdrawAmount  &#x5408;&#x4F5C;&#x53D6;&#x73B0;&#x7684;&#x91D1;&#x989D;&#x8FC7;&#x5927;</span>
+	ErrChannelWithdrawAmount <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5018</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelWithdrawAmount&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelLockExpirationTooLarge &#x6536;&#x5230;&#x4EA4;&#x6613;,&#x6307;&#x5B9A;&#x7684;&#x8FC7;&#x671F;&#x65F6;&#x95F4;&#x592A;&#x957F;&#x4E86;,&#x8FD9;&#x53EF;&#x80FD;&#x662F;&#x4E00;&#x79CD;&#x653B;&#x51FB;</span>
+	ErrChannelLockExpirationTooLarge <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5019</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelLockExpirationTooLarge&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelRevealTimeout &#x6307;&#x5B9A;&#x7684;reveal timeout &#x975E;&#x6CD5;</span>
+	ErrChannelRevealTimeout <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5020</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelRevealTimeout&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelBalanceProofNil balanceproof&#x4E3A;&#x7A7A;</span>
+	ErrChannelBalanceProofNil <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5021</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelBalanceProofNil&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelCloseClosedChannel &#x8BD5;&#x56FE;&#x5173;&#x95ED;&#x5DF2;&#x7ECF;&#x5173;&#x95ED;&#x7684;&#x901A;&#x9053;</span>
+	ErrChannelCloseClosedChannel <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5022</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelCloseClosedChannel&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrChannelBackgroundTx &#x540E;&#x53F0;&#x6267;&#x884C;Tx&#x53D1;&#x751F;&#x9519;&#x8BEF;</span>
+	ErrChannelBackgroundTx <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5023</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelBackgroundTx&quot;</span><span class="token punctuation">}</span>
+
+	<span class="token comment">/*ErrChannelWithdrawButHasLocks : we can&apos;t send a request for withdraw when there are locks.
+	 */</span>
+	ErrChannelWithdrawButHasLocks <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5014</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelWithdrawButHasLocks&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrChannelCooperativeSettleButHasLocks : we can&apos;t send a request for settle when there are locks.
+	 */</span>
+	ErrChannelCooperativeSettleButHasLocks <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5015</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrChannelCooperativeSettleButHasLocks&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*ErrChannelInvalidSttleTimeout Raised when the user provided timeout value is less than the minimum
+		settle timeout
+	*/</span>
+	ErrChannelInvalidSttleTimeout <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">5003</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrInvalidSettleTimeout&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">/*
+		Transport error
+	*/</span>
+
+	<span class="token comment">//ErrTransportTypeUnknown  &#x672A;&#x77E5;&#x7684;transport&#x5C42;&#x9519;&#x8BEF;,</span>
+	ErrTransportTypeUnknown <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">6000</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;transport type error&quot;</span><span class="token punctuation">}</span>
+	<span class="token comment">//ErrSubScribeNeighbor &#x8BA2;&#x9605;&#x8282;&#x70B9;&#x5728;&#x7EBF;&#x4FE1;&#x606F;&#x9519;&#x8BEF;</span>
+	ErrSubScribeNeighbor <span class="token operator">=</span> StandardError<span class="token punctuation">{</span>ErrorCode<span class="token punctuation">:</span> <span class="token number">6001</span><span class="token punctuation">,</span> ErrorMsg<span class="token punctuation">:</span> <span class="token string">&quot;ErrSubScribeNeighbor&quot;</span><span class="token punctuation">}</span>
+</pre><h2>2. &#x901A;&#x9053;&#x8BF4;&#x660E;</h2>
+<h3>&#x901A;&#x9053;&#x7ED3;&#x6784;&#x4F53;</h3>
+<p>func (a *API) GetOneChannel(channelIdentifier string) (channel string, err error)</p>
+<p>&#x8FD4;&#x56DE;&#x793A;&#x4F8B;:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+			<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0xa626a3d897e655855505f9a7c8ea482dc690f017c84b5acd9f750bcc201d7f2b&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;open_block_number&quot;</span><span class="token operator">:</span> <span class="token number">16020382</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;partner_address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x09eaFb85ea83268682317E5ac85A1CCeb3a06064&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;balance&quot;</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;partner_balance&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;locked_amount&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;partner_locked_amount&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;token_address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x310e71caA0DE5CC1f7138275E50a11bAd3FB535b&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;state&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;state_string&quot;</span><span class="token operator">:</span> <span class="token string">&quot;opened&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;settle_timeout&quot;</span><span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;reveal_timeout&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;closed_block&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;settled_block&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;our_balance_proof&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+				<span class="token property">&quot;nonce&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;transfer_amount&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;locks_root&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+					<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+					<span class="token property">&quot;open_block_number&quot;</span><span class="token operator">:</span> <span class="token number">0</span>
+				<span class="token punctuation">}</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;message_hash&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;contract_transfer_amount&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;contract_locksroot&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span>
+			<span class="token punctuation">}</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;partner_balance_proof&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+				<span class="token property">&quot;nonce&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;transfer_amount&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;locks_root&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+					<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+					<span class="token property">&quot;open_block_number&quot;</span><span class="token operator">:</span> <span class="token number">0</span>
+				<span class="token punctuation">}</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;message_hash&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;contract_transfer_amount&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;contract_locksroot&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span>
+			<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</pre><h3>&#x901A;&#x9053;&#x72B6;&#x6001;&#x8BF4;&#x660E;</h3>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>StateString</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>inValid</td>
+<td>&#x901A;&#x9053;&#x4E0D;&#x5B58;&#x5728;</td>
+</tr>
+<tr>
+<td>1</td>
+<td>opened</td>
+<td>&#x901A;&#x9053;&#x6253;&#x5F00;&#x72B6;&#x6001;&#xFF0C;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x8F6C;&#x8D26;&#x4EA4;&#x6613;,<strong>&#x53EF;&#x4EE5;CloseChannel,Withdraw&#x548C;Deposit,&#x4E0D;&#x80FD;<s>SettleChannel</s></strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>closed</td>
+<td>&#x901A;&#x9053;&#x5173;&#x95ED;&#x72B6;&#x6001;&#xFF0C;<em>&#x4E0D;&#x80FD;&#x518D;&#x53D1;&#x8D77;&#x4EA4;&#x6613;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x63A5;&#x53D7;&#x4EA4;&#x6613;</em>; <strong>&#x7B49;&#x5230;&#x5F53;&#x524D;&#x5757;&#x6570;<a href="https://github.com/SmartMeshFoundation/Photon/wiki/%E6%89%8B%E6%9C%BA%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3#%E6%9F%A5%E8%AF%A2%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81">(&#x83B7;&#x53D6;&#x5F53;&#x524D;&#x5757;&#x6570;)</a>&#x5927;&#x4E8E;settled_block(&#x901A;&#x9053;&#x7ED3;&#x6784;&#x4F53;&#x4E2D;&#x6709;)&#x540E;&#x53EF;&#x4EE5;SettleChannel,&#x4E0D;&#x80FD;<s>CloseChannel,Withdraw&#x548C;Deposit</s></strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>settled</td>
+<td>&#x901A;&#x9053;&#x7ED3;&#x7B97;&#x72B6;&#x6001;&#xFF0C;&#x7ED3;&#x7B97;&#x540E;&#x901A;&#x9053;&#x5185;&#x8D44;&#x91D1;&#x5C06;&#x8FD4;&#x8FD8;&#x8282;&#x70B9;&#x94FE;&#x4E0A;&#x5E10;&#x6237;&#xFF0C;&#x901A;&#x9053;&#x5C06;&#x4E0D;&#x5B58;&#x5728;,&#x4ECE;ChannelList&#x4E2D;&#x6D88;&#x5931;</td>
+</tr>
+<tr>
+<td>4</td>
+<td>closing</td>
+<td>&#x7528;&#x6237;&#x53D1;&#x8D77;&#x4E86;&#x5173;&#x95ED;&#x901A;&#x9053;&#x7684;&#x8BF7;&#x6C42;,&#x6B63;&#x5728;&#x5904;&#x7406;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x6B64;&#x65F6;&#x6B63;&#x5728;&#x8FDB;&#x884C;&#x4EA4;&#x6613;&#x7684;&#x53EF;&#x4EE5;&#x7EE7;&#x7EED;,<em>&#x4E0D;&#x80FD;&#x65B0;&#x5F00;&#x4EA4;&#x6613;</em>;<strong>&#x4E0D;&#x80FD; <s>SettleChannel,CloseChannel,Withdraw&#x548C;Deposit</s></strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>settling</td>
+<td>&#x7528;&#x6237;&#x53D1;&#x8D77;&#x4E86;&#x7ED3;&#x7B97;&#x8BF7;&#x6C42;,&#x6B63;&#x5728;&#x5904;&#x7406;&#xFF0C;&#x6B63;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#x6B64;&#x65F6;&#x4E0D;&#x5E94;&#x8BE5;&#x8FD8;&#x6709;&#x672A;&#x5B8C;&#x6210;&#x4EA4;&#x6613;&#x3002;&#x5728;&#x8FD9;&#x79CD;&#x72B6;&#x6001;&#x4E0B;&#x4E0D;&#x80FD;&#x65B0;&#x5F00;&#x4EA4;&#x6613;,&#x6B63;&#x5728;&#x63D0;&#x4EA4;&#x5230;&#x94FE;&#x4E0A;&#xFF0C;&#x8FD8;&#x6CA1;&#x88AB;&#x6210;&#x529F;&#x6253;&#x5305;;<strong>&#x4E0D;&#x80FD; <s>SettleChannel,CloseChannel,Withdraw&#x548C;Deposit</s></strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td>withdrawing</td>
+<td>&#x7528;&#x6237;&#x6536;&#x5230;&#x6216;&#x8005;&#x53D1;&#x51FA;&#x4E86; withdraw &#x8BF7;&#x6C42;&#x540E;,&#x5982;&#x6070;&#x5728;&#x6B64;&#x65F6;&#x6536;&#x5230;&#x7684;&#x4EA4;&#x6613;&#x8BF7;&#x6C42;&#xFF0C;&#x5219;&#x8BE5;&#x4EA4;&#x6613;&#x8BF7;&#x6C42;&#x53EA;&#x80FD;&#x7ACB;&#x5373;&#x653E;&#x5F03;&#x3002;<strong>&#x4E0D;&#x80FD; <s>SettleChannel,Withdraw&#x548C;Deposit</s>,&#x53EF;&#x4EE5;&#x5F3A;&#x5236;&#x5173;&#x95ED;&#x901A;&#x9053;(CloseChannel)</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td>cooperativeSettling</td>
+<td>&#x672C;&#x5730;&#x6216;&#x8005;&#x901A;&#x9053;&#x53E6;&#x4E00;&#x65B9;&#x6536;&#x5230;&#x6765;&#x81EA;&#x7528;&#x6237;&#x5173;&#x95ED;&#x901A;&#x9053;&#x8BF7;&#x6C42;(CloseChannel &#x4E2D;force&#x4E3A;false),&#x5982;&#x6070;&#x5728;&#x6B64;&#x523B;&#x6536;&#x5230;&#x5BF9;&#x65B9;&#x8282;&#x70B9;&#x7684;&#x4EA4;&#x6613;&#x8BF7;&#x6C42;&#xFF0C;&#x5219;&#x8BE5;&#x4EA4;&#x6613;&#x53EA;&#x80FD;&#x7ACB;&#x5373;&#x653E;&#x5F03;; <strong>&#x4E0D;&#x80FD;<s>SettleChannel,Withdraw&#x548C;Deposit</s>,&#x53EF;&#x4EE5;&#x5F3A;&#x5236;&#x5173;&#x95ED;&#x901A;&#x9053;(CloseChannel,force&#x4E3A;true)</strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td>prepareForCooperativeSettle</td>
+<td>&#x7528;&#x6237;&#x5411;photon&#x53D1;&#x8D77;&#x5408;&#x4F5C;&#x5173;&#x95ED;&#x901A;&#x9053;&#x8BF7;&#x6C42;,&#x56E0;&#x4E3A;&#x4ECD;&#x5B58;&#x5728;&#x4EA4;&#x6613;&#xFF0C;&#x4E0D;&#x80FD;&#x5408;&#x4F5C;&#x5173;&#x95ED;&#x901A;&#x9053;&#x3002;&#x4F46;&#x7528;&#x6237;&#x5982;&#x679C;&#x4ECD;&#x60F3;&#x5408;&#x4F5C;&#x5173;&#x95ED;&#x901A;&#x9053;&#xFF0C;&#x53EF;&#x4EE5;&#x7B49;&#x5F85;&#x4EA4;&#x6613;&#x5F7B;&#x5E95;&#x7ED3;&#x675F;&#x540E;&#x518D;&#x8C03;&#x7528;&#x5408;&#x4F5C;&#x5173;&#x95ED;&#x901A;&#x9053;&#x3002;&#x4E3A;&#x9632;&#x6B62;&#x5728;&#x7B49;&#x5F85;&#x671F;&#x95F4;&#x4EA7;&#x751F;&#x65B0;&#x4EA4;&#x6613;&#xFF0C;&#x8BBE;&#x7F6E;&apos;prepareForCooperativeSettle&apos;&#x4F5C;&#x4E3A;&#x6807;&#x8BB0;&#xFF0C;&#x4E0D;&#x518D;&#x63A5;&#x53D7;&#x65B0;&#x7684;&#x4EA4;&#x6613;,&#x7B49;&#x5F85;&#x5F53;&#x524D;&#x4EA4;&#x6613;&#x5B8C;&#x6210;,&#x518D;&#x4F7F;&#x7528;&#x5408;&#x4F5C;&#x5173;&#x95ED;&#x901A;&#x9053;&#x65B9;&#x5F0F;&#x7ED3;&#x7B97;&#x901A;&#x9053;&#x3002;<strong>&#x4E0D;&#x80FD;<s>SettleChannel,Withdraw&#x548C;Deposit</s>,&#x53EF;&#x4EE5;&#x5F3A;&#x5236;&#x5173;&#x95ED;&#x901A;&#x9053;(CloseChannel,force&#x4E3A;true)</strong></td>
+</tr>
+<tr>
+<td>9</td>
+<td>prepareForWithdraw</td>
+<td>&#x7528;&#x6237;&#x5411;photon&#x53D1;&#x8D77; <code>withdraw</code>&#x8BF7;&#x6C42;, &#x4F46;&#x662F;&#x76EE;&#x524D;&#x8FD8;&#x6301;&#x6709;&#x9501;,&#x4E0D;&#x80FD;&#x5408;&#x4F5C;&#x53D6;&#x94B1;&#x3002;&#x4F46;&#x7528;&#x6237;&#x4ECD;&#x60F3;&#x53D6;&#x94B1;&#xFF0C;&#x53EF;&#x4EE5;&#x7B49;&#x5F85;&#x4EA4;&#x6613;&#x89E3;&#x9501;&#x540E;&#x518D;&#x8C03;&#x7528;&#x5408;&#x4F5C;&#x53D6;&#x94B1;&#x529F;&#x80FD;&#x3002;&#x4E3A;&#x9632;&#x6B62;&#x5728;&#x7B49;&#x5F85;&#x671F;&#x95F4;&#x4EA7;&#x751F;&#x65B0;&#x4EA4;&#x6613;,&#x8BBE;&#x7F6E;&apos;prepareForWithdraw&apos;&#x4F5C;&#x4E3A;&#x6807;&#x8BB0;&#xFF0C;&#x4E0D;&#x518D;&#x63A5;&#x53D7;&#x65B0;&#x7684;&#x4EA4;&#x6613;&#x3002;&#x7B49;&#x5F85;&#x5F53;&#x524D;&#x4EA4;&#x6613;&#x89E3;&#x9501;&#x540E;&#x518D;&#x8FDB;&#x884C; <code>withdraw</code>,&#x8FDB;&#x884C;&#x5408;&#x4F5C;&#x53D6;&#x94B1;&#x3002;<strong>&#x4E0D;&#x80FD;<s>SettleChannel,Withdraw&#x548C;Deposit</s>,&#x4F46;&#x662F;&#x53EF;&#x4EE5;&#x5F3A;&#x5236;&#x5173;&#x95ED;&#x901A;&#x9053;(CloseChannel,force&#x4E3A;true)</strong></td>
+</tr>
+<tr>
+<td>10</td>
+<td>unkown</td>
+<td>StateError</td>
+</tr>
+<tr>
+<td>11</td>
+<td>StatePartnerCooperativeSettling</td>
+<td>&#x7528;&#x6237;&#x6536;&#x5230;&#x5BF9;&#x65B9;&#x53D1;&#x6765;&#x7684;CooperativeSettle&#x8BF7;&#x6C42;&#x5E76;&#x540C;&#x610F;&#x540E;,&#x5C06;&#x901A;&#x9053;&#x7F6E;&#x4E3A;&#x8BE5;&#x72B6;&#x6001;,&#x6548;&#x679C;&#x540C;cooperativeSetting&#x72B6;&#x6001;</td>
+</tr>
+<tr>
+<td>12</td>
+<td>StatePartnerWithdrawing</td>
+<td>&#x7528;&#x6237;&#x6536;&#x5230;&#x7684;&#x4E86;&#x5BF9;&#x65B9;&#x53D1;&#x6765;&#x7684;withdraw&#x8BF7;&#x6C42;&#x5E76;&#x540C;&#x610F;&#x540E;,&#x5C06;&#x901A;&#x9053;&#x7F6E;&#x4E3A;&#x8BE5;&#x72B6;&#x6001;,&#x6548;&#x679C;&#x540C;withdrawing&#x72B6;&#x6001;</td>
+</tr>
+</tbody>
+</table>
+<p>&#x5176;&#x4E2D;App&#x80FD;&#x591F;&#x770B;&#x5230;&#x7684;State&#x53EA;&#x6709;1-9 9&#x4E2A;&#x72B6;&#x6001;,&#x5176;&#x4ED6;&#x65E0;&#x6CD5;&#x76F4;&#x63A5;&#x89C2;&#x5BDF;&#x5230;,&#x662F;&#x5185;&#x90E8;&#x4F7F;&#x7528;. &#x5E76;&#x4E14;<strong>prepareForWithdraw&#x548C;prepareForCooperativeSettle&#x4E0D;&#x4F1A;&#x5728;&#x624B;&#x673A;&#x4E0A;</strong>&#x51FA;&#x73B0;,&#x53EA;&#x6709;&#x76D2;&#x5B50;&#x7B49;&#x53EF;&#x4F5C;&#x4E3A;&#x4EA4;&#x6613;&#x4E2D;&#x95F4;&#x8282;&#x70B9;&#x624D;&#x6709;&#x53EF;&#x80FD;&#x51FA;&#x73B0;&#x8FD9;&#x79CD;&#x4EA4;&#x6613;&#x72B6;&#x6001;.</p>
+<h3>&#x72B6;&#x6001;&#x53D8;&#x5316;&#x63A8;&#x9001;</h3>
+<p>&#x5F53;&#x901A;&#x9053;&#x72B6;&#x6001;&#x53D1;&#x751F;&#x4E86;&#x4EFB;&#x4F55;&#x53D8;&#x5316;&#x90FD;&#x4F1A;&#x4E3B;&#x52A8;&#x901A;&#x77E5;App,&#x5305;&#x62EC;&#x4E0D;&#x9650;&#x4E8E;&#x4EE5;&#x4E0B;,&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x4E0B;&#x9762;&#x7684;&#x5B57;&#x6BB5;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x80AF;&#x5B9A;&#x4F1A;&#x5F97;&#x5230;&#x901A;&#x77E5;.</p>
+<ul>
+<li>balance</li>
+<li>patner_balance</li>
+<li>locked_amount</li>
+<li>partner_locked_amount</li>
+<li>state</li>
+</ul>
+<p>&#x901A;&#x9053;&#x4ECE;&#x521B;&#x5EFA;&#x4EE5;&#x540E;,&#x80AF;&#x5B9A;&#x4E0D;&#x4F1A;&#x53D8;&#x7684;&#x53EA;&#x6709;channel_identifier,token_address,settle_timeout &#x8FD9;&#x4E09;&#x4E2A;&#x5B57;&#x6BB5;,&#x5176;&#x4ED6;&#x90FD;&#x6709;&#x53EF;&#x80FD;&#x53D1;&#x751F;&#x53D8;&#x5316;.</p>
+<h2>3. &#x4E3B;&#x52A8;&#x63A8;&#x9001;</h2>
+<p>&#x51E1;&#x662F;&#x901A;&#x8FC7;OnNotify&#x63A8;&#x9001;&#x7684;&#x6D88;&#x606F;,&#x90FD;&#x6709;&#x5982;&#x4E0B;&#x7ED3;&#x6784;&#x4F53;</p>
+<pre data-role="codeBlock" data-info="go" class="language-go"><span class="token comment">//InfoStruct for notify to mobile</span>
+<span class="token keyword">type</span> InfoStruct <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+	Type    <span class="token builtin">int</span>         <span class="token string">`json:&quot;type&quot;`</span> <span class="token comment">//InfoTypeString &#x8868;&#x793A;Message&#x662F;&#x4E00;&#x4E2A;string,InfoTypeTransferStatus&#x8868;&#x793A;Message&#x662F;TransferStatus</span>
+	Message <span class="token keyword">interface</span><span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token string">`json:&quot;message&quot;`</span>
+<span class="token punctuation">}</span>
+</pre><h3>InfoStruct&#x89E3;&#x91CA;</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>StateString</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Message&#x662F;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x901A;&#x77E5;&#x4FE1;&#x606F;</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Message&#x662F;&#x4E00;&#x4E2A;TransferStatus</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Message&#x662F;&#x4E00;&#x4E2A;&#x901A;&#x9053;&#x72B6;&#x6001;,&#x8BE6;&#x7EC6;&#x5185;&#x5BB9;&#x89C1;&#x7B2C;&#x4E00;&#x90E8;&#x5206;<a href="#%E9%80%9A%E9%81%93%E7%BB%93%E6%9E%84%E4%BD%93">&#x901A;&#x9053;&#x7ED3;&#x6784;&#x4F53;</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Message&#x662F;&#x4E00;&#x4E2A;&#x94FE;&#x4E0A;&#x5408;&#x7EA6;&#x6267;&#x884C;&#x7ED3;&#x679C;&#x901A;&#x77E5;,&#x5185;&#x5BB9;&#x683C;&#x5F0F;&#x53C2;&#x7167;<a href="#ContractCallTXQuery">ContractCallTXQuery</a></td>
+</tr>
+</tbody>
+</table>
+<p>2 &#x5E9F;&#x5F03;&#x4E0D;&#x7528;</p>
+<h3>&#x901A;&#x9053;&#x72B6;&#x6001;&#x53D8;&#x5316;&#x63A8;&#x9001;</h3>
+<p>&#x8BE6;&#x89C1;<a href="#InfoStruct%E8%A7%A3%E9%87%8A">InfoStruct&#x89E3;&#x91CA;</a>,Type&#x4E3A;3,Message&#x5C31;&#x662F;<a href="#%E9%80%9A%E9%81%93%E7%BB%93%E6%9E%84%E4%BD%93">&#x901A;&#x9053;&#x7ED3;&#x6784;&#x4F53;</a><br>
+&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;&#x793A;&#x4F8B;&#x662F;&#x521A;&#x521A;&#x7684;Close&#x64CD;&#x4F5C;&#x5BFC;&#x81F4;&#x901A;&#x9053;&#x72B6;&#x6001;&#x53D1;&#x751F;&#x53D8;&#x5316;:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+	<span class="token property">&quot;type&quot;</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;message&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+		<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x7352d8fdba5ef9e58c7d42dd65cf14b82de38465f7aeafd36a339c9e6a48f5d8&quot;</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;open_block_number&quot;</span><span class="token operator">:</span> <span class="token number">16023699</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;partner_address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0xaCB73bE1823a16B701c3D1262056a2abb2628800&quot;</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;balance&quot;</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;partner_balance&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;locked_amount&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;partner_locked_amount&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;token_address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x643Eb3E7897d22DD4A9b393F168a9DBC22808727&quot;</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;state&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;state_string&quot;</span><span class="token operator">:</span> <span class="token string">&quot;closed&quot;</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;settle_timeout&quot;</span><span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;reveal_timeout&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;closed_block&quot;</span><span class="token operator">:</span> <span class="token number">16023702</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;settled_block&quot;</span><span class="token operator">:</span> <span class="token number">16024702</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;our_balance_proof&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+			<span class="token property">&quot;nonce&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;transfer_amount&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;locks_root&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+				<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;open_block_number&quot;</span><span class="token operator">:</span> <span class="token number">0</span>
+			<span class="token punctuation">}</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;message_hash&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;contract_transfer_amount&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;contract_locksroot&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span>
+		<span class="token punctuation">}</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;partner_balance_proof&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+			<span class="token property">&quot;nonce&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;transfer_amount&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;locks_root&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+				<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+				<span class="token property">&quot;open_block_number&quot;</span><span class="token operator">:</span> <span class="token number">0</span>
+			<span class="token punctuation">}</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;message_hash&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;contract_transfer_amount&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;contract_locksroot&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span> 
+</pre><h2>4. &#x901A;&#x9053;&#x64CD;&#x4F5C;&#x5F15;&#x8D77;&#x7684;&#x901A;&#x9053;&#x72B6;&#x6001;&#x53D8;&#x5316;</h2>
+<h3>&#x901A;&#x9053;&#x64CD;&#x4F5C;&#x7531;&#x5F02;&#x6B65;&#x53D8;&#x4E3A;&#x540C;&#x6B65;</h3>
+<p>&#x6839;&#x636E;&#x76EE;&#x524D;Photon&#x7684;&#x8BBE;&#x8BA1;,&#x53EF;&#x4EE5;&#x5047;&#x8BBE;&#x4E00;&#x65E6;&#x5408;&#x7EA6;&#x76F8;&#x5173;Tx&#x8FDB;&#x5165;&#x4E86;&#x516C;&#x94FE;&#x8282;&#x70B9;&#x7684;TxPool&#x4EE5;&#x540E;,&#x80AF;&#x5B9A;&#x4F1A;&#x6210;&#x529F;,&#x53EA;&#x662F;&#x9700;&#x8981;&#x7B49;&#x5C31;&#x597D;&#x4E86;.&#x56E0;&#x6B64;&#x6240;&#x6709;&#x901A;&#x9053;&#x76F8;&#x5173;&#x64CD;&#x4F5C;&#x90FD;&#x8BBE;&#x8BA1;&#x6210;&#x540C;&#x6B65;&#x5373;&#x53EF;. &#x6B63;&#x5E38;&#x8FD4;&#x56DE;&#x8868;&#x793A;&#x76F8;&#x5E94;Tx&#x5DF2;&#x7ECF;&#x8FDB;&#x5165;&#x4E86;Pool&#x4E2D;,&#x51FA;&#x9519;&#x5219;&#x7531;App&#x8FDB;&#x884C;&#x76F8;&#x5E94;&#x7684;&#x5904;&#x7406;.</p>
+<p>&#x4E00;&#x65E6;&#x5408;&#x7EA6;&#x76F8;&#x5173;&#x64CD;&#x4F5C;Tx&#x8FDB;&#x5165;&#x4E86;&#x516C;&#x94FE;&#x8282;&#x70B9;&#x7684;TxPool,&#x5C31;&#x7ACB;&#x5373;&#x8FD4;&#x56DE;,&#x4E0D;&#x7B49;&#x5F85;Tx&#x88AB;&#x6253;&#x5305;. &#x4E00;&#x822C;&#x8FD9;&#x4E2A;&#x64CD;&#x4F5C;&#x8017;&#x65F6;&#x51E0;&#x5341;&#x6BEB;&#x79D2;(&#x8003;&#x8651;&#x5230;&#x7F51;&#x7EDC;&#x5EF6;&#x65F6;,&#x53EF;&#x80FD;&#x4F1A;&#x589E;&#x5927;,&#x4F46;&#x662F;&#x4E5F;&#x662F;&#x901A;&#x4FE1;&#x5EF6;&#x8FDF;)<br>
+&#x6BD4;&#x5982;withdraw&#x8C03;&#x7528;,&#x6210;&#x529F;&#x5219;&#x8FD4;&#x56DE;&#x901A;&#x9053;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;,&#x5176;&#x4E2D;state&#x662F;withdrawing,&#x5931;&#x8D25;&#x5219;&#x8FD4;&#x56DE; error</p>
+<h3>&#x5408;&#x4F5C;&#x5173;&#x95ED;&#x901A;&#x9053;</h3>
+<div class="flow">st=&gt;start: open state 
+e=&gt;end: success
+e2=&gt;end: &#x5931;&#x8D25;
+e3=&gt;end: &#x5361;&#x4F4F;, &#x53EA;&#x80FD;&#x5F3A;&#x5236;&#x5173;&#x95ED;&#x901A;&#x9053;
+op1=&gt;operation: closeChannel[force=false]
+op2=&gt;parallel: &#x9053;&#x72B6;&#x6001;&#x5207;&#x6362;&#x4E3A;cooperativeSettling
+opCooperativeSettleOnChain=&gt;subroutine: &#x94FE;&#x4E0A;CooprativeSettle
+opSettled=&gt;operation: &#x901A;&#x9053;&#x72B6;&#x6001;&#x5207;&#x6362;&#x4E3A;Settled
+sub1=&gt;subroutine: My Subroutine
+cond1=&gt;condition: &#x5BF9;&#x65B9;&#x662F;&#x5426;&#x5728;&#x7EBF;?
+cond2=&gt;condition: &#x6709;&#x6B63;&#x5728;&#x8FDB;&#x884C;&#x7684;&#x4EA4;&#x6613;?
+cond3=&gt;condition: &#x5BF9;&#x65B9;&#x662F;&#x5426;&#x540C;&#x610F;&#x5173;&#x95ED;?(&#x5F02;&#x6B65;&#x6267;&#x884C;)
+
+
+st-&gt;op1-&gt;cond1
+cond1(yes)-&gt;cond2
+cond1(no,left)-&gt;e2 
+cond2(yes)-&gt;e2
+cond2(no)-&gt;op2
+op2(path1,right)-&gt;cond3
+op2(path2,bottom)-&gt;e
+cond3(yes)-&gt;opCooperativeSettleOnChain-&gt;opSettled
+cond3(no)-&gt;e3 
+</div><h3>&#x5408;&#x4F5C;&#x53D6;&#x73B0;</h3>
+<div class="flow">st=&gt;start: open state 
+e=&gt;end: &#x6210;&#x529F;&#x8FD4;&#x56DE;
+e2=&gt;end: &#x5931;&#x8D25;
+e3=&gt;end: &#x5361;&#x4F4F;, &#x53EA;&#x80FD;&#x5F3A;&#x5236;&#x5173;&#x95ED;&#x901A;&#x9053;
+op1=&gt;operation: withdraw
+para=&gt;parallel: &#x9053;&#x72B6;&#x6001;&#x5207;&#x6362;&#x4E3A;Withdrawing
+opwithdraw=&gt;subroutine: &#x94FE;&#x4E0A;Withdraw
+opStateOpen=&gt;operation: &#x901A;&#x9053;&#x72B6;&#x6001;&#x5207;&#x6362;&#x4E3A;open
+cond1=&gt;condition: &#x5BF9;&#x65B9;&#x662F;&#x5426;&#x5728;&#x7EBF;?
+cond2=&gt;condition: &#x6709;&#x6B63;&#x5728;&#x8FDB;&#x884C;&#x7684;&#x4EA4;&#x6613;?
+cond3=&gt;condition: &#x5BF9;&#x65B9;&#x662F;&#x5426;&#x540C;&#x610F;&#x53D6;&#x73B0;&#x65B9;&#x6848;?(&#x5F02;&#x6B65;&#x6267;&#x884C;)
+
+
+st-&gt;op1-&gt;cond1
+cond1(yes)-&gt;cond2
+cond1(no,left)-&gt;e2 
+cond2(yes)-&gt;e2
+cond2(no)-&gt;para
+para(path1,bottom)-&gt;e
+para(path2,right)-&gt;cond3
+cond3(yes)-&gt;opwithdraw-&gt;opStateOpen
+cond3(no)-&gt;e3 
+</div><h3 class="mume-header" id="%E5%85%B6%E4%BB%96">&#x5176;&#x4ED6;</h3>
+
+<p>&#x5B58;&#x94B1;&#x5E76;&#x521B;&#x5EFA;&#x901A;&#x9053;,&#x5B58;&#x94B1;,&#x5F3A;&#x5236;&#x5173;&#x95ED;&#x901A;&#x9053;,settle&#x901A;&#x9053;&#x90FD;&#x6BD4;&#x8F83;&#x7B80;&#x5355;,&#x5C31;&#x4E0D;&#x4E13;&#x95E8;&#x753B;&#x6D41;&#x7A0B;&#x56FE;&#x4E86;.</p>
+<h4 class="mume-header" id="%E5%BC%BA%E5%88%B6%E5%85%B3%E9%97%AD%E9%80%9A%E9%81%93">&#x5F3A;&#x5236;&#x5173;&#x95ED;&#x901A;&#x9053;</h4>
+
+<p>&#x72B6;&#x6001;&#x5148;&#x7531;open,&#x8FDB;&#x5165;closing,&#x7136;&#x540E;&#x8C03;&#x7528;&#x4F1A;&#x8FD4;&#x56DE;,&#x7B49;&#x5F85;&#x94FE;&#x4E0A;Tx&#x6267;&#x884C;&#x5B8C;&#x6BD5;,&#x8FDB;&#x5165;closed.</p>
+<h4 class="mume-header" id="settle%E9%80%9A%E9%81%93">settle&#x901A;&#x9053;</h4>
+
+<p>&#x72B6;&#x6001;&#x7531;closed&#x8FDB;&#x5165;settling,&#x7136;&#x540E;&#x8C03;&#x7528;&#x8FD4;&#x56DE;,&#x7B49;&#x5F85;&#x94FE;&#x4E0A;Tx&#x6267;&#x884C;&#x5B8C;&#x6BD5;,&#x8FDB;&#x5165;settled,&#x901A;&#x9053;&#x4ECE;&#x5217;&#x8868;&#x4E2D;&#x6D88;&#x5931;</p>
+<h4 class="mume-header" id="prepareforcooperativesettle%E5%92%8Cprepareforwithdraw">prepareForCooperativeSettle&#x548C;prepareForWithdraw</h4>
+
+<p>&#x8FD9;&#x4E2A;&#x72B6;&#x6001;&#x662F;&#x9488;&#x5BF9;&#x76D2;&#x5B50;&#x7B49;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x4E2D;&#x95F4;&#x8282;&#x70B9;,&#x901A;&#x8FC7;&#x8FDB;&#x5165;&#x4EE5;&#x4E0A;&#x72B6;&#x6001;&#x62D2;&#x7EDD;&#x518D;&#x63A5;&#x53D7;&#x65B0;&#x7684;&#x4EA4;&#x6613;,&#x4ECE;&#x800C;&#x80FD;&#x591F;&#x5408;&#x4F5C;&#x5173;&#x95ED;&#x901A;&#x9053;&#x6216;&#x8005;&#x53D6;&#x73B0;</p>
+<h2 class="mume-header" id="5-%E6%96%B0%E5%A2%9E%E6%8E%A5%E5%8F%A3">5. &#x65B0;&#x589E;&#x63A5;&#x53E3;</h2>
+
+<h3 class="mume-header" id="contractcalltxquery">ContractCallTXQuery</h3>
+
+<p>&#x5408;&#x7EA6;&#x8C03;&#x7528;tx&#x67E5;&#x8BE2;&#x63A5;&#x53E3;</p>
+<pre data-role="codeBlock" data-info="go" class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>a <span class="token operator">*</span>API<span class="token punctuation">)</span> <span class="token function">ContractCallTXQuery</span><span class="token punctuation">(</span>channelIdentifierStr <span class="token builtin">string</span><span class="token punctuation">,</span> openBlockNumber <span class="token builtin">int</span><span class="token punctuation">,</span> txTypeStr<span class="token punctuation">,</span> txStatusStr <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>result <span class="token builtin">string</span><span class="token punctuation">)</span>
+</pre><p>&#x6240;&#x6709;&#x53C2;&#x6570;&#x5168;&#x90E8;&#x53EF;&#x4EE5;&#x7ED9;&#x9ED8;&#x8BA4;&#x503C;,&#x5206;&#x522B;&#x4E3A;&quot;&quot;,0,&quot;&quot;,&quot;&quot;,&#x8868;&#x793A;&#x67E5;&#x8BE2;&#x6240;&#x6709;,&#x56DB;&#x4E2A;&#x53C2;&#x6570;&#x4E4B;&#x95F4;&#x662F;And&#x5173;&#x7CFB;, &#x53EA;&#x8981;&#x7ED9;&#x51FA;&#x6709;&#x6548;&#x53C2;&#x6570;&#x5C31;&#x8868;&#x793A;&#x67E5;&#x8BE2;&#x5168;&#x90E8;&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x7684;.<br>
+channelIdentifierStr &#x4E0D;&#x4E3A;&quot;&quot;&#x65F6;&#x6309;&#x901A;&#x9053;ID&#x67E5;&#x8BE2;<br>
+openBlockNumber &#x4E0D;&#x4E3A;0&#x65F6;&#x6309;&#x901A;&#x9053;OpenBlockNumber&#x67E5;&#x8BE2;,&#x4E00;&#x822C;&#x914D;&#x5408;channelIdentifierStr&#x53C2;&#x6570;&#x4E00;&#x8D77;&#x4F7F;&#x7528;,&#x4EE5;&#x7CBE;&#x786E;&#x5B9A;&#x4F4D;&#x5230;&#x67D0;&#x4E00;&#x4E2A;&#x901A;&#x9053;<br>
+txTypeStr &#x5982;&#x679C;&#x4E0D;&#x4E3A;&#x7A7A;,&#x53D6;&#x503C;&#x89C1;<a href="#txTypeStr">txTypeStr</a><br>
+txStatusStr &#x53D6;&#x503C;&#x4E0D;&#x4E3A;&#x7A7A;,&#x53D6;&#x503C;&#x89C1;<a href="#txStatusStr">txStatusStr</a><br>
+&#x53C2;&#x6570;&#x5217;&#x8868;:</p>
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;&#x540D;</th>
+<th>&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>channelIdentifierStr</td>
+<td>&#x6709;&#x503C;&#x65F6;&#x6309;&#x901A;&#x9053;ID&#x67E5;&#x8BE2;</td>
+</tr>
+<tr>
+<td>openBlockNumber</td>
+<td>&#x6709;&#x503C;&#x65F6;&#x6309;&#x901A;&#x9053;OpenBlockNumber&#x67E5;&#x8BE2;,&#x4E00;&#x822C;&#x914D;&#x5408;channelIdentifierStr&#x53C2;&#x6570;&#x4E00;&#x8D77;&#x4F7F;&#x7528;,&#x4EE5;&#x7CBE;&#x786E;&#x5B9A;&#x4F4D;&#x5230;&#x67D0;&#x4E00;&#x4E2A;&#x901A;&#x9053;</td>
+</tr>
+<tr>
+<td>tokenAddressStr</td>
+<td>&#x6709;&#x503C;&#x65F6;&#x6309;Token&#x5730;&#x5740;&#x67E5;&#x8BE2;(&#x65B0;&#x589E;)</td>
+</tr>
+<tr>
+<td>txTypeStr</td>
+<td>&#x6709;&#x503C;&#x65F6;&#x6309;tx&#x7C7B;&#x578B;&#x67E5;&#x8BE2;,&#x53D6;&#x503C;&#x89C1;<a href="#txTypeStr">txTypeStr</a></td>
+</tr>
+<tr>
+<td>txStatusStr</td>
+<td>&#x6709;&#x503C;&#x65F6;&#x6309;tx&#x72B6;&#x6001;&#x67E5;&#x8BE2;,&#x53D6;&#x503C;<a href="#txStatus">txStatus</a></td>
+</tr>
+</tbody>
+</table>
+<h4 class="mume-header" id="txtypestr">txTypeStr</h4>
+
+<pre data-role="codeBlock" data-info="" class="language-"><code>	ChannelDeposit
+	ChannelClose
+	ChannelSettle
+	CooperateSettle
+	UpdateBalanceProof
+	Unlock
+	Punish
+	Withdraw
+	ApproveDeposit
+	RegisterSecret
+</code></pre><h4 class="mume-header" id="txstatus">txStatus</h4>
+
+<pre data-role="codeBlock" data-info="" class="language-"><code>	pending &#x67E5;&#x8BE2;pending&#x72B6;&#x6001;&#x7684;tx
+	success &#x67E5;&#x8BE2;&#x6267;&#x884C;&#x6210;&#x529F;&#x7684;tx
+	failed &#x67E5;&#x8BE2;&#x6267;&#x884C;&#x5931;&#x8D25;&#x7684;tx
+</code></pre><p>&#x8FD4;&#x56DE;&#x793A;&#x4F8B;:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+	<span class="token property">&quot;error_code&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;error_message&quot;</span><span class="token operator">:</span> <span class="token string">&quot;SUCCESS&quot;</span><span class="token punctuation">,</span>
+	<span class="token property">&quot;data&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+		<span class="token punctuation">{</span>
+			<span class="token property">&quot;tx_hash&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x58e53996be4512202a3e7c695f47721bdf5f6dd2fcbd017d2df60355dbd1af68&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x5f67e38393d4c461d1ac2216ca7f026bd6ed956892e5d622e98997cb36beeba7&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;open_block_number&quot;</span><span class="token operator">:</span> <span class="token number">84273</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;type&quot;</span><span class="token operator">:</span> <span class="token string">&quot;CooperateSettle&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;is_self_call&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;tx_params&quot;</span><span class="token operator">:</span> <span class="token string">&quot;{\&quot;token_address\&quot;:\&quot;0xe78e30324b71558a9e93d6d087c2b0479388f8d0\&quot;,\&quot;p1_address\&quot;:\&quot;0x3de45febbd988b6e417e4ebd2c69e42630fefbf0\&quot;,\&quot;p1_balance\&quot;:49,\&quot;p2_address\&quot;:\&quot;0x97251ddfe70ea44be0e5156c4e3aadd30328c6a5\&quot;,\&quot;p2_balance\&quot;:51,\&quot;p1_signature\&quot;:\&quot;ULhJCk6fjEugT7u1vRFbL3xjyntFQG3VNvheJKgxKTIsod4VTg7xbRIDRUmJr7jy0d2yQX8ao1g53WMq3RmGnRs=\&quot;,\&quot;p2_signature\&quot;:\&quot;0TMcwic/uvqcpbquqdD8h8c221T+qiWx7nBAUhfSRuBdUol20TjaHRTBBRV0xHh4mycTnCNl9TBNEqOFxpMP9hw=\&quot;}&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;tx_status&quot;</span><span class="token operator">:</span> <span class="token string">&quot;success&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;events&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;pack_block_number&quot;</span><span class="token operator">:</span> <span class="token number">84373</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;call_time&quot;</span><span class="token operator">:</span> <span class="token number">1550460677</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;pack_time&quot;</span><span class="token operator">:</span> <span class="token number">1550460678</span>
+		<span class="token punctuation">}</span><span class="token punctuation">,</span>
+		<span class="token punctuation">{</span>
+			<span class="token property">&quot;tx_hash&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x76da24ec17d2261b20cb59b62d067a9e55ac2d6fb73521a05474d2981bf4b13e&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x5f67e38393d4c461d1ac2216ca7f026bd6ed956892e5d622e98997cb36beeba7&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;open_block_number&quot;</span><span class="token operator">:</span> <span class="token number">84412</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;type&quot;</span><span class="token operator">:</span> <span class="token string">&quot;ChannelDeposit&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;is_self_call&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;tx_params&quot;</span><span class="token operator">:</span> <span class="token string">&quot;{\&quot;token_address\&quot;:\&quot;0xe78e30324b71558a9e93d6d087c2b0479388f8d0\&quot;,\&quot;participant_address\&quot;:\&quot;0x3de45febbd988b6e417e4ebd2c69e42630fefbf0\&quot;,\&quot;partner_address\&quot;:\&quot;0x97251ddfe70ea44be0e5156c4e3aadd30328c6a5\&quot;,\&quot;amount\&quot;:50,\&quot;settle_timeout\&quot;:6000}&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;tx_status&quot;</span><span class="token operator">:</span> <span class="token string">&quot;success&quot;</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;events&quot;</span><span class="token operator">:</span> <span class="token null">null</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;pack_block_number&quot;</span><span class="token operator">:</span> <span class="token number">84412</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;call_time&quot;</span><span class="token operator">:</span> <span class="token number">1550460679</span><span class="token punctuation">,</span>
+			<span class="token property">&quot;pack_time&quot;</span><span class="token operator">:</span> <span class="token number">1550460680</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</pre><h2 class="mume-header" id="6-%E6%8E%A5%E5%8F%A3%E4%BF%AE%E6%94%B9">6. &#x63A5;&#x53E3;&#x4FEE;&#x6539;</h2>
+
+<h3 class="mume-header" id="getsenttransfer">GetSentTransfer</h3>
+
+<pre data-role="codeBlock" data-info="go" class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>a <span class="token operator">*</span>API<span class="token punctuation">)</span> <span class="token function">GetSentTransfers</span><span class="token punctuation">(</span>tokenAddressStr <span class="token builtin">string</span><span class="token punctuation">,</span> from<span class="token punctuation">,</span> to <span class="token builtin">int64</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>result <span class="token builtin">string</span><span class="token punctuation">)</span>
+</pre><p>&#x63A5;&#x53E3;&#x65B0;&#x589E;tokenAddressStr&#x53C2;&#x6570;(&#x7B2C;&#x4E00;&#x4E2A;),&#x652F;&#x6301;&#x6309;token&#x5730;&#x5740;&#x8FC7;&#x6EE4;&#x67E5;&#x8BE2;</p>
+<p>&#x8FD4;&#x56DE;&#x503C;&#x7ED3;&#x6784;&#x4FEE;&#x6539;<br>
+&#x8FD4;&#x56DE;&#x793A;&#x4F8B;:</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token punctuation">{</span>
+		<span class="token property">&quot;error_code&quot;</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;error_message&quot;</span><span class="token operator">:</span> <span class="token string">&quot;SUCCESS&quot;</span><span class="token punctuation">,</span>
+		<span class="token property">&quot;data&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+				<span class="token punctuation">{</span>
+						<span class="token property">&quot;Key&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x37c7243f038168b2210bc22d320b4385f2581c53d67bfb1f0f27475d42eafdd9&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;block_number&quot;</span><span class="token operator">:</span> <span class="token number">1749668</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;token_address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0xacfbae9e42de98f73f01db62caf5847c363dd91c&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;LockSecretHash&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;target_address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x97251ddfe70ea44be0e5156c4e3aadd30328c6a5&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;amount&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;data&quot;</span><span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;is_direct&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;sending_time&quot;</span><span class="token operator">:</span> <span class="token number">1550543942</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;finish_time&quot;</span><span class="token operator">:</span> <span class="token number">1550543942</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;status&quot;</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;status_message&quot;</span><span class="token operator">:</span> <span class="token string">&quot;DirectTransfer sending\nDirectTransfer send success,transfer success\n&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x114bdd7b8c9362b65886f9bf04be47640cf81671ef116d3e054e03ec1bcd7ca1&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;open_block_number&quot;</span><span class="token operator">:</span> <span class="token number">1749631</span>
+				<span class="token punctuation">}</span><span class="token punctuation">,</span>
+				<span class="token punctuation">{</span>
+						<span class="token property">&quot;Key&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x44b3ff5e0cc48042ef852ed054fb6df27736da467bdef7a2a019a26738610d72&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;block_number&quot;</span><span class="token operator">:</span> <span class="token number">1749585</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;token_address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0xacfbae9e42de98f73f01db62caf5847c363dd91c&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;LockSecretHash&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;target_address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x97251ddfe70ea44be0e5156c4e3aadd30328c6a5&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;amount&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;data&quot;</span><span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;is_direct&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;sending_time&quot;</span><span class="token operator">:</span> <span class="token number">1550543938</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;finish_time&quot;</span><span class="token operator">:</span> <span class="token number">1550543938</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;status&quot;</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;status_message&quot;</span><span class="token operator">:</span> <span class="token string">&quot;DirectTransfer sending\nDirectTransfer send success,transfer success\n&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;channel_identifier&quot;</span><span class="token operator">:</span> <span class="token string">&quot;0x114bdd7b8c9362b65886f9bf04be47640cf81671ef116d3e054e03ec1bcd7ca1&quot;</span><span class="token punctuation">,</span>
+						<span class="token property">&quot;open_block_number&quot;</span><span class="token operator">:</span> <span class="token number">1749486</span>
+				<span class="token punctuation">}</span>
+		<span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</pre><h3 class="mume-header" id="getreceivedtransfers">GetReceivedTransfers</h3>
+
+<pre data-role="codeBlock" data-info="go" class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>a <span class="token operator">*</span>API<span class="token punctuation">)</span> <span class="token function">GetReceivedTransfers</span><span class="token punctuation">(</span>tokenAddressStr <span class="token builtin">string</span><span class="token punctuation">,</span> from<span class="token punctuation">,</span> to <span class="token builtin">int64</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>result <span class="token builtin">string</span><span class="token punctuation">)</span>
+</pre><p>&#x65B0;&#x589E;TokenAddress&#x8FC7;&#x6EE4;&#x652F;&#x6301;)</p>
 
       </div>
       
