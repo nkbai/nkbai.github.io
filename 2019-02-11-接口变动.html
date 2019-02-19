@@ -216,7 +216,7 @@ code.language-yaml {
 <div class="code-chunk" data-id="code-chunk-id-0" data-cmd="toc"><div class="input-div"><div class="btn-group"><div class="run-btn btn"><span>&#x25B6;&#xFE0E;</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><ul>
 <li><a href="#%E6%8E%A5%E5%8F%A3%E7%BB%93%E6%9E%9C%E7%94%B1%E8%BD%AE%E8%AF%A2%E6%94%B9%E4%B8%BA%E5%90%8C%E6%AD%A5">&#x63A5;&#x53E3;&#x7ED3;&#x679C;&#x7531;&#x8F6E;&#x8BE2;&#x6539;&#x4E3A;&#x540C;&#x6B65;</a>
 <ul>
-<li><a href="#1-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%862">1. &#x9519;&#x8BEF;&#x5904;&#x7406;2</a>
+<li><a href="#1-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86">1. &#x9519;&#x8BEF;&#x5904;&#x7406;</a>
 <ul>
 <li><a href="#%E9%94%99%E8%AF%AF%E7%BC%96%E7%A0%81">&#x9519;&#x8BEF;&#x7F16;&#x7801;</a></li>
 </ul>
@@ -754,9 +754,9 @@ cond3(no)-&gt;e3
 <h4>prepareForCooperativeSettle&#x548C;prepareForWithdraw</h4>
 <p>&#x8FD9;&#x4E2A;&#x72B6;&#x6001;&#x662F;&#x9488;&#x5BF9;&#x76D2;&#x5B50;&#x7B49;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x4E2D;&#x95F4;&#x8282;&#x70B9;,&#x901A;&#x8FC7;&#x8FDB;&#x5165;&#x4EE5;&#x4E0A;&#x72B6;&#x6001;&#x62D2;&#x7EDD;&#x518D;&#x63A5;&#x53D7;&#x65B0;&#x7684;&#x4EA4;&#x6613;,&#x4ECE;&#x800C;&#x80FD;&#x591F;&#x5408;&#x4F5C;&#x5173;&#x95ED;&#x901A;&#x9053;&#x6216;&#x8005;&#x53D6;&#x73B0;</p>
 <h2>5. &#x65B0;&#x589E;&#x63A5;&#x53E3;</h2>
-<h3>&#x5408;&#x7EA6;&#x8C03;&#x7528;tx&#x67E5;&#x8BE2;&#x63A5;&#x53E3;-ContractCallTXQuery:</h3>
-<p>&#x65B9;&#x6CD5;:func (a *API) ContractCallTXQuery(channelIdentifierStr string, openBlockNumber int, txTypeStr, txStatusStr string) (result string)</p>
-<p>&#x6240;&#x6709;&#x53C2;&#x6570;&#x5168;&#x90E8;&#x53EF;&#x4EE5;&#x7ED9;&#x9ED8;&#x8BA4;&#x503C;,&#x5206;&#x522B;&#x4E3A;&quot;&quot;,0,&quot;&quot;,&quot;&quot;,&#x8868;&#x793A;&#x67E5;&#x8BE2;&#x6240;&#x6709;,&#x56DB;&#x4E2A;&#x53C2;&#x6570;&#x4E4B;&#x95F4;&#x662F;And&#x5173;&#x7CFB;, &#x53EA;&#x8981;&#x7ED9;&#x51FA;&#x6709;&#x6548;&#x53C2;&#x6570;&#x5C31;&#x8868;&#x793A;&#x67E5;&#x8BE2;&#x5168;&#x90E8;&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x7684;.<br>
+<h3>&#x5408;&#x7EA6;&#x8C03;&#x7528;tx&#x67E5;&#x8BE2;&#x63A5;&#x53E3;-ContractCallTXQuery</h3>
+<pre data-role="codeBlock" data-info="go" class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>a <span class="token operator">*</span>API<span class="token punctuation">)</span> <span class="token function">ContractCallTXQuery</span><span class="token punctuation">(</span>channelIdentifierStr <span class="token builtin">string</span><span class="token punctuation">,</span> openBlockNumber <span class="token builtin">int</span><span class="token punctuation">,</span> txTypeStr<span class="token punctuation">,</span> txStatusStr <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>result <span class="token builtin">string</span><span class="token punctuation">)</span>
+</pre><p>&#x6240;&#x6709;&#x53C2;&#x6570;&#x5168;&#x90E8;&#x53EF;&#x4EE5;&#x7ED9;&#x9ED8;&#x8BA4;&#x503C;,&#x5206;&#x522B;&#x4E3A;&quot;&quot;,0,&quot;&quot;,&quot;&quot;,&#x8868;&#x793A;&#x67E5;&#x8BE2;&#x6240;&#x6709;,&#x56DB;&#x4E2A;&#x53C2;&#x6570;&#x4E4B;&#x95F4;&#x662F;And&#x5173;&#x7CFB;, &#x53EA;&#x8981;&#x7ED9;&#x51FA;&#x6709;&#x6548;&#x53C2;&#x6570;&#x5C31;&#x8868;&#x793A;&#x67E5;&#x8BE2;&#x5168;&#x90E8;&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x7684;.<br>
 channelIdentifierStr &#x4E0D;&#x4E3A;&quot;&quot;&#x65F6;&#x6309;&#x901A;&#x9053;ID&#x67E5;&#x8BE2;<br>
 openBlockNumber &#x4E0D;&#x4E3A;0&#x65F6;&#x6309;&#x901A;&#x9053;OpenBlockNumber&#x67E5;&#x8BE2;,&#x4E00;&#x822C;&#x914D;&#x5408;channelIdentifierStr&#x53C2;&#x6570;&#x4E00;&#x8D77;&#x4F7F;&#x7528;,&#x4EE5;&#x7CBE;&#x786E;&#x5B9A;&#x4F4D;&#x5230;&#x67D0;&#x4E00;&#x4E2A;&#x901A;&#x9053;<br>
 txTypeStr &#x5982;&#x679C;&#x4E0D;&#x4E3A;&#x7A7A;,&#x53D6;&#x503C;&#x89C1;<a href="#txTypeStr">txTypeStr</a><br>
@@ -884,7 +884,10 @@ txStatusStr &#x53D6;&#x503C;&#x4E0D;&#x4E3A;&#x7A7A;,&#x53D6;&#x503C;&#x89C1;<a 
         <span class="token punctuation">}</span>
     <span class="token punctuation">]</span>
 <span class="token punctuation">}</span>
-</pre>
+</pre><h3>GetReceivedTransfers</h3>
+<pre data-role="codeBlock" data-info="go" class="language-go"><span class="token keyword">func</span> <span class="token punctuation">(</span>a <span class="token operator">*</span>API<span class="token punctuation">)</span> <span class="token function">GetReceivedTransfers</span><span class="token punctuation">(</span>tokenAddressStr <span class="token builtin">string</span><span class="token punctuation">,</span> from<span class="token punctuation">,</span> to <span class="token builtin">int64</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>result <span class="token builtin">string</span><span class="token punctuation">)</span>
+</pre><p>&#x65B0;&#x589E;TokenAddress&#x8FC7;&#x6EE4;&#x652F;&#x6301;</p>
+
       </div>
       
       
