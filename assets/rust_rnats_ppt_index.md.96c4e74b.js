@@ -1,0 +1,1 @@
+import{o as t,c as a}from"./app.63f3ffeb.js";const e='{"title":"rnats ppt","description":"","frontmatter":{"title":"rnats ppt","date":"2020-01-31T01:57:03.000Z","draft":false,"tags":["rust"],"categories":["技术相关"]},"relativePath":"rust/rnats/ppt/index.md","lastUpdated":1641137302034}',r={};r.render=function(e,r,s,p,n,d){return t(),a("div")};export{e as __pageData,r as default};
