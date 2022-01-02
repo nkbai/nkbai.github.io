@@ -1,0 +1,1 @@
+import{o as a,c as e,e as s}from"./app.1f3c315f.js";const r='{"title":"一条命令深度清理你的mac","description":"","frontmatter":{"title":"一条命令深度清理你的mac","date":"2018-05-01T03:06:23.000Z","draft":false},"relativePath":"other/clean_mac.md","lastUpdated":1561681273000}',p={},n=[s('',8)];p.render=function(s,r,p,d,t,c){return a(),e("div",null,n)};export{r as __pageData,p as default};

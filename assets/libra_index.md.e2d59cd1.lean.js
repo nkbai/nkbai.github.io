@@ -1,1 +1,0 @@
-import{r as t,o as a,c as r,a as e}from"./app.f7f738b8.js";const i='{"title":"libra","description":"","frontmatter":{"title":"libra"},"relativePath":"libra/index.md","lastUpdated":1640181109229}',n={};n.render=function(i,n,l,s,o,d){const f=t("Menu");return a(),r("div",null,[e(f)])};export{i as __pageData,n as default};
