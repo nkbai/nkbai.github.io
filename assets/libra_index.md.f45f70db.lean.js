@@ -1,0 +1,1 @@
+import{r as t,o as a,c as e,a as r}from"./app.cf442953.js";const n='{"title":"","description":"","frontmatter":{},"relativePath":"libra/index.md","lastUpdated":1640093449186}',s={};s.render=function(n,s,i,o,d,l){const c=t("Menu");return a(),e("div",null,[r(c)])};export{n as __pageData,s as default};
