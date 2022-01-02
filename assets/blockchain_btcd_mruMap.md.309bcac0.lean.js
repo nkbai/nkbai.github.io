@@ -1,1 +1,0 @@
-import{o as n,c as s,e as a}from"./app.1f3c315f.js";const p='{"title":"mruMap","description":"","frontmatter":{"title":"mruMap","date":"2018-11-21T06:21:40.000Z","draft":false,"markup":"mmark"},"relativePath":"blockchain/btcd/mruMap.md","lastUpdated":1561507892000}',t={},e=[a('',10)];t.render=function(a,p,t,o,c,l){return n(),s("div",null,e)};export{p as __pageData,t as default};
