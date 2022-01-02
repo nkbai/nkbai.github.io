@@ -1,0 +1,1 @@
+import{r as t,o as a,c as r,a as e}from"./app.7522cc54.js";const i='{"title":"libra","description":"","frontmatter":{"title":"libra"},"relativePath":"libra/index.md","lastUpdated":1640181109229}',n={};n.render=function(i,n,l,s,o,d){const c=t("Menu");return a(),r("div",null,[e(c)])};export{i as __pageData,n as default};
