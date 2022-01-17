@@ -1,0 +1,1 @@
+import{r as t,o as a,c as e,a as s}from"./app.d48cc1fc.js";const n='{"title":"静态分析","description":"","frontmatter":{"title":"静态分析"},"relativePath":"static_analysis/index.md","lastUpdated":1641604782430}',r={};r.render=function(n,r,i,c,d,o){const l=t("Menu");return a(),e("div",null,[s(l)])};export{n as __pageData,r as default};
