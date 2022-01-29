@@ -1,1 +1,0 @@
-import{o as t,c as e}from"./app.d2d52540.js";const a='{"title":"hugo 博客写作技巧","description":"","frontmatter":{"title":"hugo 博客写作技巧","date":"2019-07-30T03:06:23.000Z","draft":false,"weight":1},"relativePath":"other/hugo博客写作.md","lastUpdated":1641604782000}',r={};r.render=function(a,r,o,d,i,s){return t(),e("div")};export{a as __pageData,r as default};

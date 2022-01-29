@@ -1,1 +1,0 @@
-import{_ as t,r as a,o as e,c as o,a as r}from"./app.d2d52540.js";var s={components:{NotFound:t}};const d='{"title":"网页走丢了","description":"","frontmatter":{"title":"网页走丢了","hide":true,"sidebar":false},"relativePath":"404.md","lastUpdated":1641604782000}';s.render=function(t,s,d,n,i,l){const p=a("NotFound");return e(),o("div",null,[r(p)])};export{d as __pageData,s as default};
