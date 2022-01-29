@@ -1,0 +1,1 @@
+import{r as t,o as a,c as e,a as n}from"./app.d2d52540.js";const i='{"title":"block chain","description":"","frontmatter":{"title":"block chain"},"relativePath":"blockchain/index.md","lastUpdated":1641604782000}',o={};o.render=function(i,o,r,c,d,l){const s=t("Menu");return a(),e("div",null,[n(s)])};export{i as __pageData,o as default};
