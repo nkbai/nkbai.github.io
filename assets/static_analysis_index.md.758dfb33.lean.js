@@ -1,1 +1,0 @@
-import{r as t,o as a,c as e,a as s}from"./app.a3c21c0d.js";const n='{"title":"静态分析","description":"","frontmatter":{"title":"静态分析"},"relativePath":"static_analysis/index.md","lastUpdated":1641604782000}',r={};r.render=function(n,r,i,d,o,c){const l=t("Menu");return a(),e("div",null,[s(l)])};export{n as __pageData,r as default};
