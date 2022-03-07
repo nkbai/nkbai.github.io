@@ -1,1 +1,0 @@
-import{o as r,c as t}from"./app.e869f547.js";const e='{"title":"","description":"","frontmatter":{},"relativePath":"other/opcua_cross_compile_for_raspeberry.md","lastUpdated":1641604782000}',o={};o.render=function(e,o,a,s,p,i){return r(),t("div")};export{e as __pageData,o as default};
