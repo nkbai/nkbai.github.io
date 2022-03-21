@@ -1,1 +1,0 @@
-import{r as t,o as a,c as e,a as r}from"./app.9f1c34e3.js";const i='{"title":"libra","description":"","frontmatter":{"title":"libra"},"relativePath":"blockchain/libra/index.md","lastUpdated":1641604782000}',n={};n.render=function(i,n,l,o,s,c){const d=t("Menu");return a(),e("div",null,[r(d)])};export{i as __pageData,n as default};
