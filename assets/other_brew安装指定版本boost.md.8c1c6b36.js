@@ -1,0 +1,4 @@
+import{_ as e,c as s,o as t,a as r}from"./app.eda6f95c.js";const u='{"title":"brew\u5B89\u88C5\u6307\u5B9A\u7248\u672Cboost","description":"","frontmatter":{"title":"brew\u5B89\u88C5\u6307\u5B9A\u7248\u672Cboost","date":"2019-03-22T05:29:51.000Z","draft":false,"markup":"mmark"},"headers":[],"relativePath":"other/brew\u5B89\u88C5\u6307\u5B9A\u7248\u672Cboost.md"}',a={},o=r(`<p>#brew \u5982\u4F55\u5B89\u88C5\u6307\u5B9A\u7248\u672C\u7684boost</p><div class="language-"><pre><code>brew uninstall boost
+brew install boost@1.57
+brew link boost@1.57 --force --overwrite
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div>`,2),n=[o];function _(c,i,l,b,p,d){return t(),s("div",null,n)}var f=e(a,[["render",_]]);export{u as __pageData,f as default};
