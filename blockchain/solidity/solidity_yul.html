@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>YUL IR简介 | Steven's Blog</title>
+    <meta name="description" content="steven's Blog">
+    <link rel="stylesheet" href="/assets/style.5d43a85e.css">
+    <link rel="modulepreload" href="/assets/chunks/viewer.ac8119fd.js">
+    <link rel="modulepreload" href="/assets/chunks/echarts.5647a860.js">
+    <link rel="modulepreload" href="/assets/chunks/flowchart.d087ce05.js">
+    <link rel="modulepreload" href="/assets/chunks/mermaid.f445d939.js">
+    <link rel="modulepreload" href="/assets/chunks/runner.27cb2152.js">
+    <link rel="modulepreload" href="/assets/app.8a942cb0.js">
+    <link rel="modulepreload" href="/assets/blockchain_solidity_solidity_yul.md.d5391647.lean.js">
+    
+    <link rel="icon" href="/logo.png">
+  <meta name="twitter:title" content="YUL IR简介 | Steven&#39;s Blog">
+  <meta property="og:title" content="YUL IR简介 | Steven&#39;s Blog">
+  </head>
+  <body>
+    <div id="app"><!--[--><div class="theme"><header class="nav-bar" data-v-675d8756><div class="sidebar-button" data-v-675d8756><svg class="icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z" class></path></svg></div><a class="nav-bar-title" href="/" aria-label="Steven&#39;s Blog, back to home" data-v-675d8756 data-v-cc01ef16><img class="logo" src="/logo.png" alt="Logo" data-v-cc01ef16> Steven&#39;s Blog</a><div class="flex-grow" data-v-675d8756></div><div class="nav" data-v-675d8756><nav class="nav-links" data-v-675d8756 data-v-eab3edfe><!--[--><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/web-security/" data-v-b8818f8c>web安全相关 <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item active" href="/blockchain/" data-v-b8818f8c>block chain <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/static_analysis/" data-v-b8818f8c>静态分析 <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/app_security/" data-v-b8818f8c>泛app安全 <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/rust-leetcode/" data-v-b8818f8c>leetcode <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/rust/" data-v-b8818f8c>rust <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/other/" data-v-b8818f8c>other <!----></a></div></div><!--]--><!----><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item isExternal" href="https://github.com/nkbai/blog-vitepress" target="_blank" rel="noopener noreferrer" data-v-b8818f8c>GitHub <svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-b8818f8c><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div></nav></div><!--[--><!--]--></header><aside class="sidebar" data-v-83e92a68><nav class="nav-links nav" data-v-83e92a68 data-v-eab3edfe><!--[--><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/web-security/" data-v-b8818f8c>web安全相关 <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item active" href="/blockchain/" data-v-b8818f8c>block chain <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/static_analysis/" data-v-b8818f8c>静态分析 <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/app_security/" data-v-b8818f8c>泛app安全 <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/rust-leetcode/" data-v-b8818f8c>leetcode <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/rust/" data-v-b8818f8c>rust <!----></a></div></div><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item" href="/other/" data-v-b8818f8c>other <!----></a></div></div><!--]--><!----><div class="item" data-v-eab3edfe><div class="nav-link" data-v-eab3edfe data-v-b8818f8c><a class="item isExternal" href="https://github.com/nkbai/blog-vitepress" target="_blank" rel="noopener noreferrer" data-v-b8818f8c>GitHub <svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-b8818f8c><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div></nav><!--[--><!--]--><ul class="sidebar-links" data-v-83e92a68><!--[--><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/libra/">libra</a><ul class="sidebar-links"><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/libra/9.libria_vrf.html">9.libra中的vrf</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/libra/8.libria_mempool_3.html">8.libra的mempool模块解读-3</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/libra/7.libra_mempool_2.html">7.libra的mempool模块解读-2</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/libra/6.libria_mempool_1.html">6.libra的mempool模块解读-1</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/libra/5.libra_ac.html">5.libra的AC模块</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/libra/4.client_command_and_libriadb.html">4.打通client与libradb模块的任督二脉</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/libra/3.Libra_Schema.html">3.Libra中数据存储的Schema</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/libra/2.Protobuf_in_libria.html">2.在Libra中学习Protobuf</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/libra/1.start_in_one_minute.html">1.Libra入门教程-一分钟上手Libra</a><!----></li></ul></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/block_chain_core/">区块链核心技术</a><ul class="sidebar-links"><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/block_chain_core/ecc_signature_random.html">ECC签名中随机数不随机的危害</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/block_chain_core/vrf.html">一篇文章搞懂VRF</a><!----></li></ul></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcwallet/">btc wallet系列</a><ul class="sidebar-links"><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcwallet/wallet模块.html">wallet模块</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcwallet/chain模块.html">chain模块</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcwallet/hdwallet-bip0032.html">hdwallet-bip0032</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcwallet/wtxmgr模块.html">wtxmgr模块</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcwallet/wallet中的数据库设计.html">wallet中的数据库设计</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcwallet/拓扑排序在比特币Tx管理中的使用.html">拓扑排序在比特币Tx管理中的使用</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcwallet/btcWallet系列之一-grpc模块.html">btcWallet系列之一-grpc模块</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcwallet/waddrmgr模块.html">waddrmgr模块</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcwallet/walletdb.html">walletdb</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcwallet/snacl.html">snacl</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcwallet/readme.html">readme</a><!----></li></ul></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/">以太坊</a><ul class="sidebar-links"><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/并发和并行的区别.html">并发和并行的区别</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/以太坊evm笔记.html">以太坊evm笔记</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/合约注意事项.html">合约注意事项</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/btc跨链设计.html">btc跨链设计</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/安全总结.html">安全总结</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/比特币的TxHash为什么会发生改变.html">比特币的TxHash为什么会发生改变</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/how_to_create_channel.html">how_to_create_channel</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/君士坦丁堡分叉引起的安全问题.html">君士坦丁堡分叉引起的安全问题</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/区块链问题笔记.html">区块链问题笔记</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/从一次盗币事件再谈合约安全问题.html">从一次盗币事件再谈合约安全问题</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/让photon支持go module.html">让photon支持go module</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/meshbox配置 OpenWrt.html">meshbox配置 OpenWrt</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/synapse代码阅读.html">synapse代码阅读</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/golang_plugin.html">golang_plugin</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/多链工作问题.html">多链工作问题</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/我对 smartplasma 的理解.html">我对 smartplasma 的理解</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/CrossChainAtomicExchange.html">CrossChainAtomicExchange</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/如何为 smartraiden 贡献代码.html">如何为 smartraiden 贡献代码</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/闪电网络.html">闪电网络</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/如何使用 smartraiden 以及 lnd 进行跨链原子资产交换.html">如何使用 smartraiden 以及 lnd 进行跨链原子资产交换</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/raiden_graph.html">raiden_graph</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/区块链计时器.html">区块链计时器</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/如何使用 dlv 调试 smartraiden.html">如何使用 dlv 调试 smartraiden</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/异常退出各种情况.html">异常退出各种情况</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/闪电网络交易密钥.html">闪电网络交易密钥</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/solidity_mapping_implementation.html">solidity_mapping_implementation</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/ethereum_erc20_wrapper.html"> 将以太坊封装为 ERC20 TOKEN</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/golang subprocess tests.html">golang Subprocess tests</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/how_to_use_channel.html">如何使用 Channel</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/ethereum/thedao.html">TheDao 简化版解释</a><!----></li></ul></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/">btcd系列</a><ul class="sidebar-links"><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/隔离见证.html">隔离见证</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/比特币的地址类型.html">比特币的地址类型</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/indexer模块.html">indexer模块</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/btcjson.html">btcjson</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/mempool.html">mempool</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/peer.html">peer</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/database.html">database</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/rpcclient.html">rpcclient</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/mining.html">mining</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/mruMap.html">mruMap</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/bitcoin script.html">bitcoin script</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/比特币解锁脚本中的ScriptSignature都包含了什么东西.html">比特币解锁脚本中的ScriptSignature都包含了什么东西</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/wire_common.html">wire_common</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/bloom.html">bloom</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/比特币指令集说明.html">比特币指令集说明</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/blockchain/btcd/一个比特币脚本示例.html">一个比特币脚本示例</a><!----></li></ul></li><!--]--></ul><!--[--><!--]--></aside><div class="sidebar-mask"></div><main class="page" data-v-7eddb2c4><div class="container" data-v-7eddb2c4><!--[--><!--[--><!----><!--]--><!--[--><div style="alignment:right;font-size:large;"> 最近更新: 2022-07-10</div><!--]--><!--]--><div style="position:relative;" class="content" data-v-7eddb2c4><div><h2 id="ir-指令集" tabindex="-1">IR 指令集 <a class="header-anchor" href="#ir-指令集" aria-hidden="true">#</a></h2><p>solidity都会被翻译成为下面的ir指令.</p><p><strong>注意区分哪些操作是以256字节为单位,哪些是以字节为单位</strong></p><p>mstore以256字节 为单位的操作:</p><ul><li>sload,sstore</li><li>所有的数学运算以及逻辑运算</li></ul><p>地址,操作数以字节为单位的操作:</p><ul><li>Mload,mstore,mload8</li><li>returndata相关returndatacopy,returndatasize</li><li>calldata相关 calldataload,calldatacopy,calldatasize</li><li>code相关extcodecopy,extcodesize,codecopy</li><li>log相关</li></ul><table><thead><tr><th>Instruction</th><th></th><th></th><th>Explanation</th></tr></thead><tbody><tr><td>stop()</td><td>-</td><td>F</td><td>stop execution, identical to return(0, 0)</td></tr><tr><td>add(x, y)</td><td></td><td>F</td><td>x + y</td></tr><tr><td>sub(x, y)</td><td></td><td>F</td><td>x - y</td></tr><tr><td>mul(x, y)</td><td></td><td>F</td><td>x * y</td></tr><tr><td>div(x, y)</td><td></td><td>F</td><td>x / y or 0 if y == 0</td></tr><tr><td>sdiv(x, y)</td><td></td><td>F</td><td>x / y, for signed numbers in two’s complement, 0 if y == 0</td></tr><tr><td>mod(x, y)</td><td></td><td>F</td><td>x % y, 0 if y == 0</td></tr><tr><td>smod(x, y)</td><td></td><td>F</td><td>x % y, for signed numbers in two’s complement, 0 if y == 0</td></tr><tr><td>exp(x, y)</td><td></td><td>F</td><td>x to the power of y</td></tr><tr><td>not(x)</td><td></td><td>F</td><td>bitwise “not” of x (every bit of x is negated)</td></tr><tr><td>lt(x, y)</td><td></td><td>F</td><td>1 if x &lt; y, 0 otherwise</td></tr><tr><td>gt(x, y)</td><td></td><td>F</td><td>1 if x &gt; y, 0 otherwise</td></tr><tr><td>slt(x, y)</td><td></td><td>F</td><td>1 if x &lt; y, 0 otherwise, for signed numbers in two’s complement</td></tr><tr><td>sgt(x, y)</td><td></td><td>F</td><td>1 if x &gt; y, 0 otherwise, for signed numbers in two’s complement</td></tr><tr><td>eq(x, y)</td><td></td><td>F</td><td>1 if x == y, 0 otherwise</td></tr><tr><td>iszero(x)</td><td></td><td>F</td><td>1 if x == 0, 0 otherwise</td></tr><tr><td>and(x, y)</td><td></td><td>F</td><td>bitwise “and” of x and y</td></tr><tr><td>or(x, y)</td><td></td><td>F</td><td>bitwise “or” of x and y</td></tr><tr><td>xor(x, y)</td><td></td><td>F</td><td>bitwise “xor” of x and y</td></tr><tr><td>byte(n, x)</td><td></td><td>F</td><td>nth byte of x, where the most significant byte is the 0th byte</td></tr><tr><td>shl(x, y)</td><td></td><td>C</td><td>logical shift left y by x bits</td></tr><tr><td>shr(x, y)</td><td></td><td>C</td><td>logical shift right y by x bits</td></tr><tr><td>sar(x, y)</td><td></td><td>C</td><td>signed arithmetic shift right y by x bits</td></tr><tr><td>addmod(x, y, m)</td><td></td><td>F</td><td>(x + y) % m with arbitrary precision arithmetic, 0 if m == 0</td></tr><tr><td>mulmod(x, y, m)</td><td></td><td>F</td><td>(x * y) % m with arbitrary precision arithmetic, 0 if m == 0</td></tr><tr><td>signextend(i, x)</td><td></td><td>F</td><td>sign extend from (i*8+7)th bit counting from least significant</td></tr><tr><td>keccak256(p, n)</td><td></td><td>F</td><td>keccak(mem[p…(p+n)))</td></tr><tr><td>pc()</td><td></td><td>F</td><td>current position in code</td></tr><tr><td>pop(x)</td><td>-</td><td>F</td><td>discard value x</td></tr><tr><td>mload(p)</td><td></td><td>F</td><td>mem[p…(p+32))</td></tr><tr><td>mstore(p, v)</td><td>-</td><td>F</td><td>mem[p…(p+32)) := v</td></tr><tr><td>mstore8(p, v)</td><td>-</td><td>F</td><td>mem[p] := v &amp; 0xff (only modifies a single byte)</td></tr><tr><td>sload(p)</td><td></td><td>F</td><td>storage[p]</td></tr><tr><td>sstore(p, v)</td><td>-</td><td>F</td><td>storage[p] := v</td></tr><tr><td>msize()</td><td></td><td>F</td><td>size of memory, i.e. largest accessed memory index</td></tr><tr><td>gas()</td><td></td><td>F</td><td>gas still available to execution</td></tr><tr><td>address()</td><td></td><td>F</td><td>address of the current contract / execution context</td></tr><tr><td>balance(a)</td><td></td><td>F</td><td>wei balance at address a</td></tr><tr><td>selfbalance()</td><td></td><td>I</td><td>equivalent to balance(address()), but cheaper</td></tr><tr><td>caller()</td><td></td><td>F</td><td>call sender (excluding <code>delegatecall</code>)</td></tr><tr><td>callvalue()</td><td></td><td>F</td><td>wei sent together with the current call</td></tr><tr><td>calldataload(p)</td><td></td><td>F</td><td>call data starting from position p (32 bytes)</td></tr><tr><td>calldatasize()</td><td></td><td>F</td><td>size of call data in bytes</td></tr><tr><td>calldatacopy(t, f, s)</td><td>-</td><td>F</td><td>copy s bytes from calldata at position f to mem at position t</td></tr><tr><td>codesize()</td><td></td><td>F</td><td>size of the code of the current contract / execution context</td></tr><tr><td>codecopy(t, f, s)</td><td>-</td><td>F</td><td>copy s bytes from code at position f to mem at position t</td></tr><tr><td>extcodesize(a)</td><td></td><td>F</td><td>size of the code at address a</td></tr><tr><td>extcodecopy(a, t, f, s)</td><td>-</td><td>F</td><td>like codecopy(t, f, s) but take code at address a</td></tr><tr><td>returndatasize()</td><td></td><td>B</td><td>size of the last returndata</td></tr><tr><td>returndatacopy(t, f, s)</td><td>-</td><td>B</td><td>copy s bytes from returndata at position f to mem at position t</td></tr><tr><td>extcodehash(a)</td><td></td><td>C</td><td>code hash of address a</td></tr><tr><td>create(v, p, n)</td><td></td><td>F</td><td>create new contract with code mem[p…(p+n)) and send v wei and return the new address; returns 0 on error</td></tr><tr><td>create2(v, p, n, s)</td><td></td><td>C</td><td>create new contract with code mem[p…(p+n)) at address keccak256(0xff . this . s . keccak256(mem[p…(p+n))) and send v wei and return the new address, where <code>0xff</code> is a 1 byte value, <code>this</code> is the current contract’s address as a 20 byte value and <code>s</code> is a big-endian 256-bit value; returns 0 on error</td></tr><tr><td>call(g, a, v, in, insize, out, outsize)</td><td></td><td>F</td><td>call contract at address a with input mem[in…(in+insize)) providing g gas and v wei and output area mem[out…(out+outsize)) returning 0 on error (eg. out of gas) and 1 on success <a href="https://docs.soliditylang.org/en/v0.8.15/yul.html#yul-call-return-area" target="_blank" rel="noopener noreferrer">See more</a></td></tr><tr><td>callcode(g, a, v, in, insize, out, outsize)</td><td></td><td>F</td><td>identical to <code>call</code> but only use the code from a and stay in the context of the current contract otherwise <a href="https://docs.soliditylang.org/en/v0.8.15/yul.html#yul-call-return-area" target="_blank" rel="noopener noreferrer">See more</a></td></tr><tr><td>delegatecall(g, a, in, insize, out, outsize)</td><td></td><td>H</td><td>identical to <code>callcode</code> but also keep <code>caller</code> and <code>callvalue</code> <a href="https://docs.soliditylang.org/en/v0.8.15/yul.html#yul-call-return-area" target="_blank" rel="noopener noreferrer">See more</a></td></tr><tr><td>staticcall(g, a, in, insize, out, outsize)</td><td></td><td>B</td><td>identical to <code>call(g, a, 0, in, insize, out, outsize)</code> but do not allow state modifications <a href="https://docs.soliditylang.org/en/v0.8.15/yul.html#yul-call-return-area" target="_blank" rel="noopener noreferrer">See more</a></td></tr><tr><td>return(p, s)</td><td>-</td><td>F</td><td>end execution, return data mem[p…(p+s))</td></tr><tr><td>revert(p, s)</td><td>-</td><td>B</td><td>end execution, revert state changes, return data mem[p…(p+s))</td></tr><tr><td>selfdestruct(a)</td><td>-</td><td>F</td><td>end execution, destroy current contract and send funds to a</td></tr><tr><td>invalid()</td><td>-</td><td>F</td><td>end execution with invalid instruction</td></tr><tr><td>log0(p, s)</td><td>-</td><td>F</td><td>log without topics and data mem[p…(p+s))</td></tr><tr><td>log1(p, s, t1)</td><td>-</td><td>F</td><td>log with topic t1 and data mem[p…(p+s))</td></tr><tr><td>log2(p, s, t1, t2)</td><td>-</td><td>F</td><td>log with topics t1, t2 and data mem[p…(p+s))</td></tr><tr><td>log3(p, s, t1, t2, t3)</td><td>-</td><td>F</td><td>log with topics t1, t2, t3 and data mem[p…(p+s))</td></tr><tr><td>log4(p, s, t1, t2, t3, t4)</td><td>-</td><td>F</td><td>log with topics t1, t2, t3, t4 and data mem[p…(p+s))</td></tr><tr><td>chainid()</td><td></td><td>I</td><td>ID of the executing chain (EIP-1344)</td></tr><tr><td>basefee()</td><td></td><td>L</td><td>current block’s base fee (EIP-3198 and EIP-1559)</td></tr><tr><td>origin()</td><td></td><td>F</td><td>transaction sender</td></tr><tr><td>gasprice()</td><td></td><td>F</td><td>gas price of the transaction</td></tr><tr><td>blockhash(b)</td><td></td><td>F</td><td>hash of block nr b - only for last 256 blocks excluding current</td></tr><tr><td>coinbase()</td><td></td><td>F</td><td>current mining beneficiary</td></tr><tr><td>timestamp()</td><td></td><td>F</td><td>timestamp of the current block in seconds since the epoch</td></tr><tr><td>number()</td><td></td><td>F</td><td>current block number</td></tr><tr><td>difficulty()</td><td></td><td>F</td><td>difficulty of the current block</td></tr><tr><td>gaslimit()</td><td></td><td>F</td><td>block gas limit of the current block</td></tr></tbody></table><p>一个erc20合约:</p><div class="language-solidity line-numbers-mode"><pre><code>
+<span class="token keyword">contract</span> <span class="token class-name">ERC20Buggy</span> <span class="token punctuation">{</span>
+
+    <span class="token builtin">uint256</span> <span class="token keyword">public</span> _totalSupply<span class="token punctuation">;</span>
+    <span class="token keyword">mapping</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token operator">=&gt;</span> <span class="token builtin">uint</span><span class="token punctuation">)</span> <span class="token keyword">public</span> _balanceOf<span class="token punctuation">;</span>
+    <span class="token keyword">mapping</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token operator">=&gt;</span> <span class="token keyword">mapping</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token operator">=&gt;</span> <span class="token builtin">uint</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">public</span> _allowance<span class="token punctuation">;</span>
+
+    <span class="token keyword">function</span> <span class="token function">transfer</span><span class="token punctuation">(</span><span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> value<span class="token punctuation">)</span> <span class="token keyword">public</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span> success<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        _balanceOf<span class="token punctuation">[</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">]</span> <span class="token operator">-=</span> value<span class="token punctuation">;</span>
+        _balanceOf<span class="token punctuation">[</span>to<span class="token punctuation">]</span> <span class="token operator">+=</span> value<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">function</span> <span class="token function">transferFrom</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> value<span class="token punctuation">)</span> <span class="token keyword">public</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span> success<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>_allowance<span class="token punctuation">[</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token keyword">from</span><span class="token punctuation">]</span> <span class="token operator">&gt;=</span> value<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            _allowance<span class="token punctuation">[</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token keyword">from</span><span class="token punctuation">]</span> <span class="token operator">-=</span> value<span class="token punctuation">;</span>
+            _balanceOf<span class="token punctuation">[</span><span class="token keyword">from</span><span class="token punctuation">]</span> <span class="token operator">-=</span> value<span class="token punctuation">;</span>
+            _balanceOf<span class="token punctuation">[</span>to<span class="token punctuation">]</span> <span class="token operator">+=</span> value<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">function</span> <span class="token function">approve</span><span class="token punctuation">(</span><span class="token builtin">address</span> _spender<span class="token punctuation">,</span> <span class="token builtin">uint256</span> value<span class="token punctuation">)</span> <span class="token keyword">public</span> <span class="token keyword">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span> success<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        _allowance<span class="token punctuation">[</span>msg<span class="token punctuation">.</span>sender<span class="token punctuation">]</span><span class="token punctuation">[</span>_spender<span class="token punctuation">]</span> <span class="token operator">=</span> value<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">function</span> <span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">)</span> <span class="token keyword">public</span> <span class="token keyword">returns</span><span class="token punctuation">(</span><span class="token builtin">uint</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> _balanceOf<span class="token punctuation">[</span><span class="token keyword">from</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">function</span> <span class="token function">allowance</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword">from</span><span class="token punctuation">,</span> <span class="token builtin">address</span> to<span class="token punctuation">)</span> <span class="token keyword">public</span> <span class="token keyword">returns</span><span class="token punctuation">(</span><span class="token builtin">uint</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> _allowance<span class="token punctuation">[</span><span class="token keyword">from</span><span class="token punctuation">]</span><span class="token punctuation">[</span>to<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">function</span> <span class="token function">totalSupply</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">public</span> <span class="token keyword">returns</span><span class="token punctuation">(</span><span class="token builtin">uint</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> _totalSupply<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">event</span> <span class="token function">Transfer</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword">indexed</span> _from<span class="token punctuation">,</span> <span class="token builtin">address</span> <span class="token keyword">indexed</span> _to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> _value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">event</span> <span class="token function">Approval</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword">indexed</span> _owner<span class="token punctuation">,</span> <span class="token builtin">address</span> <span class="token keyword">indexed</span> _spender<span class="token punctuation">,</span> <span class="token builtin">uint256</span> _value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br></div></div><p>使用solc 0.8.15 编译</p><div class="language-"><pre><code>solc --ir ERC20.sol          
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>对应的yul ir:</p><div class="language-yul line-numbers-mode"><pre><code>IR:
+
+/// @use-src 0:&quot;ERC20.sol&quot;
+object &quot;ERC20Buggy_158&quot; {
+    code {
+        /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+        mstore(64, memoryguard(128))
+        if callvalue() { revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb() }
+
+        constructor_ERC20Buggy_158()
+
+        let _1 := allocate_unbounded()
+        codecopy(_1, dataoffset(&quot;ERC20Buggy_158_deployed&quot;), datasize(&quot;ERC20Buggy_158_deployed&quot;))
+
+        return(_1, datasize(&quot;ERC20Buggy_158_deployed&quot;))
+
+        function allocate_unbounded() -&gt; memPtr {
+            memPtr := mload(64)
+        }
+
+        function revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb() {
+            revert(0, 0)
+        }
+
+        /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+        function constructor_ERC20Buggy_158() {
+
+            /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+
+        }
+        /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+
+    }
+    /// @use-src 0:&quot;ERC20.sol&quot;
+    object &quot;ERC20Buggy_158_deployed&quot; {
+        code {
+            /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+            mstore(64, memoryguard(128))
+
+            if iszero(lt(calldatasize(), 4))
+            {
+                let selector := shift_right_224_unsigned(calldataload(0))
+                switch selector
+
+                case 0x095ea7b3
+                {
+                    // approve(address,uint256)
+
+                    external_fun_approve_105()
+                }
+
+                case 0x18160ddd
+                {
+                    // totalSupply()
+
+                    external_fun_totalSupply_141()
+                }
+
+                case 0x23b872dd
+                {
+                    // transferFrom(address,address,uint256)
+
+                    external_fun_transferFrom_84()
+                }
+
+                case 0x3eaaf86b
+                {
+                    // _totalSupply()
+
+                    external_fun__totalSupply_2()
+                }
+
+                case 0x70a08231
+                {
+                    // balanceOf(address)
+
+                    external_fun_balanceOf_117()
+                }
+
+                case 0xa9059cbb
+                {
+                    // transfer(address,uint256)
+
+                    external_fun_transfer_37()
+                }
+
+                case 0xcca3e832
+                {
+                    // _balanceOf(address)
+
+                    external_fun__balanceOf_6()
+                }
+
+                case 0xdd336c12
+                {
+                    // _allowance(address,address)
+
+                    external_fun__allowance_12()
+                }
+
+                case 0xdd62ed3e
+                {
+                    // allowance(address,address)
+
+                    external_fun_allowance_133()
+                }
+
+                default {}
+            }
+
+            revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74()
+
+            function shift_right_224_unsigned(value) -&gt; newValue {
+                newValue :=
+
+                shr(224, value)
+
+            }
+
+            function allocate_unbounded() -&gt; memPtr {
+                memPtr := mload(64)
+            }
+
+            function revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb() {
+                revert(0, 0)
+            }
+
+            function revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() {
+                revert(0, 0)
+            }
+
+            function revert_error_c1322bf8034eace5e0b5c7295db60986aa89aae5e0ea0873e4689e076861a5db() {
+                revert(0, 0)
+            }
+
+            function cleanup_t_uint160(value) -&gt; cleaned {
+                cleaned := and(value, 0xffffffffffffffffffffffffffffffffffffffff)
+            }
+
+            function cleanup_t_address(value) -&gt; cleaned {
+                cleaned := cleanup_t_uint160(value)
+            }
+
+            function validator_revert_t_address(value) {
+                if iszero(eq(value, cleanup_t_address(value))) { revert(0, 0) }
+            }
+
+            function abi_decode_t_address(offset, end) -&gt; value {
+                value := calldataload(offset)
+                validator_revert_t_address(value)
+            }
+
+            function cleanup_t_uint256(value) -&gt; cleaned {
+                cleaned := value
+            }
+
+            function validator_revert_t_uint256(value) {
+                if iszero(eq(value, cleanup_t_uint256(value))) { revert(0, 0) }
+            }
+
+            function abi_decode_t_uint256(offset, end) -&gt; value {
+                value := calldataload(offset)
+                validator_revert_t_uint256(value)
+            }
+
+            function abi_decode_tuple_t_addresst_uint256(headStart, dataEnd) -&gt; value0, value1 {
+                if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }
+
+                {
+
+                    let offset := 0
+
+                    value0 := abi_decode_t_address(add(headStart, offset), dataEnd)
+                }
+
+                {
+
+                    let offset := 32
+
+                    value1 := abi_decode_t_uint256(add(headStart, offset), dataEnd)
+                }
+
+            }
+
+            function cleanup_t_bool(value) -&gt; cleaned {
+                cleaned := iszero(iszero(value))
+            }
+
+            function abi_encode_t_bool_to_t_bool_fromStack(value, pos) {
+                mstore(pos, cleanup_t_bool(value))
+            }
+
+            function abi_encode_tuple_t_bool__to_t_bool__fromStack(headStart , value0) -&gt; tail {
+                tail := add(headStart, 32)
+
+                abi_encode_t_bool_to_t_bool_fromStack(value0,  add(headStart, 0))
+
+            }
+
+            function external_fun_approve_105() {
+
+                if callvalue() { revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb() }
+                let param_0, param_1 :=  abi_decode_tuple_t_addresst_uint256(4, calldatasize())
+                let ret_0 :=  fun_approve_105(param_0, param_1)
+                let memPos := allocate_unbounded()
+                let memEnd := abi_encode_tuple_t_bool__to_t_bool__fromStack(memPos , ret_0)
+                return(memPos, sub(memEnd, memPos))
+
+            }
+
+            function abi_decode_tuple_(headStart, dataEnd)   {
+                if slt(sub(dataEnd, headStart), 0) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }
+
+            }
+
+            function abi_encode_t_uint256_to_t_uint256_fromStack(value, pos) {
+                mstore(pos, cleanup_t_uint256(value))
+            }
+
+            function abi_encode_tuple_t_uint256__to_t_uint256__fromStack(headStart , value0) -&gt; tail {
+                tail := add(headStart, 32)
+
+                abi_encode_t_uint256_to_t_uint256_fromStack(value0,  add(headStart, 0))
+
+            }
+
+            function external_fun_totalSupply_141() {
+
+                if callvalue() { revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb() }
+                abi_decode_tuple_(4, calldatasize())
+                let ret_0 :=  fun_totalSupply_141()
+                let memPos := allocate_unbounded()
+                let memEnd := abi_encode_tuple_t_uint256__to_t_uint256__fromStack(memPos , ret_0)
+                return(memPos, sub(memEnd, memPos))
+
+            }
+
+            function abi_decode_tuple_t_addresst_addresst_uint256(headStart, dataEnd) -&gt; value0, value1, value2 {
+                if slt(sub(dataEnd, headStart), 96) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }
+
+                {
+
+                    let offset := 0
+
+                    value0 := abi_decode_t_address(add(headStart, offset), dataEnd)
+                }
+
+                {
+
+                    let offset := 32
+
+                    value1 := abi_decode_t_address(add(headStart, offset), dataEnd)
+                }
+
+                {
+
+                    let offset := 64
+
+                    value2 := abi_decode_t_uint256(add(headStart, offset), dataEnd)
+                }
+
+            }
+
+            function external_fun_transferFrom_84() {
+
+                if callvalue() { revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb() }
+                let param_0, param_1, param_2 :=  abi_decode_tuple_t_addresst_addresst_uint256(4, calldatasize())
+                let ret_0 :=  fun_transferFrom_84(param_0, param_1, param_2)
+                let memPos := allocate_unbounded()
+                let memEnd := abi_encode_tuple_t_bool__to_t_bool__fromStack(memPos , ret_0)
+                return(memPos, sub(memEnd, memPos))
+
+            }
+
+            function shift_right_unsigned_dynamic(bits, value) -&gt; newValue {
+                newValue :=
+
+                shr(bits, value)
+
+            }
+
+            function cleanup_from_storage_t_uint256(value) -&gt; cleaned {
+                cleaned := value
+            }
+
+            function extract_from_storage_value_dynamict_uint256(slot_value, offset) -&gt; value {
+                value := cleanup_from_storage_t_uint256(shift_right_unsigned_dynamic(mul(offset, 8), slot_value))
+            }
+
+            function read_from_storage_split_dynamic_t_uint256(slot, offset) -&gt; value {
+                value := extract_from_storage_value_dynamict_uint256(sload(slot), offset)
+
+            }
+
+            /// @ast-id 2
+            /// @src 0:28:55  &quot;uint256 public _totalSupply&quot;
+            function getter_fun__totalSupply_2() -&gt; ret {
+
+                let slot := 0
+                let offset := 0
+
+                ret := read_from_storage_split_dynamic_t_uint256(slot, offset)
+
+            }
+            /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+
+            function external_fun__totalSupply_2() {
+
+                if callvalue() { revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb() }
+                abi_decode_tuple_(4, calldatasize())
+                let ret_0 :=  getter_fun__totalSupply_2()
+                let memPos := allocate_unbounded()
+                let memEnd := abi_encode_tuple_t_uint256__to_t_uint256__fromStack(memPos , ret_0)
+                return(memPos, sub(memEnd, memPos))
+
+            }
+
+            function abi_decode_tuple_t_address(headStart, dataEnd) -&gt; value0 {
+                if slt(sub(dataEnd, headStart), 32) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }
+
+                {
+
+                    let offset := 0
+
+                    value0 := abi_decode_t_address(add(headStart, offset), dataEnd)
+                }
+
+            }
+
+            function external_fun_balanceOf_117() {
+
+                if callvalue() { revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb() }
+                let param_0 :=  abi_decode_tuple_t_address(4, calldatasize())
+                let ret_0 :=  fun_balanceOf_117(param_0)
+                let memPos := allocate_unbounded()
+                let memEnd := abi_encode_tuple_t_uint256__to_t_uint256__fromStack(memPos , ret_0)
+                return(memPos, sub(memEnd, memPos))
+
+            }
+
+            function external_fun_transfer_37() {
+
+                if callvalue() { revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb() }
+                let param_0, param_1 :=  abi_decode_tuple_t_addresst_uint256(4, calldatasize())
+                let ret_0 :=  fun_transfer_37(param_0, param_1)
+                let memPos := allocate_unbounded()
+                let memEnd := abi_encode_tuple_t_bool__to_t_bool__fromStack(memPos , ret_0)
+                return(memPos, sub(memEnd, memPos))
+
+            }
+
+            function identity(value) -&gt; ret {
+                ret := value
+            }
+
+            function convert_t_uint160_to_t_uint160(value) -&gt; converted {
+                converted := cleanup_t_uint160(identity(cleanup_t_uint160(value)))
+            }
+
+            function convert_t_uint160_to_t_address(value) -&gt; converted {
+                converted := convert_t_uint160_to_t_uint160(value)
+            }
+
+            function convert_t_address_to_t_address(value) -&gt; converted {
+                converted := convert_t_uint160_to_t_address(value)
+            }
+
+            function mapping_index_access_t_mapping$_t_address_$_t_uint256_$_of_t_address(slot , key) -&gt; dataSlot {
+                mstore(0, convert_t_address_to_t_address(key))
+                mstore(0x20, slot)
+                dataSlot := keccak256(0, 0x40)
+            }
+
+            /// @ast-id 6
+            /// @src 0:61:103  &quot;mapping(address =&gt; uint) public _balanceOf&quot;
+            function getter_fun__balanceOf_6(key_0) -&gt; ret {
+
+                let slot := 1
+                let offset := 0
+
+                slot := mapping_index_access_t_mapping$_t_address_$_t_uint256_$_of_t_address(slot, key_0)
+
+                ret := read_from_storage_split_dynamic_t_uint256(slot, offset)
+
+            }
+            /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+
+            function external_fun__balanceOf_6() {
+
+                if callvalue() { revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb() }
+                let param_0 :=  abi_decode_tuple_t_address(4, calldatasize())
+                let ret_0 :=  getter_fun__balanceOf_6(param_0)
+                let memPos := allocate_unbounded()
+                let memEnd := abi_encode_tuple_t_uint256__to_t_uint256__fromStack(memPos , ret_0)
+                return(memPos, sub(memEnd, memPos))
+
+            }
+
+            function abi_decode_tuple_t_addresst_address(headStart, dataEnd) -&gt; value0, value1 {
+                if slt(sub(dataEnd, headStart), 64) { revert_error_dbdddcbe895c83990c08b3492a0e83918d802a52331272ac6fdb6a7c4aea3b1b() }
+
+                {
+
+                    let offset := 0
+
+                    value0 := abi_decode_t_address(add(headStart, offset), dataEnd)
+                }
+
+                {
+
+                    let offset := 32
+
+                    value1 := abi_decode_t_address(add(headStart, offset), dataEnd)
+                }
+
+            }
+
+            function mapping_index_access_t_mapping$_t_address_$_t_mapping$_t_address_$_t_uint256_$_$_of_t_address(slot , key) -&gt; dataSlot {
+                mstore(0, convert_t_address_to_t_address(key))
+                mstore(0x20, slot)
+                dataSlot := keccak256(0, 0x40)
+            }
+
+            /// @ast-id 12
+            /// @src 0:109:171  &quot;mapping(address =&gt; mapping(address =&gt; uint)) public _allowance&quot;
+            function getter_fun__allowance_12(key_0, key_1) -&gt; ret {
+
+                let slot := 2
+                let offset := 0
+
+                slot := mapping_index_access_t_mapping$_t_address_$_t_mapping$_t_address_$_t_uint256_$_$_of_t_address(slot, key_0)
+
+                slot := mapping_index_access_t_mapping$_t_address_$_t_uint256_$_of_t_address(slot, key_1)
+
+                ret := read_from_storage_split_dynamic_t_uint256(slot, offset)
+
+            }
+            /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+
+            function external_fun__allowance_12() {
+
+                if callvalue() { revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb() }
+                let param_0, param_1 :=  abi_decode_tuple_t_addresst_address(4, calldatasize())
+                let ret_0 :=  getter_fun__allowance_12(param_0, param_1)
+                let memPos := allocate_unbounded()
+                let memEnd := abi_encode_tuple_t_uint256__to_t_uint256__fromStack(memPos , ret_0)
+                return(memPos, sub(memEnd, memPos))
+
+            }
+
+            function external_fun_allowance_133() {
+
+                if callvalue() { revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb() }
+                let param_0, param_1 :=  abi_decode_tuple_t_addresst_address(4, calldatasize())
+                let ret_0 :=  fun_allowance_133(param_0, param_1)
+                let memPos := allocate_unbounded()
+                let memEnd := abi_encode_tuple_t_uint256__to_t_uint256__fromStack(memPos , ret_0)
+                return(memPos, sub(memEnd, memPos))
+
+            }
+
+            function revert_error_42b3090547df1d2001c96683413b8cf91c1b902ef5e3cb8d9f6f304cf7446f74() {
+                revert(0, 0)
+            }
+
+            function zero_value_for_split_t_bool() -&gt; ret {
+                ret := 0
+            }
+
+            function shift_right_0_unsigned(value) -&gt; newValue {
+                newValue :=
+
+                shr(0, value)
+
+            }
+
+            function extract_from_storage_value_offset_0t_uint256(slot_value) -&gt; value {
+                value := cleanup_from_storage_t_uint256(shift_right_0_unsigned(slot_value))
+            }
+
+            function read_from_storage_split_offset_0_t_uint256(slot) -&gt; value {
+                value := extract_from_storage_value_offset_0t_uint256(sload(slot))
+
+            }
+
+            function panic_error_0x11() {
+                mstore(0, 35408467139433450592217433187231851964531694900788300625387963629091585785856)
+                mstore(4, 0x11)
+                revert(0, 0x24)
+            }
+
+            function checked_sub_t_uint256(x, y) -&gt; diff {
+                x := cleanup_t_uint256(x)
+                y := cleanup_t_uint256(y)
+
+                if lt(x, y) { panic_error_0x11() }
+
+                diff := sub(x, y)
+            }
+
+            function shift_left_0(value) -&gt; newValue {
+                newValue :=
+
+                shl(0, value)
+
+            }
+
+            function update_byte_slice_32_shift_0(value, toInsert) -&gt; result {
+                let mask := 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                toInsert := shift_left_0(toInsert)
+                value := and(value, not(mask))
+                result := or(value, and(toInsert, mask))
+            }
+
+            function convert_t_uint256_to_t_uint256(value) -&gt; converted {
+                converted := cleanup_t_uint256(identity(cleanup_t_uint256(value)))
+            }
+
+            function prepare_store_t_uint256(value) -&gt; ret {
+                ret := value
+            }
+
+            function update_storage_value_offset_0t_uint256_to_t_uint256(slot, value_0) {
+                let convertedValue_0 := convert_t_uint256_to_t_uint256(value_0)
+                sstore(slot, update_byte_slice_32_shift_0(sload(slot), prepare_store_t_uint256(convertedValue_0)))
+            }
+
+            function checked_add_t_uint256(x, y) -&gt; sum {
+                x := cleanup_t_uint256(x)
+                y := cleanup_t_uint256(y)
+
+                // overflow, if x &gt; (maxValue - y)
+                if gt(x, sub(0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff, y)) { panic_error_0x11() }
+
+                sum := add(x, y)
+            }
+
+            /// @ast-id 37
+            /// @src 0:178:354  &quot;function transfer(address to, uint256 value) public returns (bool success){...&quot;
+            function fun_transfer_37(var_to_14, var_value_16) -&gt; var_success_19 {
+                /// @src 0:239:251  &quot;bool success&quot;
+                let zero_t_bool_1 := zero_value_for_split_t_bool()
+                var_success_19 := zero_t_bool_1
+
+                /// @src 0:288:293  &quot;value&quot;
+                let _2 := var_value_16
+                let expr_25 := _2
+                /// @src 0:262:272  &quot;_balanceOf&quot;
+                let _3 := 0x01
+                let expr_21 := _3
+                /// @src 0:273:283  &quot;msg.sender&quot;
+                let expr_23 := caller()
+                /// @src 0:262:284  &quot;_balanceOf[msg.sender]&quot;
+                let _4 := mapping_index_access_t_mapping$_t_address_$_t_uint256_$_of_t_address(expr_21,expr_23)
+                /// @src 0:262:293  &quot;_balanceOf[msg.sender] -= value&quot;
+                let _5 := read_from_storage_split_offset_0_t_uint256(_4)
+                let expr_26 := checked_sub_t_uint256(_5, expr_25)
+
+                update_storage_value_offset_0t_uint256_to_t_uint256(_4, expr_26)
+                /// @src 0:321:326  &quot;value&quot;
+                let _6 := var_value_16
+                let expr_31 := _6
+                /// @src 0:303:313  &quot;_balanceOf&quot;
+                let _7 := 0x01
+                let expr_28 := _7
+                /// @src 0:314:316  &quot;to&quot;
+                let _8 := var_to_14
+                let expr_29 := _8
+                /// @src 0:303:317  &quot;_balanceOf[to]&quot;
+                let _9 := mapping_index_access_t_mapping$_t_address_$_t_uint256_$_of_t_address(expr_28,expr_29)
+                /// @src 0:303:326  &quot;_balanceOf[to] += value&quot;
+                let _10 := read_from_storage_split_offset_0_t_uint256(_9)
+                let expr_32 := checked_add_t_uint256(_10, expr_31)
+
+                update_storage_value_offset_0t_uint256_to_t_uint256(_9, expr_32)
+                /// @src 0:343:347  &quot;true&quot;
+                let expr_34 := 0x01
+                /// @src 0:336:347  &quot;return true&quot;
+                var_success_19 := expr_34
+                leave
+
+            }
+            /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+
+            /// @ast-id 84
+            /// @src 0:360:694  &quot;function transferFrom(address from, address to, uint256 value) public returns (bool success){...&quot;
+            function fun_transferFrom_84(var_from_39, var_to_41, var_value_43) -&gt; var_success_46 {
+                /// @src 0:439:451  &quot;bool success&quot;
+                let zero_t_bool_11 := zero_value_for_split_t_bool()
+                var_success_46 := zero_t_bool_11
+
+                /// @src 0:465:475  &quot;_allowance&quot;
+                let _12 := 0x02
+                let expr_48 := _12
+                /// @src 0:476:486  &quot;msg.sender&quot;
+                let expr_50 := caller()
+                /// @src 0:465:487  &quot;_allowance[msg.sender]&quot;
+                let _13 := mapping_index_access_t_mapping$_t_address_$_t_mapping$_t_address_$_t_uint256_$_$_of_t_address(expr_48,expr_50)
+                let _14 := _13
+                let expr_51 := _14
+                /// @src 0:488:492  &quot;from&quot;
+                let _15 := var_from_39
+                let expr_52 := _15
+                /// @src 0:465:493  &quot;_allowance[msg.sender][from]&quot;
+                let _16 := mapping_index_access_t_mapping$_t_address_$_t_uint256_$_of_t_address(expr_51,expr_52)
+                let _17 := read_from_storage_split_offset_0_t_uint256(_16)
+                let expr_53 := _17
+                /// @src 0:497:502  &quot;value&quot;
+                let _18 := var_value_43
+                let expr_54 := _18
+                /// @src 0:465:502  &quot;_allowance[msg.sender][from] &gt;= value&quot;
+                let expr_55 := iszero(lt(cleanup_t_uint256(expr_53), cleanup_t_uint256(expr_54)))
+                /// @src 0:462:666  &quot;if(_allowance[msg.sender][from] &gt;= value){...&quot;
+                if expr_55 {
+                    /// @src 0:549:554  &quot;value&quot;
+                    let _19 := var_value_43
+                    let expr_62 := _19
+                    /// @src 0:517:527  &quot;_allowance&quot;
+                    let _20 := 0x02
+                    let expr_56 := _20
+                    /// @src 0:528:538  &quot;msg.sender&quot;
+                    let expr_58 := caller()
+                    /// @src 0:517:539  &quot;_allowance[msg.sender]&quot;
+                    let _21 := mapping_index_access_t_mapping$_t_address_$_t_mapping$_t_address_$_t_uint256_$_$_of_t_address(expr_56,expr_58)
+                    let _22 := _21
+                    let expr_60 := _22
+                    /// @src 0:540:544  &quot;from&quot;
+                    let _23 := var_from_39
+                    let expr_59 := _23
+                    /// @src 0:517:545  &quot;_allowance[msg.sender][from]&quot;
+                    let _24 := mapping_index_access_t_mapping$_t_address_$_t_uint256_$_of_t_address(expr_60,expr_59)
+                    /// @src 0:517:554  &quot;_allowance[msg.sender][from] -= value&quot;
+                    let _25 := read_from_storage_split_offset_0_t_uint256(_24)
+                    let expr_63 := checked_sub_t_uint256(_25, expr_62)
+
+                    update_storage_value_offset_0t_uint256_to_t_uint256(_24, expr_63)
+                    /// @src 0:588:593  &quot;value&quot;
+                    let _26 := var_value_43
+                    let expr_68 := _26
+                    /// @src 0:568:578  &quot;_balanceOf&quot;
+                    let _27 := 0x01
+                    let expr_65 := _27
+                    /// @src 0:579:583  &quot;from&quot;
+                    let _28 := var_from_39
+                    let expr_66 := _28
+                    /// @src 0:568:584  &quot;_balanceOf[from]&quot;
+                    let _29 := mapping_index_access_t_mapping$_t_address_$_t_uint256_$_of_t_address(expr_65,expr_66)
+                    /// @src 0:568:593  &quot;_balanceOf[from] -= value&quot;
+                    let _30 := read_from_storage_split_offset_0_t_uint256(_29)
+                    let expr_69 := checked_sub_t_uint256(_30, expr_68)
+
+                    update_storage_value_offset_0t_uint256_to_t_uint256(_29, expr_69)
+                    /// @src 0:625:630  &quot;value&quot;
+                    let _31 := var_value_43
+                    let expr_74 := _31
+                    /// @src 0:607:617  &quot;_balanceOf&quot;
+                    let _32 := 0x01
+                    let expr_71 := _32
+                    /// @src 0:618:620  &quot;to&quot;
+                    let _33 := var_to_41
+                    let expr_72 := _33
+                    /// @src 0:607:621  &quot;_balanceOf[to]&quot;
+                    let _34 := mapping_index_access_t_mapping$_t_address_$_t_uint256_$_of_t_address(expr_71,expr_72)
+                    /// @src 0:607:630  &quot;_balanceOf[to] += value&quot;
+                    let _35 := read_from_storage_split_offset_0_t_uint256(_34)
+                    let expr_75 := checked_add_t_uint256(_35, expr_74)
+
+                    update_storage_value_offset_0t_uint256_to_t_uint256(_34, expr_75)
+                    /// @src 0:651:655  &quot;true&quot;
+                    let expr_77 := 0x01
+                    /// @src 0:644:655  &quot;return true&quot;
+                    var_success_46 := expr_77
+                    leave
+                    /// @src 0:462:666  &quot;if(_allowance[msg.sender][from] &gt;= value){...&quot;
+                }
+                /// @src 0:682:687  &quot;false&quot;
+                let expr_81 := 0x00
+                /// @src 0:675:687  &quot;return false&quot;
+                var_success_46 := expr_81
+                leave
+
+            }
+            /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+
+            /// @ast-id 105
+            /// @src 0:700:857  &quot;function approve(address _spender, uint256 value) public returns (bool success){...&quot;
+            function fun_approve_105(var__spender_86, var_value_88) -&gt; var_success_91 {
+                /// @src 0:766:778  &quot;bool success&quot;
+                let zero_t_bool_36 := zero_value_for_split_t_bool()
+                var_success_91 := zero_t_bool_36
+
+                /// @src 0:824:829  &quot;value&quot;
+                let _37 := var_value_88
+                let expr_99 := _37
+                /// @src 0:789:799  &quot;_allowance&quot;
+                let _38 := 0x02
+                let expr_93 := _38
+                /// @src 0:800:810  &quot;msg.sender&quot;
+                let expr_95 := caller()
+                /// @src 0:789:811  &quot;_allowance[msg.sender]&quot;
+                let _39 := mapping_index_access_t_mapping$_t_address_$_t_mapping$_t_address_$_t_uint256_$_$_of_t_address(expr_93,expr_95)
+                let _40 := _39
+                let expr_97 := _40
+                /// @src 0:812:820  &quot;_spender&quot;
+                let _41 := var__spender_86
+                let expr_96 := _41
+                /// @src 0:789:821  &quot;_allowance[msg.sender][_spender]&quot;
+                let _42 := mapping_index_access_t_mapping$_t_address_$_t_uint256_$_of_t_address(expr_97,expr_96)
+                /// @src 0:789:829  &quot;_allowance[msg.sender][_spender] = value&quot;
+                update_storage_value_offset_0t_uint256_to_t_uint256(_42, expr_99)
+                let expr_100 := expr_99
+                /// @src 0:846:850  &quot;true&quot;
+                let expr_102 := 0x01
+                /// @src 0:839:850  &quot;return true&quot;
+                var_success_91 := expr_102
+                leave
+
+            }
+            /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+
+            function zero_value_for_split_t_uint256() -&gt; ret {
+                ret := 0
+            }
+
+            /// @ast-id 117
+            /// @src 0:863:957  &quot;function balanceOf(address from) public returns(uint) {...&quot;
+            function fun_balanceOf_117(var_from_107) -&gt; var__110 {
+                /// @src 0:911:915  &quot;uint&quot;
+                let zero_t_uint256_43 := zero_value_for_split_t_uint256()
+                var__110 := zero_t_uint256_43
+
+                /// @src 0:934:944  &quot;_balanceOf&quot;
+                let _44 := 0x01
+                let expr_112 := _44
+                /// @src 0:945:949  &quot;from&quot;
+                let _45 := var_from_107
+                let expr_113 := _45
+                /// @src 0:934:950  &quot;_balanceOf[from]&quot;
+                let _46 := mapping_index_access_t_mapping$_t_address_$_t_uint256_$_of_t_address(expr_112,expr_113)
+                let _47 := read_from_storage_split_offset_0_t_uint256(_46)
+                let expr_114 := _47
+                /// @src 0:927:950  &quot;return _balanceOf[from]&quot;
+                var__110 := expr_114
+                leave
+
+            }
+            /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+
+            /// @ast-id 133
+            /// @src 0:963:1073  &quot;function allowance(address from, address to) public returns(uint) {...&quot;
+            function fun_allowance_133(var_from_119, var_to_121) -&gt; var__124 {
+                /// @src 0:1023:1027  &quot;uint&quot;
+                let zero_t_uint256_48 := zero_value_for_split_t_uint256()
+                var__124 := zero_t_uint256_48
+
+                /// @src 0:1046:1056  &quot;_allowance&quot;
+                let _49 := 0x02
+                let expr_126 := _49
+                /// @src 0:1057:1061  &quot;from&quot;
+                let _50 := var_from_119
+                let expr_127 := _50
+                /// @src 0:1046:1062  &quot;_allowance[from]&quot;
+                let _51 := mapping_index_access_t_mapping$_t_address_$_t_mapping$_t_address_$_t_uint256_$_$_of_t_address(expr_126,expr_127)
+                let _52 := _51
+                let expr_128 := _52
+                /// @src 0:1063:1065  &quot;to&quot;
+                let _53 := var_to_121
+                let expr_129 := _53
+                /// @src 0:1046:1066  &quot;_allowance[from][to]&quot;
+                let _54 := mapping_index_access_t_mapping$_t_address_$_t_uint256_$_of_t_address(expr_128,expr_129)
+                let _55 := read_from_storage_split_offset_0_t_uint256(_54)
+                let expr_130 := _55
+                /// @src 0:1039:1066  &quot;return _allowance[from][to]&quot;
+                var__124 := expr_130
+                leave
+
+            }
+            /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+
+            /// @ast-id 141
+            /// @src 0:1079:1158  &quot;function totalSupply() public returns(uint){...&quot;
+            function fun_totalSupply_141() -&gt; var__136 {
+                /// @src 0:1117:1121  &quot;uint&quot;
+                let zero_t_uint256_56 := zero_value_for_split_t_uint256()
+                var__136 := zero_t_uint256_56
+
+                /// @src 0:1139:1151  &quot;_totalSupply&quot;
+                let _57 := read_from_storage_split_offset_0_t_uint256(0x00)
+                let expr_138 := _57
+                /// @src 0:1132:1151  &quot;return _totalSupply&quot;
+                var__136 := expr_138
+                leave
+
+            }
+            /// @src 0:1:1327  &quot;contract ERC20Buggy {...&quot;
+
+        }
+
+        data &quot;.metadata&quot; hex&quot;a26469706673582212208b92a117f2fc80a279ab935266f5a5c692dcd642e1a9e5f2dc1fe7a0bbe86a9c64736f6c634300080f0033&quot;
+    }
+
+}
+</code></pre><div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br><span class="line-number">108</span><br><span class="line-number">109</span><br><span class="line-number">110</span><br><span class="line-number">111</span><br><span class="line-number">112</span><br><span class="line-number">113</span><br><span class="line-number">114</span><br><span class="line-number">115</span><br><span class="line-number">116</span><br><span class="line-number">117</span><br><span class="line-number">118</span><br><span class="line-number">119</span><br><span class="line-number">120</span><br><span class="line-number">121</span><br><span class="line-number">122</span><br><span class="line-number">123</span><br><span class="line-number">124</span><br><span class="line-number">125</span><br><span class="line-number">126</span><br><span class="line-number">127</span><br><span class="line-number">128</span><br><span class="line-number">129</span><br><span class="line-number">130</span><br><span class="line-number">131</span><br><span class="line-number">132</span><br><span class="line-number">133</span><br><span class="line-number">134</span><br><span class="line-number">135</span><br><span class="line-number">136</span><br><span class="line-number">137</span><br><span class="line-number">138</span><br><span class="line-number">139</span><br><span class="line-number">140</span><br><span class="line-number">141</span><br><span class="line-number">142</span><br><span class="line-number">143</span><br><span class="line-number">144</span><br><span class="line-number">145</span><br><span class="line-number">146</span><br><span class="line-number">147</span><br><span class="line-number">148</span><br><span class="line-number">149</span><br><span class="line-number">150</span><br><span class="line-number">151</span><br><span class="line-number">152</span><br><span class="line-number">153</span><br><span class="line-number">154</span><br><span class="line-number">155</span><br><span class="line-number">156</span><br><span class="line-number">157</span><br><span class="line-number">158</span><br><span class="line-number">159</span><br><span class="line-number">160</span><br><span class="line-number">161</span><br><span class="line-number">162</span><br><span class="line-number">163</span><br><span class="line-number">164</span><br><span class="line-number">165</span><br><span class="line-number">166</span><br><span class="line-number">167</span><br><span class="line-number">168</span><br><span class="line-number">169</span><br><span class="line-number">170</span><br><span class="line-number">171</span><br><span class="line-number">172</span><br><span class="line-number">173</span><br><span class="line-number">174</span><br><span class="line-number">175</span><br><span class="line-number">176</span><br><span class="line-number">177</span><br><span class="line-number">178</span><br><span class="line-number">179</span><br><span class="line-number">180</span><br><span class="line-number">181</span><br><span class="line-number">182</span><br><span class="line-number">183</span><br><span class="line-number">184</span><br><span class="line-number">185</span><br><span class="line-number">186</span><br><span class="line-number">187</span><br><span class="line-number">188</span><br><span class="line-number">189</span><br><span class="line-number">190</span><br><span class="line-number">191</span><br><span class="line-number">192</span><br><span class="line-number">193</span><br><span class="line-number">194</span><br><span class="line-number">195</span><br><span class="line-number">196</span><br><span class="line-number">197</span><br><span class="line-number">198</span><br><span class="line-number">199</span><br><span class="line-number">200</span><br><span class="line-number">201</span><br><span class="line-number">202</span><br><span class="line-number">203</span><br><span class="line-number">204</span><br><span class="line-number">205</span><br><span class="line-number">206</span><br><span class="line-number">207</span><br><span class="line-number">208</span><br><span class="line-number">209</span><br><span class="line-number">210</span><br><span class="line-number">211</span><br><span class="line-number">212</span><br><span class="line-number">213</span><br><span class="line-number">214</span><br><span class="line-number">215</span><br><span class="line-number">216</span><br><span class="line-number">217</span><br><span class="line-number">218</span><br><span class="line-number">219</span><br><span class="line-number">220</span><br><span class="line-number">221</span><br><span class="line-number">222</span><br><span class="line-number">223</span><br><span class="line-number">224</span><br><span class="line-number">225</span><br><span class="line-number">226</span><br><span class="line-number">227</span><br><span class="line-number">228</span><br><span class="line-number">229</span><br><span class="line-number">230</span><br><span class="line-number">231</span><br><span class="line-number">232</span><br><span class="line-number">233</span><br><span class="line-number">234</span><br><span class="line-number">235</span><br><span class="line-number">236</span><br><span class="line-number">237</span><br><span class="line-number">238</span><br><span class="line-number">239</span><br><span class="line-number">240</span><br><span class="line-number">241</span><br><span class="line-number">242</span><br><span class="line-number">243</span><br><span class="line-number">244</span><br><span class="line-number">245</span><br><span class="line-number">246</span><br><span class="line-number">247</span><br><span class="line-number">248</span><br><span class="line-number">249</span><br><span class="line-number">250</span><br><span class="line-number">251</span><br><span class="line-number">252</span><br><span class="line-number">253</span><br><span class="line-number">254</span><br><span class="line-number">255</span><br><span class="line-number">256</span><br><span class="line-number">257</span><br><span class="line-number">258</span><br><span class="line-number">259</span><br><span class="line-number">260</span><br><span class="line-number">261</span><br><span class="line-number">262</span><br><span class="line-number">263</span><br><span class="line-number">264</span><br><span class="line-number">265</span><br><span class="line-number">266</span><br><span class="line-number">267</span><br><span class="line-number">268</span><br><span class="line-number">269</span><br><span class="line-number">270</span><br><span class="line-number">271</span><br><span class="line-number">272</span><br><span class="line-number">273</span><br><span class="line-number">274</span><br><span class="line-number">275</span><br><span class="line-number">276</span><br><span class="line-number">277</span><br><span class="line-number">278</span><br><span class="line-number">279</span><br><span class="line-number">280</span><br><span class="line-number">281</span><br><span class="line-number">282</span><br><span class="line-number">283</span><br><span class="line-number">284</span><br><span class="line-number">285</span><br><span class="line-number">286</span><br><span class="line-number">287</span><br><span class="line-number">288</span><br><span class="line-number">289</span><br><span class="line-number">290</span><br><span class="line-number">291</span><br><span class="line-number">292</span><br><span class="line-number">293</span><br><span class="line-number">294</span><br><span class="line-number">295</span><br><span class="line-number">296</span><br><span class="line-number">297</span><br><span class="line-number">298</span><br><span class="line-number">299</span><br><span class="line-number">300</span><br><span class="line-number">301</span><br><span class="line-number">302</span><br><span class="line-number">303</span><br><span class="line-number">304</span><br><span class="line-number">305</span><br><span class="line-number">306</span><br><span class="line-number">307</span><br><span class="line-number">308</span><br><span class="line-number">309</span><br><span class="line-number">310</span><br><span class="line-number">311</span><br><span class="line-number">312</span><br><span class="line-number">313</span><br><span class="line-number">314</span><br><span class="line-number">315</span><br><span class="line-number">316</span><br><span class="line-number">317</span><br><span class="line-number">318</span><br><span class="line-number">319</span><br><span class="line-number">320</span><br><span class="line-number">321</span><br><span class="line-number">322</span><br><span class="line-number">323</span><br><span class="line-number">324</span><br><span class="line-number">325</span><br><span class="line-number">326</span><br><span class="line-number">327</span><br><span class="line-number">328</span><br><span class="line-number">329</span><br><span class="line-number">330</span><br><span class="line-number">331</span><br><span class="line-number">332</span><br><span class="line-number">333</span><br><span class="line-number">334</span><br><span class="line-number">335</span><br><span class="line-number">336</span><br><span class="line-number">337</span><br><span class="line-number">338</span><br><span class="line-number">339</span><br><span class="line-number">340</span><br><span class="line-number">341</span><br><span class="line-number">342</span><br><span class="line-number">343</span><br><span class="line-number">344</span><br><span class="line-number">345</span><br><span class="line-number">346</span><br><span class="line-number">347</span><br><span class="line-number">348</span><br><span class="line-number">349</span><br><span class="line-number">350</span><br><span class="line-number">351</span><br><span class="line-number">352</span><br><span class="line-number">353</span><br><span class="line-number">354</span><br><span class="line-number">355</span><br><span class="line-number">356</span><br><span class="line-number">357</span><br><span class="line-number">358</span><br><span class="line-number">359</span><br><span class="line-number">360</span><br><span class="line-number">361</span><br><span class="line-number">362</span><br><span class="line-number">363</span><br><span class="line-number">364</span><br><span class="line-number">365</span><br><span class="line-number">366</span><br><span class="line-number">367</span><br><span class="line-number">368</span><br><span class="line-number">369</span><br><span class="line-number">370</span><br><span class="line-number">371</span><br><span class="line-number">372</span><br><span class="line-number">373</span><br><span class="line-number">374</span><br><span class="line-number">375</span><br><span class="line-number">376</span><br><span class="line-number">377</span><br><span class="line-number">378</span><br><span class="line-number">379</span><br><span class="line-number">380</span><br><span class="line-number">381</span><br><span class="line-number">382</span><br><span class="line-number">383</span><br><span class="line-number">384</span><br><span class="line-number">385</span><br><span class="line-number">386</span><br><span class="line-number">387</span><br><span class="line-number">388</span><br><span class="line-number">389</span><br><span class="line-number">390</span><br><span class="line-number">391</span><br><span class="line-number">392</span><br><span class="line-number">393</span><br><span class="line-number">394</span><br><span class="line-number">395</span><br><span class="line-number">396</span><br><span class="line-number">397</span><br><span class="line-number">398</span><br><span class="line-number">399</span><br><span class="line-number">400</span><br><span class="line-number">401</span><br><span class="line-number">402</span><br><span class="line-number">403</span><br><span class="line-number">404</span><br><span class="line-number">405</span><br><span class="line-number">406</span><br><span class="line-number">407</span><br><span class="line-number">408</span><br><span class="line-number">409</span><br><span class="line-number">410</span><br><span class="line-number">411</span><br><span class="line-number">412</span><br><span class="line-number">413</span><br><span class="line-number">414</span><br><span class="line-number">415</span><br><span class="line-number">416</span><br><span class="line-number">417</span><br><span class="line-number">418</span><br><span class="line-number">419</span><br><span class="line-number">420</span><br><span class="line-number">421</span><br><span class="line-number">422</span><br><span class="line-number">423</span><br><span class="line-number">424</span><br><span class="line-number">425</span><br><span class="line-number">426</span><br><span class="line-number">427</span><br><span class="line-number">428</span><br><span class="line-number">429</span><br><span class="line-number">430</span><br><span class="line-number">431</span><br><span class="line-number">432</span><br><span class="line-number">433</span><br><span class="line-number">434</span><br><span class="line-number">435</span><br><span class="line-number">436</span><br><span class="line-number">437</span><br><span class="line-number">438</span><br><span class="line-number">439</span><br><span class="line-number">440</span><br><span class="line-number">441</span><br><span class="line-number">442</span><br><span class="line-number">443</span><br><span class="line-number">444</span><br><span class="line-number">445</span><br><span class="line-number">446</span><br><span class="line-number">447</span><br><span class="line-number">448</span><br><span class="line-number">449</span><br><span class="line-number">450</span><br><span class="line-number">451</span><br><span class="line-number">452</span><br><span class="line-number">453</span><br><span class="line-number">454</span><br><span class="line-number">455</span><br><span class="line-number">456</span><br><span class="line-number">457</span><br><span class="line-number">458</span><br><span class="line-number">459</span><br><span class="line-number">460</span><br><span class="line-number">461</span><br><span class="line-number">462</span><br><span class="line-number">463</span><br><span class="line-number">464</span><br><span class="line-number">465</span><br><span class="line-number">466</span><br><span class="line-number">467</span><br><span class="line-number">468</span><br><span class="line-number">469</span><br><span class="line-number">470</span><br><span class="line-number">471</span><br><span class="line-number">472</span><br><span class="line-number">473</span><br><span class="line-number">474</span><br><span class="line-number">475</span><br><span class="line-number">476</span><br><span class="line-number">477</span><br><span class="line-number">478</span><br><span class="line-number">479</span><br><span class="line-number">480</span><br><span class="line-number">481</span><br><span class="line-number">482</span><br><span class="line-number">483</span><br><span class="line-number">484</span><br><span class="line-number">485</span><br><span class="line-number">486</span><br><span class="line-number">487</span><br><span class="line-number">488</span><br><span class="line-number">489</span><br><span class="line-number">490</span><br><span class="line-number">491</span><br><span class="line-number">492</span><br><span class="line-number">493</span><br><span class="line-number">494</span><br><span class="line-number">495</span><br><span class="line-number">496</span><br><span class="line-number">497</span><br><span class="line-number">498</span><br><span class="line-number">499</span><br><span class="line-number">500</span><br><span class="line-number">501</span><br><span class="line-number">502</span><br><span class="line-number">503</span><br><span class="line-number">504</span><br><span class="line-number">505</span><br><span class="line-number">506</span><br><span class="line-number">507</span><br><span class="line-number">508</span><br><span class="line-number">509</span><br><span class="line-number">510</span><br><span class="line-number">511</span><br><span class="line-number">512</span><br><span class="line-number">513</span><br><span class="line-number">514</span><br><span class="line-number">515</span><br><span class="line-number">516</span><br><span class="line-number">517</span><br><span class="line-number">518</span><br><span class="line-number">519</span><br><span class="line-number">520</span><br><span class="line-number">521</span><br><span class="line-number">522</span><br><span class="line-number">523</span><br><span class="line-number">524</span><br><span class="line-number">525</span><br><span class="line-number">526</span><br><span class="line-number">527</span><br><span class="line-number">528</span><br><span class="line-number">529</span><br><span class="line-number">530</span><br><span class="line-number">531</span><br><span class="line-number">532</span><br><span class="line-number">533</span><br><span class="line-number">534</span><br><span class="line-number">535</span><br><span class="line-number">536</span><br><span class="line-number">537</span><br><span class="line-number">538</span><br><span class="line-number">539</span><br><span class="line-number">540</span><br><span class="line-number">541</span><br><span class="line-number">542</span><br><span class="line-number">543</span><br><span class="line-number">544</span><br><span class="line-number">545</span><br><span class="line-number">546</span><br><span class="line-number">547</span><br><span class="line-number">548</span><br><span class="line-number">549</span><br><span class="line-number">550</span><br><span class="line-number">551</span><br><span class="line-number">552</span><br><span class="line-number">553</span><br><span class="line-number">554</span><br><span class="line-number">555</span><br><span class="line-number">556</span><br><span class="line-number">557</span><br><span class="line-number">558</span><br><span class="line-number">559</span><br><span class="line-number">560</span><br><span class="line-number">561</span><br><span class="line-number">562</span><br><span class="line-number">563</span><br><span class="line-number">564</span><br><span class="line-number">565</span><br><span class="line-number">566</span><br><span class="line-number">567</span><br><span class="line-number">568</span><br><span class="line-number">569</span><br><span class="line-number">570</span><br><span class="line-number">571</span><br><span class="line-number">572</span><br><span class="line-number">573</span><br><span class="line-number">574</span><br><span class="line-number">575</span><br><span class="line-number">576</span><br><span class="line-number">577</span><br><span class="line-number">578</span><br><span class="line-number">579</span><br><span class="line-number">580</span><br><span class="line-number">581</span><br><span class="line-number">582</span><br><span class="line-number">583</span><br><span class="line-number">584</span><br><span class="line-number">585</span><br><span class="line-number">586</span><br><span class="line-number">587</span><br><span class="line-number">588</span><br><span class="line-number">589</span><br><span class="line-number">590</span><br><span class="line-number">591</span><br><span class="line-number">592</span><br><span class="line-number">593</span><br><span class="line-number">594</span><br><span class="line-number">595</span><br><span class="line-number">596</span><br><span class="line-number">597</span><br><span class="line-number">598</span><br><span class="line-number">599</span><br><span class="line-number">600</span><br><span class="line-number">601</span><br><span class="line-number">602</span><br><span class="line-number">603</span><br><span class="line-number">604</span><br><span class="line-number">605</span><br><span class="line-number">606</span><br><span class="line-number">607</span><br><span class="line-number">608</span><br><span class="line-number">609</span><br><span class="line-number">610</span><br><span class="line-number">611</span><br><span class="line-number">612</span><br><span class="line-number">613</span><br><span class="line-number">614</span><br><span class="line-number">615</span><br><span class="line-number">616</span><br><span class="line-number">617</span><br><span class="line-number">618</span><br><span class="line-number">619</span><br><span class="line-number">620</span><br><span class="line-number">621</span><br><span class="line-number">622</span><br><span class="line-number">623</span><br><span class="line-number">624</span><br><span class="line-number">625</span><br><span class="line-number">626</span><br><span class="line-number">627</span><br><span class="line-number">628</span><br><span class="line-number">629</span><br><span class="line-number">630</span><br><span class="line-number">631</span><br><span class="line-number">632</span><br><span class="line-number">633</span><br><span class="line-number">634</span><br><span class="line-number">635</span><br><span class="line-number">636</span><br><span class="line-number">637</span><br><span class="line-number">638</span><br><span class="line-number">639</span><br><span class="line-number">640</span><br><span class="line-number">641</span><br><span class="line-number">642</span><br><span class="line-number">643</span><br><span class="line-number">644</span><br><span class="line-number">645</span><br><span class="line-number">646</span><br><span class="line-number">647</span><br><span class="line-number">648</span><br><span class="line-number">649</span><br><span class="line-number">650</span><br><span class="line-number">651</span><br><span class="line-number">652</span><br><span class="line-number">653</span><br><span class="line-number">654</span><br><span class="line-number">655</span><br><span class="line-number">656</span><br><span class="line-number">657</span><br><span class="line-number">658</span><br><span class="line-number">659</span><br><span class="line-number">660</span><br><span class="line-number">661</span><br><span class="line-number">662</span><br><span class="line-number">663</span><br><span class="line-number">664</span><br><span class="line-number">665</span><br><span class="line-number">666</span><br><span class="line-number">667</span><br><span class="line-number">668</span><br><span class="line-number">669</span><br><span class="line-number">670</span><br><span class="line-number">671</span><br><span class="line-number">672</span><br><span class="line-number">673</span><br><span class="line-number">674</span><br><span class="line-number">675</span><br><span class="line-number">676</span><br><span class="line-number">677</span><br><span class="line-number">678</span><br><span class="line-number">679</span><br><span class="line-number">680</span><br><span class="line-number">681</span><br><span class="line-number">682</span><br><span class="line-number">683</span><br><span class="line-number">684</span><br><span class="line-number">685</span><br><span class="line-number">686</span><br><span class="line-number">687</span><br><span class="line-number">688</span><br><span class="line-number">689</span><br><span class="line-number">690</span><br><span class="line-number">691</span><br><span class="line-number">692</span><br><span class="line-number">693</span><br><span class="line-number">694</span><br><span class="line-number">695</span><br><span class="line-number">696</span><br><span class="line-number">697</span><br><span class="line-number">698</span><br><span class="line-number">699</span><br><span class="line-number">700</span><br><span class="line-number">701</span><br><span class="line-number">702</span><br><span class="line-number">703</span><br><span class="line-number">704</span><br><span class="line-number">705</span><br><span class="line-number">706</span><br><span class="line-number">707</span><br><span class="line-number">708</span><br><span class="line-number">709</span><br><span class="line-number">710</span><br><span class="line-number">711</span><br><span class="line-number">712</span><br><span class="line-number">713</span><br><span class="line-number">714</span><br><span class="line-number">715</span><br><span class="line-number">716</span><br><span class="line-number">717</span><br><span class="line-number">718</span><br><span class="line-number">719</span><br><span class="line-number">720</span><br><span class="line-number">721</span><br><span class="line-number">722</span><br><span class="line-number">723</span><br><span class="line-number">724</span><br><span class="line-number">725</span><br><span class="line-number">726</span><br><span class="line-number">727</span><br><span class="line-number">728</span><br><span class="line-number">729</span><br><span class="line-number">730</span><br><span class="line-number">731</span><br><span class="line-number">732</span><br><span class="line-number">733</span><br><span class="line-number">734</span><br><span class="line-number">735</span><br><span class="line-number">736</span><br><span class="line-number">737</span><br><span class="line-number">738</span><br><span class="line-number">739</span><br><span class="line-number">740</span><br><span class="line-number">741</span><br><span class="line-number">742</span><br><span class="line-number">743</span><br><span class="line-number">744</span><br><span class="line-number">745</span><br><span class="line-number">746</span><br><span class="line-number">747</span><br><span class="line-number">748</span><br><span class="line-number">749</span><br><span class="line-number">750</span><br><span class="line-number">751</span><br><span class="line-number">752</span><br><span class="line-number">753</span><br><span class="line-number">754</span><br><span class="line-number">755</span><br><span class="line-number">756</span><br><span class="line-number">757</span><br><span class="line-number">758</span><br><span class="line-number">759</span><br><span class="line-number">760</span><br><span class="line-number">761</span><br><span class="line-number">762</span><br><span class="line-number">763</span><br><span class="line-number">764</span><br><span class="line-number">765</span><br><span class="line-number">766</span><br><span class="line-number">767</span><br><span class="line-number">768</span><br><span class="line-number">769</span><br><span class="line-number">770</span><br><span class="line-number">771</span><br><span class="line-number">772</span><br><span class="line-number">773</span><br><span class="line-number">774</span><br><span class="line-number">775</span><br><span class="line-number">776</span><br><span class="line-number">777</span><br><span class="line-number">778</span><br><span class="line-number">779</span><br><span class="line-number">780</span><br><span class="line-number">781</span><br><span class="line-number">782</span><br><span class="line-number">783</span><br><span class="line-number">784</span><br><span class="line-number">785</span><br><span class="line-number">786</span><br><span class="line-number">787</span><br><span class="line-number">788</span><br><span class="line-number">789</span><br><span class="line-number">790</span><br><span class="line-number">791</span><br><span class="line-number">792</span><br><span class="line-number">793</span><br><span class="line-number">794</span><br><span class="line-number">795</span><br><span class="line-number">796</span><br><span class="line-number">797</span><br><span class="line-number">798</span><br><span class="line-number">799</span><br><span class="line-number">800</span><br><span class="line-number">801</span><br><span class="line-number">802</span><br></div></div></div></div><footer class="page-footer" data-v-7eddb2c4 data-v-07c132fc><div class="edit" data-v-07c132fc><div class="edit-link" data-v-07c132fc data-v-1ed99556><!----></div></div><div class="updated" data-v-07c132fc><!----></div></footer><!----><!--[--><!--[--><div class="vue-utterances" data-v-af521772></div><!--]--><!--[--><!----><!--]--><!--]--></div></main></div><!----><!--]--></div>
+    <script>__VP_HASH_MAP__ = JSON.parse("{\"app_security_android_13_dp1_changes_security.md\":\"4695439d\",\"app_security_android_access_protected_components.md\":\"757e7d09\",\"app_security_android_howto_protected_unexported_components.md\":\"439913c8\",\"app_security_android_lce_third_party.md\":\"3b8e42fe\",\"app_security_bilibili_arbitrary_code_execution.md\":\"a0abe1d4\",\"app_security_hook_rest_for_work.md\":\"559023c3\",\"app_security_index.md\":\"8a6bd172\",\"app_security_tiktok_arbitrary_code_execution.md\":\"674d68d3\",\"app_security_tiktok_arbitrary_code_execution_download_service.md\":\"17caecb2\",\"app_security_tiktok_theft_of_arbitrary.md\":\"f3279712\",\"app_security_use_cryptography_in_mobile_appls_the_right_way.md\":\"25930025\",\"blockchain_block_chain_core_ecc_signature_random.md\":\"b066fbad\",\"blockchain_block_chain_core_index.md\":\"324b148b\",\"blockchain_block_chain_core_vrf.md\":\"08ee1d30\",\"blockchain_btcd_bitcoin script.md\":\"86801faf\",\"blockchain_btcd_bloom.md\":\"6908ada5\",\"blockchain_btcd_btcjson.md\":\"9a71dc6e\",\"blockchain_btcd_database.md\":\"8a292fb5\",\"blockchain_btcd_index.md\":\"a24d8894\",\"blockchain_btcd_indexer模块.md\":\"48b7f5e1\",\"blockchain_btcd_mempool.md\":\"76dde5c7\",\"blockchain_btcd_mining.md\":\"187cf68c\",\"blockchain_btcd_mrumap.md\":\"b6ff8a5d\",\"blockchain_btcd_peer.md\":\"76344639\",\"blockchain_btcd_rpcclient.md\":\"3ef9734d\",\"blockchain_btcd_wire_common.md\":\"4940b2f7\",\"blockchain_btcd_一个比特币脚本示例.md\":\"d656b399\",\"blockchain_btcd_比特币指令集说明.md\":\"7db06815\",\"blockchain_btcd_比特币的地址类型.md\":\"fe1e24ce\",\"blockchain_btcd_比特币解锁脚本中的scriptsignature都包含了什么东西.md\":\"2f507ea7\",\"blockchain_btcd_隔离见证.md\":\"21585c89\",\"blockchain_btcwallet_btcwallet系列之一-grpc模块.md\":\"c7234fdf\",\"blockchain_btcwallet_chain模块.md\":\"a5805d76\",\"blockchain_btcwallet_hdwallet-bip0032.md\":\"42416b95\",\"blockchain_btcwallet_index.md\":\"0fb2c17d\",\"blockchain_btcwallet_readme.md\":\"4874824c\",\"blockchain_btcwallet_snacl.md\":\"ea0e006f\",\"blockchain_btcwallet_waddrmgr模块.md\":\"49301937\",\"blockchain_btcwallet_walletdb.md\":\"f6405d3b\",\"blockchain_btcwallet_wallet中的数据库设计.md\":\"aa39fd76\",\"blockchain_btcwallet_wallet模块.md\":\"ab35d2d6\",\"blockchain_btcwallet_wtxmgr模块.md\":\"7b8a031d\",\"blockchain_btcwallet_拓扑排序在比特币tx管理中的使用.md\":\"e68c14d6\",\"blockchain_ethereum_crosschainatomicexchange.md\":\"f402b600\",\"blockchain_ethereum_btc跨链设计.md\":\"2fb0261f\",\"blockchain_ethereum_ethereum_erc20_wrapper.md\":\"d24abfd6\",\"blockchain_ethereum_golang subprocess tests.md\":\"2d7bff03\",\"blockchain_ethereum_golang_plugin.md\":\"cc0385e5\",\"blockchain_ethereum_how_to_create_channel.md\":\"fe374b4b\",\"blockchain_ethereum_how_to_use_channel.md\":\"0e1ebaef\",\"blockchain_ethereum_index.md\":\"f54cda8d\",\"blockchain_ethereum_meshbox配置 openwrt.md\":\"57958dd2\",\"blockchain_ethereum_raiden_graph.md\":\"575fd9a7\",\"blockchain_ethereum_solidity_mapping_implementation.md\":\"a4dd5365\",\"blockchain_ethereum_synapse代码阅读.md\":\"9a26bcbf\",\"blockchain_ethereum_thedao.md\":\"b75d757f\",\"blockchain_ethereum_从一次盗币事件再谈合约安全问题.md\":\"c06e96e7\",\"blockchain_ethereum_以太坊evm笔记.md\":\"ad6fc18e\",\"blockchain_ethereum_区块链计时器.md\":\"317f7116\",\"blockchain_ethereum_区块链问题笔记.md\":\"b1ae8a9c\",\"blockchain_ethereum_合约注意事项.md\":\"b663784d\",\"blockchain_ethereum_君士坦丁堡分叉引起的安全问题.md\":\"7a895195\",\"blockchain_ethereum_多链工作问题.md\":\"9a12e057\",\"blockchain_ethereum_如何为 smartraiden 贡献代码.md\":\"5d73f24a\",\"blockchain_ethereum_如何使用 dlv 调试 smartraiden.md\":\"d8d8dd4b\",\"blockchain_ethereum_如何使用 smartraiden 以及 lnd 进行跨链原子资产交换.md\":\"d0ab5f50\",\"blockchain_ethereum_安全总结.md\":\"93bb19e5\",\"blockchain_ethereum_并发和并行的区别.md\":\"e065d321\",\"blockchain_ethereum_异常退出各种情况.md\":\"f3c4a66b\",\"blockchain_ethereum_我对 smartplasma 的理解.md\":\"cee1e0a7\",\"blockchain_ethereum_比特币的txhash为什么会发生改变.md\":\"7845daf7\",\"blockchain_ethereum_让photon支持go module.md\":\"4c7fd2f8\",\"blockchain_ethereum_闪电网络.md\":\"96966aab\",\"blockchain_ethereum_闪电网络交易密钥.md\":\"634ed1c2\",\"blockchain_index.md\":\"d389464a\",\"blockchain_libra_1.start_in_one_minute.md\":\"99a03faa\",\"blockchain_libra_2.protobuf_in_libria.md\":\"f52493fd\",\"blockchain_libra_3.libra_schema.md\":\"b0d9f14b\",\"blockchain_libra_4.client_command_and_libriadb.md\":\"bd544a8a\",\"blockchain_libra_5.libra_ac.md\":\"b3ae88b4\",\"blockchain_libra_6.libria_mempool_1.md\":\"c8415a9d\",\"blockchain_libra_7.libra_mempool_2.md\":\"c83b03b8\",\"blockchain_libra_8.libria_mempool_3.md\":\"78934127\",\"blockchain_libra_9.libria_vrf.md\":\"2caf3139\",\"blockchain_libra_index.md\":\"d47bc590\",\"blockchain_solidity_memory_layout.md\":\"25df67d9\",\"blockchain_solidity_solidity_yul.md\":\"d5391647\",\"index.md\":\"0bd213ec\",\"other_apt安装指定版本软件.md\":\"fe596a96\",\"other_asynq_introduction.md\":\"9c0aa56c\",\"other_brew安装指定版本boost.md\":\"f8bb5fcf\",\"other_capture_with_wireshark_for_android.md\":\"9590f44d\",\"other_clean_mac.md\":\"131fd790\",\"other_crossover source insight 4.0使用.md\":\"8e7a5bcf\",\"other_dynamic_tracing.md\":\"e67bebf8\",\"other_git以及github回退.md\":\"185df74f\",\"other_go_memory_model.md\":\"52132fac\",\"other_grpcox.md\":\"1dc29fca\",\"other_how_to_mine_smt_2022.md\":\"739c8e65\",\"other_hugo博客写作.md\":\"5706b892\",\"other_index.md\":\"bcdfe6bc\",\"other_learn_go.md\":\"d1eba0d4\",\"other_learningpythonv4.md\":\"f1bea1cd\",\"other_opc 统一架构学习笔记.md\":\"f6afecbb\",\"other_opcua-rust.md\":\"fdc45cc1\",\"other_opcua_cross_compile_for_raspeberry.md\":\"e6c4efe9\",\"other_read_kerenel_use_clion.md\":\"238651d0\",\"other_typescript_advanced_syntax.md\":\"a9b92fd5\",\"other_vscode_cnblog_plugin.md\":\"7aa4e921\",\"other_webassembly_two_days_exercise.md\":\"255fddee\",\"other_windows_hook_thiscall.md\":\"33286677\",\"other_不用外部插件启用u盘ntfs写功能.md\":\"56f34176\",\"other_五个goland进行go开发的小技巧.md\":\"27a8abe7\",\"other_使用clion调试开发比特币源码.md\":\"261bd333\",\"other_使用ubuntu搭建时间机器备份服务.md\":\"39ee8b74\",\"other_工作中常用工具入门.md\":\"c59590a6\",\"other_用 go 写 webassembly入门.md\":\"86998efb\",\"other_阈值签名.md\":\"bccf102a\",\"other_高性能go开发.md\":\"b1e20f90\",\"rust-leetcode_2019-06-01.md\":\"9bf8e7c1\",\"rust-leetcode_2019-06-02.md\":\"5f323935\",\"rust-leetcode_2019-06-03.md\":\"ada0168d\",\"rust-leetcode_2019-06-04.md\":\"f35b52a3\",\"rust-leetcode_2019-06-05.md\":\"56d6c5c0\",\"rust-leetcode_2019-06-06.md\":\"9b802414\",\"rust-leetcode_2019-06-07.md\":\"4e780e03\",\"rust-leetcode_2019-06-08.md\":\"1a59c424\",\"rust-leetcode_2019-06-10.md\":\"e5fafd00\",\"rust-leetcode_2019-06-11.md\":\"a3e7c086\",\"rust-leetcode_2019-06-14.md\":\"cf83730d\",\"rust-leetcode_2019-06-15.md\":\"547aaceb\",\"rust-leetcode_2019-06-17.md\":\"5d35088d\",\"rust-leetcode_2019-06-18.md\":\"c819fa1e\",\"rust-leetcode_2019-08-04.md\":\"3df421d7\",\"rust-leetcode_2019-08-10.md\":\"36a044fb\",\"rust-leetcode_2019-08-11.md\":\"ca0f151d\",\"rust-leetcode_2019-08-12.md\":\"ffee4156\",\"rust-leetcode_2019-08-13.md\":\"cfc00b6e\",\"rust-leetcode_2019-08-14.md\":\"96e8ab15\",\"rust-leetcode_2019-08-15.md\":\"92f171a2\",\"rust-leetcode_2019-08-16.md\":\"666f87ed\",\"rust-leetcode_2019-08-17.md\":\"5d143101\",\"rust-leetcode_2019-08-18.md\":\"ce74985f\",\"rust-leetcode_2019-08-19.md\":\"6796c1d5\",\"rust-leetcode_2019-08-20.md\":\"1b516fb6\",\"rust-leetcode_2019-08-21.md\":\"62beba95\",\"rust-leetcode_2019-08-22.md\":\"b3e40d58\",\"rust-leetcode_2019-08-23.md\":\"2f630582\",\"rust-leetcode_2019-08-26.md\":\"9f57f5dd\",\"rust-leetcode_2019-08-27.md\":\"36beb686\",\"rust-leetcode_2019-08-28.md\":\"79747224\",\"rust-leetcode_2019-08-29.md\":\"2a9f5c07\",\"rust-leetcode_2019-08-30.md\":\"8728e588\",\"rust-leetcode_2019-09-02.md\":\"cb02c081\",\"rust-leetcode_2019-09-03.md\":\"8000b8f6\",\"rust-leetcode_2019-09-04.md\":\"be21d58b\",\"rust-leetcode_2019-09-05.md\":\"0b16d9c9\",\"rust-leetcode_2019-09-06.md\":\"05be22cc\",\"rust-leetcode_2019-09-09.md\":\"b8e3b9fb\",\"rust-leetcode_2019-09-10.md\":\"eb626a17\",\"rust-leetcode_2019-09-11.md\":\"e26a8f26\",\"rust-leetcode_2019-09-12.md\":\"9690cdf5\",\"rust-leetcode_2019-09-13.md\":\"5265cba8\",\"rust-leetcode_2019-09-16.md\":\"e57fc752\",\"rust-leetcode_2019-09-17.md\":\"2daf893a\",\"rust-leetcode_2019-09-18.md\":\"ca2f1ede\",\"rust-leetcode_2019-09-19.md\":\"b6f0da6c\",\"rust-leetcode_2019-09-20.md\":\"743def97\",\"rust-leetcode_2019-09-23.md\":\"1ba132d5\",\"rust-leetcode_2019-09-24.md\":\"5db9be97\",\"rust-leetcode_2019-09-25.md\":\"aa5569ab\",\"rust-leetcode_2019-09-26.md\":\"0cfeb949\",\"rust-leetcode_2019-09-27.md\":\"5c41efde\",\"rust-leetcode_2019-09-28.md\":\"a40fa56b\",\"rust-leetcode_2019-10-08.md\":\"3522a7fc\",\"rust-leetcode_2019-10-09.md\":\"f45a03bb\",\"rust-leetcode_2019-10-10.md\":\"a8c3505b\",\"rust-leetcode_2019-10-11.md\":\"7f711cf1\",\"rust-leetcode_2019-10-14.md\":\"199a6737\",\"rust-leetcode_2019-10-15.md\":\"1df10395\",\"rust-leetcode_2019-10-16.md\":\"e229e87c\",\"rust-leetcode_2019-10-17.md\":\"62ddc8a7\",\"rust-leetcode_2019-10-18.md\":\"68cd3f07\",\"rust-leetcode_2019-10-19.md\":\"2afeea0d\",\"rust-leetcode_2019-10-21.md\":\"7ca9f32a\",\"rust-leetcode_2019-10-22.md\":\"10b3924b\",\"rust-leetcode_2019-10-23.md\":\"e02a7b6e\",\"rust-leetcode_2019-10-24.md\":\"8f0de1dc\",\"rust-leetcode_2019-10-25.md\":\"398ad85d\",\"rust-leetcode_2019-10-28.md\":\"633726a9\",\"rust-leetcode_2019-10-29.md\":\"e9dbc7b5\",\"rust-leetcode_2019-10-30.md\":\"4b7fb35c\",\"rust-leetcode_2019-10-31.md\":\"46934d59\",\"rust-leetcode_2019-11-01.md\":\"2ae024eb\",\"rust-leetcode_2019-11-04.md\":\"c6f28b74\",\"rust-leetcode_2019-11-05.md\":\"c61fdcd3\",\"rust-leetcode_2019-11-06.md\":\"dbf1ffa1\",\"rust-leetcode_2019-11-07.md\":\"d76cb23f\",\"rust-leetcode_2019-11-08.md\":\"2cc2be8a\",\"rust-leetcode_2019-11-11.md\":\"b5557383\",\"rust-leetcode_2019-11-12.md\":\"9f2b5aa0\",\"rust-leetcode_2019-11-13.md\":\"344181a9\",\"rust-leetcode_2019-11-14.md\":\"d5d8ffae\",\"rust-leetcode_2019-11-15.md\":\"9805a7c0\",\"rust-leetcode_2019-11-18.md\":\"9124b03a\",\"rust-leetcode_2019-11-19.md\":\"92e7f140\",\"rust-leetcode_2019-11-20.md\":\"010e11a8\",\"rust-leetcode_2019-11-21.md\":\"165ed57e\",\"rust-leetcode_2019-11-22.md\":\"83015110\",\"rust-leetcode_2019-11-25.md\":\"73bdf002\",\"rust-leetcode_2019-11-26.md\":\"97d11ed7\",\"rust-leetcode_2019-11-27.md\":\"e914d44c\",\"rust-leetcode_2019-11-28.md\":\"52cd8115\",\"rust-leetcode_2019-11-29.md\":\"07ee2a40\",\"rust-leetcode_2019-12-02.md\":\"27029c51\",\"rust-leetcode_2019-12-03.md\":\"61b2fe2b\",\"rust-leetcode_2019-12-04.md\":\"26b02fa0\",\"rust-leetcode_2019-12-05.md\":\"ed0253dc\",\"rust-leetcode_2019-12-06.md\":\"6a1ad169\",\"rust-leetcode_2019-12-09.md\":\"2c573fb7\",\"rust-leetcode_2019-12-10.md\":\"47f79522\",\"rust-leetcode_2019-12-11.md\":\"8398e99c\",\"rust-leetcode_2019-12-12.md\":\"ec47cf04\",\"rust-leetcode_2019-12-13.md\":\"5f1d8aea\",\"rust-leetcode_2019-12-16.md\":\"39190840\",\"rust-leetcode_2019-12-17.md\":\"11ad10dd\",\"rust-leetcode_2019-12-18.md\":\"cff7a954\",\"rust-leetcode_2019-12-19.md\":\"f5d5e5da\",\"rust-leetcode_2019-12-20.md\":\"4e83c305\",\"rust-leetcode_2019-12-23.md\":\"a2395f96\",\"rust-leetcode_2019-12-24.md\":\"ba75053c\",\"rust-leetcode_2019-12-25.md\":\"723b2f93\",\"rust-leetcode_2019-12-26.md\":\"50958c58\",\"rust-leetcode_2019-12-27.md\":\"b0701251\",\"rust-leetcode_2019-12-30.md\":\"2e26fdfe\",\"rust-leetcode_2019-12-31.md\":\"2f5e2fb8\",\"rust-leetcode_2020-01-01.md\":\"2a9cadc9\",\"rust-leetcode_2020-01-02.md\":\"bf29891b\",\"rust-leetcode_2020-01-03.md\":\"227338fb\",\"rust-leetcode_2020-01-06.md\":\"55de4f7a\",\"rust-leetcode_2020-01-07.md\":\"714e3399\",\"rust-leetcode_2020-01-08.md\":\"e9e27535\",\"rust-leetcode_2020-01-09.md\":\"cee73ca2\",\"rust-leetcode_2020-01-10.md\":\"e9ba9d3d\",\"rust-leetcode_2020-01-13.md\":\"38d5375e\",\"rust-leetcode_2020-01-14.md\":\"6a398ca7\",\"rust-leetcode_2020-01-15.md\":\"c22d62da\",\"rust-leetcode_2020-01-16.md\":\"aef71fdf\",\"rust-leetcode_2020-01-17.md\":\"b7ffa91f\",\"rust-leetcode_2020-01-20.md\":\"0e2fa3f9\",\"rust-leetcode_2020-01-21.md\":\"9098b857\",\"rust-leetcode_2020-01-22.md\":\"564bd183\",\"rust-leetcode_2020-01-23.md\":\"7d14338c\",\"rust-leetcode_2020-01-24.md\":\"ad4f1c6a\",\"rust-leetcode_2020-02-03.md\":\"0b8bf58d\",\"rust-leetcode_2020-02-04.md\":\"bc7fe22d\",\"rust-leetcode_2020-02-05.md\":\"d04c075e\",\"rust-leetcode_2020-02-06.md\":\"61ddf4be\",\"rust-leetcode_2020-02-07.md\":\"a7ed7ac0\",\"rust-leetcode_2020-02-10.md\":\"3bf50fe9\",\"rust-leetcode_2020-02-11.md\":\"944f2be6\",\"rust-leetcode_2020-02-12.md\":\"a8c42ff8\",\"rust-leetcode_2020-02-13.md\":\"d9f4ec51\",\"rust-leetcode_2020-02-14.md\":\"4520bcc1\",\"rust-leetcode_2020-02-17.md\":\"a5652f88\",\"rust-leetcode_2020-02-18.md\":\"e33381aa\",\"rust-leetcode_2020-02-19.md\":\"df7be824\",\"rust-leetcode_2020-02-20.md\":\"23061b22\",\"rust-leetcode_2020-02-21.md\":\"ee81c1c0\",\"rust-leetcode_2020-02-24.md\":\"88c49d88\",\"rust-leetcode_2020-02-25.md\":\"5e76fb48\",\"rust-leetcode_2020-02-26.md\":\"c0e4e7d6\",\"rust-leetcode_2020-02-27.md\":\"69895588\",\"rust-leetcode_2020-02-28.md\":\"24e0a174\",\"rust-leetcode_2020-03-02.md\":\"ab1a440e\",\"rust-leetcode_2020-03-03.md\":\"b8534dd0\",\"rust-leetcode_2020-03-04.md\":\"5d437a85\",\"rust-leetcode_2020-03-05.md\":\"ab3181a8\",\"rust-leetcode_2020-03-06.md\":\"56a26e1e\",\"rust-leetcode_2020-03-09.md\":\"591f623a\",\"rust-leetcode_2020-03-10.md\":\"303644f8\",\"rust-leetcode_2020-03-11.md\":\"92be2f91\",\"rust-leetcode_2020-03-12.md\":\"1bc3a4c5\",\"rust-leetcode_2020-03-13.md\":\"95f0e849\",\"rust-leetcode_2020-03-16.md\":\"5559d5f4\",\"rust-leetcode_2020-03-17.md\":\"2703c372\",\"rust-leetcode_2020-03-18.md\":\"f481dee2\",\"rust-leetcode_2020-03-19.md\":\"48a0cc75\",\"rust-leetcode_2020-03-20.md\":\"2c0309ea\",\"rust-leetcode_2020-03-23.md\":\"1d9b5a98\",\"rust-leetcode_2020-03-24.md\":\"3e9f6454\",\"rust-leetcode_2020-03-25.md\":\"d59ffb27\",\"rust-leetcode_2020-03-26.md\":\"a0e645f6\",\"rust-leetcode_2020-03-27.md\":\"9b77558b\",\"rust-leetcode_2020-03-30.md\":\"6f2e4be5\",\"rust-leetcode_2020-03-31.md\":\"7dff2c8c\",\"rust-leetcode_2020-07-09.md\":\"8070548e\",\"rust-leetcode_index.md\":\"86878e33\",\"rust-leetcode_模板.md\":\"dafb5c12\",\"rust_futures_explained_in_200_lines_of_rust.md\":\"0292a032\",\"rust_futures_explained_in_200_lines_of_rust2.md\":\"ea550610\",\"rust_futures_explained_in_200_lines_of_rust_with_error_version.md\":\"ba190e24\",\"rust_build_your_own_block_on.md\":\"e6447484\",\"rust_build_your_own_executor.md\":\"3d4ab664\",\"rust_convert_an_integer_to_an_enum.md\":\"6d1212bb\",\"rust_index.md\":\"9b26538a\",\"rust_lock-freedom-without-garbage-collection.md\":\"289c223b\",\"rust_my_note.md\":\"b9dcff2a\",\"rust_ownership101.md\":\"572f3c83\",\"rust_rnats_1.start.md\":\"66cd2aad\",\"rust_rnats_2.parser.md\":\"8f55d5a4\",\"rust_rnats_3.sublist.md\":\"1caf6570\",\"rust_rnats_4.server.md\":\"fb380c8a\",\"rust_rnats_5.server.client.md\":\"5a01e780\",\"rust_rnats_6.client.md\":\"e1914747\",\"rust_rnats_index.md\":\"fc04a6b5\",\"rust_rnats_ppt_index.md\":\"93fb7d04\",\"rust_rnats_ppt_从零实现消息中间件-client.md\":\"e5dff723\",\"rust_rnats_ppt_从零实现消息中间件-server.client.md\":\"de33db60\",\"rust_rnats_ppt_从零实现消息中间件-server.md\":\"0933176e\",\"rust_rust_async_lock.md\":\"ed103398\",\"rust_rust_atomic.md\":\"9d846de0\",\"rust_rust开发工具.md\":\"21f4c79a\",\"rust_tokio_async_await 初探.md\":\"c6729564\",\"rust_tokio笔记.md\":\"fecaafa8\",\"rust_交叉编译rust.md\":\"1284e0ab\",\"static_analysis_index.md\":\"eea227fe\",\"static_analysis_mariana-introduction.md\":\"eb296431\",\"web-security_gokart.md\":\"ebff5780\",\"web-security_index.md\":\"d11ab506\",\"web-security_sql_inject_chinese_gbk.md\":\"47c52248\"}")</script>
+    <script type="module" async src="/assets/app.8a942cb0.js"></script>
+    
+  </body>
+</html>
