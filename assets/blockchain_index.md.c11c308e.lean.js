@@ -1,1 +1,0 @@
-import{_ as t,c as n,b as o,r as a,o as c}from"./app.be400e50.js";const u='{"title":"block chain","description":"","frontmatter":{"title":"block chain"},"headers":[],"relativePath":"blockchain/index.md"}',r={};function s(i,l,_,p,d,m){const e=a("Menu");return c(),n("div",null,[o(e)])}var h=t(r,[["render",s]]);export{u as __pageData,h as default};
