@@ -1,1 +1,0 @@
-import{_ as t,c as a,b as n,r as o,o as r}from"./app.8a942cb0.js";const u='{"title":"\u9759\u6001\u5206\u6790","description":"","frontmatter":{"title":"\u9759\u6001\u5206\u6790"},"headers":[],"relativePath":"static_analysis/index.md"}',s={};function c(i,_,p,d,l,m){const e=o("Menu");return r(),a("div",null,[n(e)])}var x=t(s,[["render",c]]);export{u as __pageData,x as default};
