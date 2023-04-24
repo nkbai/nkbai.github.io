@@ -1,0 +1,1 @@
+import{_ as a,c as e,o as t,N as r}from"./chunks/framework.3a9190c5.js";const b=JSON.parse('{"title":"opc 统一架构学习笔记","description":"","frontmatter":{},"headers":[],"relativePath":"other/opc 统一架构学习笔记.md"}'),i={name:"other/opc 统一架构学习笔记.md"},l=r("",113),o=[l];function d(s,n,h,c,p,u){return t(),e("div",null,o)}const m=a(i,[["render",d]]);export{b as __pageData,m as default};

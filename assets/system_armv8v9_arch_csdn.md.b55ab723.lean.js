@@ -1,0 +1,1 @@
+import{_ as a,c as e,o as t,N as i}from"./chunks/framework.3a9190c5.js";const v=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"system/armv8v9_arch_csdn.md"}'),r={name:"system/armv8v9_arch_csdn.md"},l=i("",16),s=[l];function o(n,c,m,d,p,h){return t(),e("div",null,s)}const _=a(r,[["render",o]]);export{v as __pageData,_ as default};

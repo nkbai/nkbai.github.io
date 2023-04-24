@@ -1,0 +1,77 @@
+import{_ as s,c as a,o as n,N as e}from"./chunks/framework.3a9190c5.js";const d=JSON.parse('{"title":"wallet中的数据库设计","description":"","frontmatter":{"title":"wallet中的数据库设计","date":"2019-05-19T13:32:33.874Z","draft":false,"markup":"mmark"},"headers":[],"relativePath":"blockchain/btcwallet/wallet中的数据库设计.md"}'),l={name:"blockchain/btcwallet/wallet中的数据库设计.md"},p=e(`<h1 id="btcwallet中的数据库设计" tabindex="-1">btcWallet中的数据库设计 <a class="header-anchor" href="#btcwallet中的数据库设计" aria-label="Permalink to &quot;btcWallet中的数据库设计&quot;">​</a></h1><h3 id="bucket相关" tabindex="-1">Bucket相关 <a class="header-anchor" href="#bucket相关" aria-label="Permalink to &quot;Bucket相关&quot;">​</a></h3><h3 id="顶层bucket" tabindex="-1">顶层Bucket <a class="header-anchor" href="#顶层bucket" aria-label="Permalink to &quot;顶层Bucket&quot;">​</a></h3><p><strong>key列表:</strong> mgrVersionName mgrCreateDateName <strong>Bucket列表:</strong> 地址相关的</p><h4 id="_1-waddrmgrnamespacekey" tabindex="-1">1. waddrmgrNamespaceKey <a class="header-anchor" href="#_1-waddrmgrnamespacekey" aria-label="Permalink to &quot;1. waddrmgrNamespaceKey&quot;">​</a></h4><h5 id="_1-1-mainbucketname" tabindex="-1">1.1 mainBucketName <a class="header-anchor" href="#_1-1-mainbucketname" aria-label="Permalink to &quot;1.1  mainBucketName&quot;">​</a></h5><pre><code>    stores the encrypted crypto keys that encrypt all other generated keys
+</code></pre><h5 id="_1-2-syncbucketname" tabindex="-1">1.2 syncBucketName <a class="header-anchor" href="#_1-2-syncbucketname" aria-label="Permalink to &quot;1.2  syncBucketName&quot;">​</a></h5><pre><code>    stores the current sync state of the root manager.
+</code></pre><h5 id="_1-3-scopebucketname" tabindex="-1">1.3 scopeBucketName <a class="header-anchor" href="#_1-3-scopebucketname" aria-label="Permalink to &quot;1.3 scopeBucketName&quot;">​</a></h5><pre><code>    		scopeBucketNme is the name of the top-level bucket within the
+            hierarchy. It maps: purpose || coinType to a new sub-bucket that
+            will house a scoped address manager. All buckets below are a child
+            of this bucket:
+            
+            scopeBucket -&gt; scope -&gt; acctBucketName //account id=&gt;dbDefaultAccountRow
+            scopeBucket -&gt; scope -&gt; addrBucketName //addressID Hash=&gt;dbAddressRow
+            scopeBucket -&gt; scope -&gt; usedAddrBucketName // 一个地址是否被使用
+            scopeBucket -&gt; scope -&gt; addrAcctIdxBucketName //addressID hash =&gt; account id
+            scopeBucket -&gt; scope -&gt; acctNameIdxBucketName //accountName =&gt; account_id
+            scopeBucket -&gt; scope -&gt; acctIDIdxBucketName //account_id =&gt; accountName
+            scopeBucket -&gt; scope -&gt; metaBucket //metaData
+            scopeBucket -&gt; scope -&gt; metaBucket -&gt; lastAccountNameKey //manager中的最后一个account
+            scopeBucket -&gt; scope -&gt; coinTypePrivKey //后面这两个代码没看到
+            scopeBucket -&gt; scope -&gt; coinTypePubKey
+</code></pre><p>目前已知的Scope有KeyScopeBIP0044,KeyScopeBIP0049Plus等 从这里也看出比特币的Key是树形结构,</p><h5 id="_1-4-scopeschemabucketname" tabindex="-1">1.4 scopeSchemaBucketName <a class="header-anchor" href="#_1-4-scopeschemabucketname" aria-label="Permalink to &quot;1.4 scopeSchemaBucketName&quot;">​</a></h5><pre><code>scopeSchemaBucket is the name of the bucket that maps a particular
+manager scope to the type of addresses that should be derived for
+particular branches during key derivation.
+</code></pre><div class="language-go line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang">go</span><pre class="shiki material-theme-palenight"><code><span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// KeyScopeBIP0049Plus is the key scope of our modified BIP0049</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// derivation. We say this is BIP0049 &quot;plus&quot;, as we&#39;ll actually use</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// p2wkh change all change addresses.</span></span>
+<span class="line"><span style="color:#A6ACCD;">	KeyScopeBIP0049Plus </span><span style="color:#89DDFF;">=</span><span style="color:#A6ACCD;"> KeyScope</span><span style="color:#89DDFF;">{</span></span>
+<span class="line"><span style="color:#A6ACCD;">		Purpose</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;"> </span><span style="color:#F78C6C;">49</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">		Coin</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;">    </span><span style="color:#F78C6C;">0</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#89DDFF;">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// KeyScopeBIP0084 is the key scope for BIP0084 derivation. BIP0084</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// will be used to derive all p2wkh addresses.</span></span>
+<span class="line"><span style="color:#A6ACCD;">	KeyScopeBIP0084 </span><span style="color:#89DDFF;">=</span><span style="color:#A6ACCD;"> KeyScope</span><span style="color:#89DDFF;">{</span></span>
+<span class="line"><span style="color:#A6ACCD;">		Purpose</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;"> </span><span style="color:#F78C6C;">84</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">		Coin</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;">    </span><span style="color:#F78C6C;">0</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#89DDFF;">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// KeyScopeBIP0044 is the key scope for BIP0044 derivation. Legacy</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// wallets will only be able to use this key scope, and no keys beyond</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// it.</span></span>
+<span class="line"><span style="color:#A6ACCD;">	KeyScopeBIP0044 </span><span style="color:#89DDFF;">=</span><span style="color:#A6ACCD;"> KeyScope</span><span style="color:#89DDFF;">{</span></span>
+<span class="line"><span style="color:#A6ACCD;">		Purpose</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;"> </span><span style="color:#F78C6C;">44</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">		Coin</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;">    </span><span style="color:#F78C6C;">0</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#89DDFF;">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// DefaultKeyScopes is the set of default key scopes that will be</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// created by the root manager upon initial creation.</span></span>
+<span class="line"><span style="color:#A6ACCD;">	DefaultKeyScopes </span><span style="color:#89DDFF;">=</span><span style="color:#A6ACCD;"> </span><span style="color:#89DDFF;">[]</span><span style="color:#A6ACCD;">KeyScope</span><span style="color:#89DDFF;">{</span></span>
+<span class="line"><span style="color:#A6ACCD;">		KeyScopeBIP0049Plus</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">		KeyScopeBIP0084</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">		KeyScopeBIP0044</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#89DDFF;">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// ScopeAddrMap is a map from the default key scopes to the scope</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// address schema for each scope type. This will be consulted during</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#676E95;font-style:italic;">// the initial creation of the root key manager.</span></span>
+<span class="line"><span style="color:#A6ACCD;">	ScopeAddrMap </span><span style="color:#89DDFF;">=</span><span style="color:#A6ACCD;"> </span><span style="color:#89DDFF;">map[</span><span style="color:#A6ACCD;">KeyScope</span><span style="color:#89DDFF;">]</span><span style="color:#A6ACCD;">ScopeAddrSchema</span><span style="color:#89DDFF;">{</span></span>
+<span class="line"><span style="color:#A6ACCD;">		KeyScopeBIP0049Plus</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;"> </span><span style="color:#89DDFF;">{</span></span>
+<span class="line"><span style="color:#A6ACCD;">			ExternalAddrType</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;"> NestedWitnessPubKey</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">			InternalAddrType</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;"> WitnessPubKey</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">		</span><span style="color:#89DDFF;">},</span></span>
+<span class="line"><span style="color:#A6ACCD;">		KeyScopeBIP0084</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;"> </span><span style="color:#89DDFF;">{</span></span>
+<span class="line"><span style="color:#A6ACCD;">			ExternalAddrType</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;"> WitnessPubKey</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">			InternalAddrType</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;"> WitnessPubKey</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">		</span><span style="color:#89DDFF;">},</span></span>
+<span class="line"><span style="color:#A6ACCD;">		KeyScopeBIP0044</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;"> </span><span style="color:#89DDFF;">{</span></span>
+<span class="line"><span style="color:#A6ACCD;">			InternalAddrType</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;"> PubKeyHash</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">			ExternalAddrType</span><span style="color:#89DDFF;">:</span><span style="color:#A6ACCD;"> PubKeyHash</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#A6ACCD;">		</span><span style="color:#89DDFF;">},</span></span>
+<span class="line"><span style="color:#A6ACCD;">	</span><span style="color:#89DDFF;">}</span></span>
+<span class="line"></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br></div></div><p>Tx相关的<br> 2. wtxmgrNamespaceKey</p><h2 id="tx相关" tabindex="-1">Tx相关 <a class="header-anchor" href="#tx相关" aria-label="Permalink to &quot;Tx相关&quot;">​</a></h2><h3 id="buckets" tabindex="-1">buckets <a class="header-anchor" href="#buckets" aria-label="Permalink to &quot;buckets&quot;">​</a></h3><pre><code>bucketBlocks         = []byte(&quot;b&quot;)
+bucketTxRecords      = []byte(&quot;t&quot;)
+bucketCredits        = []byte(&quot;c&quot;)
+bucketUnspent        = []byte(&quot;u&quot;)
+bucketDebits         = []byte(&quot;d&quot;)
+bucketUnmined        = []byte(&quot;m&quot;)
+bucketUnminedCredits = []byte(&quot;mc&quot;)
+bucketUnminedInputs  = []byte(&quot;mi&quot;)
+</code></pre><ol><li><p>bucketBlocks 存储某个块有哪些Tx,没有考虑分叉 bucketBlocks: blockNumber=&gt;blockHash+blockTime+TxCount+[ TxHash1,TxHash2...]</p></li><li><p>bucketTxRecords 存储序列化的Tx,已经被打包上链的, TxHash+blockNumber+blockHash=&gt;SerializedTx</p></li><li><p>bucketCredits 存储未花费的UTXO,或者已花费,但是还没有确认的,这些都是我关注的 Txhash+blockNumber+blockHash+Index(outpoint中)=&gt;UTXO Amount[8个字节]+其他信息 其他信息: v[8]第0位表示是否已消费 1 表示已消费 v[8]第1位表示是否是找零 1 为找零 如果已经消费,那么第9个字节后还会有TxHash+blockNumber+blockHash+Index 表示这个UTXO在哪里被消费了.</p></li><li><p>bucketUnspent 存储需要我关注的未消费的UTXO,一旦该UTXO被消费,就会删除相关记录 存储outPoint=&gt;blockNumer+blocHash 该outpoint产生的block</p></li><li><p>bucketDebits <strong>这个需要解释清楚</strong> 记录钱包中一笔被消费的UTXO, debit啥意思呢 Txhash+blockNumber+blockHash+Index(outpoint中)=&gt;Amount[8字节]+Txhash+blockNumber+blockHash+Index</p></li><li><p>bucketUnmined 存储进入memPool,但是还未被打包的交易 TxHash=&gt;ReceivedTime(8字节)+SeralizedTx</p></li><li><p>bucketUnminedCredits 存储 outpoint=&gt;UTXO Amount+change 参考bucketCredits</p></li><li><p>bucketUnminedInputs 保存已经消费的UTXO,但是还未被打包或者正在被打包 这些UTXO已经被进入mempool的Tx消费了. outpoint=&gt;[TxHash1,TxHash2] TxHash1,TxHash2可能会消费这个outpoint</p></li></ol>`,20),t=[p];function o(c,r,i,u,y,b){return n(),a("div",null,t)}const m=s(l,[["render",o]]);export{d as __pageData,m as default};

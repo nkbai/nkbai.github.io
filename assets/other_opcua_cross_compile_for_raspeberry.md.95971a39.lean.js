@@ -1,0 +1,1 @@
+import{_ as e,c as r,o}from"./chunks/framework.3a9190c5.js";const f=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"other/opcua_cross_compile_for_raspeberry.md"}'),t={name:"other/opcua_cross_compile_for_raspeberry.md"};function a(s,c,_,p,n,i){return o(),r("div")}const d=e(t,[["render",a]]);export{f as __pageData,d as default};
